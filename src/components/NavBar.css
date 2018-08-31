@@ -1,0 +1,10 @@
+h1 {
+    text-align: center;
+}
+ul {
+    display: flex;
+    justify-content: center;
+}
+li {
+    margin: 20px;
+}
