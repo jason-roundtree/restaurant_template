@@ -5,7 +5,7 @@ import About from './About';
 import Menu from './Menu';
 import Contact from './Contact';
 import Gallery from './Gallery';
-import OrderPickup from './OrderPickup';
+import Order from './Order';
 // import Reservations from './Reservations';
 
 
@@ -16,7 +16,7 @@ const Router = () => {
             <Route path="/about" component={About} />
             <Route path="/menu" component={Menu} />
             <Route path="/contact" component={Contact} />
-            <Route path="/pickup" component={OrderPickup} />
+            <Route path="/order" component={Order} />
             <Route path="/gallery" component={Gallery} />
         </div>
     )

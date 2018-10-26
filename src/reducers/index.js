@@ -1,8 +1,24 @@
 // import { ACTIONS } from '../actions/index.js';
 
-const initialState = {};
+const mockMenu = [
+    {
+        name: 'Cheesebuger',
+        description: 'Blekdlek efoo jfgfg ojp',
+        cost: 15,
+    },
+    {
+        name: 'Cobb Salad',
+        description: 'Blekdlek efoo jfgfg ojp',
+        cost: 10,
+    },
+    {
+        name: 'Chicken Wings',
+        description: 'Blekdlek efoo jfgfg ojp',
+        cost: 12,
+    }
+]
 
-export const reducer = (state=initialState, action) => {
+export const reducer = (state = { menu: mockMenu }, action) => {
     // switch (test) {
     //     case x:
     //         do something

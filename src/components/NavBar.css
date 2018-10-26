@@ -8,3 +8,11 @@ ul {
 li {
     margin: 20px;
 }
+a {
+    display: inline-block;
+    transition: background-color 0.9s ease;
+}
+a:hover {
+    background-color: goldenrod;
+}
+  

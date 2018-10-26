@@ -4,7 +4,7 @@ import './NavBar.css';
 
 const NavBar = () => {
     return (
-        <div class="nav-container">
+        <div>
             <nav>
                 <h1>Your Restaurant Name Here</h1>
                 <ul>
@@ -13,7 +13,7 @@ const NavBar = () => {
                     <Link to="/menu"><li>Menu</li></Link>
                     <Link to="/contact"><li>Contact</li></Link>
                     {/* <li>Reservations</li> */}
-                    <Link to="/pickup"><li>Order for Pickup</li></Link>
+                    <Link to="/order"><li>Place an Order</li></Link>
                     <Link to="/gallery"><li>Gallery</li></Link>
                     {/* <li>Store</li> */}
                 </ul>
