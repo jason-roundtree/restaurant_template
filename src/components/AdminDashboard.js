@@ -1,13 +1,14 @@
 import React from 'react';
+import './AdminDashboard.css'
 const axios = require('axios');
 const { API_BASE_URL } = require('../config');
+
 
 export default class AdminDashboard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             menus: [],
-
         }
     }
     componentDidMount() {
@@ -20,8 +21,7 @@ export default class AdminDashboard extends React.Component {
                     id: menu._id
                 }
             })
-            console.log('menus: ', menus)
-
+            // console.log('menus: ', menus)
             this.setState({
               menus
             });
@@ -30,17 +30,24 @@ export default class AdminDashboard extends React.Component {
             console.log(err);
           });
     }
-    componentDidUpdate() {
-        console.log('state: ', this.state)
-    }
+    // componentDidUpdate() {
+    //     console.log('state: ', this.state)
+    // }
     render() {
         const menuList = this.state.menus.map((menu, index) => {
             return <p>{menu.name}</p>
         })
         return (
             <div>
-                <h1>Admin</h1>
+
+                <h2>Menus</h2>
+                <button>Create New Menu</button>
                 <div>{menuList}</div>
+                
+                
+                <h2>Menu Items</h2>
+                <button>Create New Menu Item</button>
+                <div></div>
             </div>
         )
     }

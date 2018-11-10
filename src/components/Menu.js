@@ -14,9 +14,7 @@ export const Menu = (props) => {
     return (
         <div>
             <h1>Menu</h1>
-            <ul className="menu-items">
-                {menuItems}
-            </ul>
+            <ul className="menu-items">{menuItems}</ul>
         </div>
     ) 
 }

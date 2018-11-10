@@ -1,17 +1,30 @@
-body {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Tinos', serif;
+}
+body {
   font-size: 1.4em;
 }
 li { 
   list-style-type: none;
 }
+.menu-items p:first-of-type {
+  color: rgb(134, 134, 245);
+}
+ul.menu-items {
+  width: 80%;
+  margin: 0 auto;
+}
 .menu-items li {
   border: 1px solid grey;
+  text-align: left;
   border-radius: 5px;
   padding: 10px; 
+}
+.menu-items p {
+  margin: 2px;
 }
 a {
   text-decoration: none;
