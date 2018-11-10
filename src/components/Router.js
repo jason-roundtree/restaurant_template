@@ -6,6 +6,7 @@ import Menu from './Menu';
 import Contact from './Contact';
 import Gallery from './Gallery';
 import Order from './Order';
+import AdminDashboard from './AdminDashboard';
 // import Reservations from './Reservations';
 
 
@@ -18,6 +19,7 @@ const Router = () => {
             <Route path="/contact" component={Contact} />
             <Route path="/order" component={Order} />
             <Route path="/gallery" component={Gallery} />
+            <Route path="/admin" component={AdminDashboard} />
         </div>
     )
 }

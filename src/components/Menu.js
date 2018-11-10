@@ -10,12 +10,11 @@ export const Menu = (props) => {
                 <p>{item.cost}</p>
             </li>
         )
-            
     })
     return (
         <div>
             <h1>Menu</h1>
-            <ul>
+            <ul className="menu-items">
                 {menuItems}
             </ul>
         </div>

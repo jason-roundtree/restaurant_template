@@ -15,6 +15,21 @@ const mockMenu = [
         name: 'Chicken Wings',
         description: 'Blekdlek efoo jfgfg ojp',
         cost: 12,
+    },
+    {
+        name: 'Fish and Chips',
+        description: 'Blekdlek efoo jfgfg ojp',
+        cost: 15,
+    },
+    {
+        name: 'Chicken Tenders',
+        description: 'Blekdlek efoo jfgfg ojp',
+        cost: 10,
+    },
+    {
+        name: 'Nachos',
+        description: 'Blekdlek efoo jfgfg ojp',
+        cost: 12,
     }
 ]
 

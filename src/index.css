@@ -8,6 +8,11 @@ body {
 li { 
   list-style-type: none;
 }
+.menu-items li {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 10px; 
+}
 a {
   text-decoration: none;
 }

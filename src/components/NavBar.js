@@ -6,16 +6,16 @@ const NavBar = () => {
     return (
         <div>
             <nav>
-                <h1>Your Restaurant Name Here</h1>
+                <h1>Restaurant Name</h1>
                 <ul>
                     <Link to="/home"><li>Home</li></Link>
                     <Link to="/about"><li>About</li></Link>
                     <Link to="/menu"><li>Menu</li></Link>
                     <Link to="/contact"><li>Contact</li></Link>
-                    {/* <li>Reservations</li> */}
+                    {/* Reservations */}
                     <Link to="/order"><li>Place an Order</li></Link>
                     <Link to="/gallery"><li>Gallery</li></Link>
-                    {/* <li>Store</li> */}
+                    {/* Store */}
                 </ul>
             </nav>
         </div>
