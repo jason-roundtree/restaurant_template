@@ -14,20 +14,34 @@ export default class AdminDashboard extends React.Component {
         // GET menus
         axios.get(`${API_BASE_URL}/menus`)
           .then(res => {
-            console.log('resMenus: ', res)
-            const menus = res.data
-            
+            const menus = res.data.map(menu => {
+                return {
+                    name: menu.name, 
+                    id: menu._id
+                }
+            })
+            console.log('menus: ', menus)
+
             this.setState({
-            //   leagues
+              menus
             });
           })
           .catch(err => {
             console.log(err);
           });
     }
+    componentDidUpdate() {
+        console.log('state: ', this.state)
+    }
     render() {
+        const menuList = this.state.menus.map((menu, index) => {
+            return <p>{menu.name}</p>
+        })
         return (
-            <h1>Admin</h1>
+            <div>
+                <h1>Admin</h1>
+                <div>{menuList}</div>
+            </div>
         )
     }
 }
