@@ -3,13 +3,13 @@ import './AdminDashboard.css'
 const axios = require('axios');
 const { API_BASE_URL } = require('../config');
 
-
 export default class AdminDashboard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             menus: [],
-            menuItems: []
+            menuItems: [],
+            filterInput: ''
         }
     }
     componentDidMount() {
@@ -46,39 +46,65 @@ export default class AdminDashboard extends React.Component {
             })
             .catch(err => {
                 console.log(err)
-            });
+            })
     }
-    // componentDidUpdate() {
-    //     console.log('state: ', this.state)
-    // }
+    handleInput = e => {
+        this.setState({
+            filterInput: e.target.value
+        })
+    }
+    componentDidUpdate() {
+        console.log('state: ', this.state)
+    }
     render() {
-        const menuList = this.state.menus.map((menu, index) => {
-            return <li>{menu.name}</li>
+        const menus = this.state.menus.map((menu, index) => {
+            return <li key={index}>{menu.name}</li>
         })
         const menuItems = this.state.menuItems.map((menuItem, index) => {
             return (
-                <li>
+                <li key={index}>
                     <p>{menuItem.name}</p>
                     <p>{menuItem.description}</p>
-                    <p>{menuItem.cost}</p>
+                    <p>&#36;{menuItem.cost}</p>
                 </li>
-
             )
         })
+        let filteredItems = this.state.menuItems.filter(item => {
+            return item.name.toLowerCase().includes(this.state.filterInput.toLowerCase())
+        })
+        filteredItems = filteredItems.map((item, index) => {
+            return (
+                <li key={index}>
+                    <p>{item.name}</p>
+                    <p>{item.description}</p>
+                    <p>&#36;{item.cost}</p>
+                </li>
+            )  
+        })
+        console.log('filteredItems: ', filteredItems)
         return (
             <div>
 
                 <h2>Menus</h2>
                 <button>Create New Menu</button>
-                <ul>{menuList}</ul>
+                <ul>{menus}</ul>
                 
                 <h2>Menu Items</h2>
                 <button>Create New Menu Item</button>
                 {/* TODO: complete filter functionality */}
                 <br />
-                <label for="filter">Filter By Name</label>
-                <input type="text" id="filter" />
-                <ul className="menu-items">{menuItems}</ul>
+                <label htmlFor="filter">Filter By Name</label>
+                <input 
+                    type="text" 
+                    id="filter" 
+                    onChange={this.handleInput}
+                    value={this.state.input}
+                />
+                <ul className="menu-items">{
+                    this.state.filterInput !== '' 
+                        ? filteredItems
+                        : menuItems
+                }</ul>
 
             </div>
         )
