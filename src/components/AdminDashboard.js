@@ -91,7 +91,6 @@ export default class AdminDashboard extends React.Component {
                 
                 <h2>Menu Items</h2>
                 <button>Create New Menu Item</button>
-                {/* TODO: complete filter functionality */}
                 <br />
                 <label htmlFor="filter">Filter By Name</label>
                 <input 
