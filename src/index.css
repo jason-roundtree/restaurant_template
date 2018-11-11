@@ -7,25 +7,44 @@
 body {
   font-size: 1.4em;
 }
+button {
+  padding: 6px;
+  font-size: .75em;
+  border-radius: 3px;
+}
 li { 
   list-style-type: none;
-}
-.menu-items p:first-of-type {
-  color: rgb(134, 134, 245);
+  margin: 4px;
 }
 ul.menu-items {
-  width: 80%;
+  width: 70%;
   margin: 0 auto;
+  font-size: .85em;
+}
+.menu-items li p:first-of-type {
+  color: rgb(134, 134, 245);
+}
+.menu-items li p:last-of-type {
+  color: rgb(188, 188, 237);
 }
 .menu-items li {
-  border: 1px solid grey;
+  border: 1px solid rgb(230, 211, 211);
   text-align: left;
   border-radius: 5px;
-  padding: 10px; 
+  padding: 5px; 
 }
 .menu-items p {
   margin: 2px;
 }
 a {
   text-decoration: none;
+}
+input {
+  height: 30px;
+  width: 250px;
+  font-size: .85em;
+  padding: 4px;
+  margin-left: 4px;
+  border: 1px solid rgb(230, 211, 211);
+  border-radius: 5px;
 }

@@ -3,22 +3,22 @@ h1 {
     padding: 0 5px;
 }
 nav ul {
-    background-color: lightblue;
+    background-color: rgb(188, 188, 237);
 }
 /* ul {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
 } */
-li {
+nav li {
     margin: 20px;
     list-style-type: none;
 }
 a {
     display: inline-block;
-    transition: background-color 0.9s ease;
+    transition: background-color 0.25s ease;
 }
-a:hover {
-    background-color: goldenrod;
+nav a:hover {
+    background-color: rgb(240, 228, 178);
 }
   

@@ -9,6 +9,7 @@ export default class AdminDashboard extends React.Component {
         super(props)
         this.state = {
             menus: [],
+            menuItems: []
         }
     }
     componentDidMount() {
@@ -21,33 +22,64 @@ export default class AdminDashboard extends React.Component {
                     id: menu._id
                 }
             })
-            // console.log('menus: ', menus)
             this.setState({
               menus
-            });
+            })
           })
           .catch(err => {
-            console.log(err);
+            console.log(err)
           });
+
+          // GET all menu items
+          axios.get(`${API_BASE_URL}/menu_items`)
+            .then(res => {
+                const menuItems = res.data.map(item => {
+                    return {
+                        name: item.name, 
+                        description: item.description,
+                        cost: item.cost
+                    }
+                })
+                this.setState({
+                    menuItems
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            });
     }
     // componentDidUpdate() {
     //     console.log('state: ', this.state)
     // }
     render() {
         const menuList = this.state.menus.map((menu, index) => {
-            return <p>{menu.name}</p>
+            return <li>{menu.name}</li>
+        })
+        const menuItems = this.state.menuItems.map((menuItem, index) => {
+            return (
+                <li>
+                    <p>{menuItem.name}</p>
+                    <p>{menuItem.description}</p>
+                    <p>{menuItem.cost}</p>
+                </li>
+
+            )
         })
         return (
             <div>
 
                 <h2>Menus</h2>
                 <button>Create New Menu</button>
-                <div>{menuList}</div>
-                
+                <ul>{menuList}</ul>
                 
                 <h2>Menu Items</h2>
                 <button>Create New Menu Item</button>
-                <div></div>
+                {/* TODO: complete filter functionality */}
+                <br />
+                <label for="filter">Filter By Name</label>
+                <input type="text" id="filter" />
+                <ul className="menu-items">{menuItems}</ul>
+
             </div>
         )
     }
