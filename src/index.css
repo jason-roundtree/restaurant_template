@@ -2,7 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Tinos', serif;
+  /* font-family: 'Tinos', serif; */
+  font-family: 'Lato', sans-serif;
 }
 body {
   font-size: 1.4em;
@@ -16,6 +17,7 @@ li {
   list-style-type: none;
   margin: 4px;
 }
+
 ul.menu-items {
   width: 70%;
   margin: 0 auto;
@@ -24,8 +26,11 @@ ul.menu-items {
 .menu-items li p:first-of-type {
   color: rgb(134, 134, 245);
 }
+.menu-items li p:nth-child(2) {
+  color: rgb(75, 0, 130);
+}
 .menu-items li p:last-of-type {
-  color: rgb(188, 188, 237);
+  color: rgb(139, 0, 139);
 }
 .menu-items li {
   border: 1px solid rgb(230, 211, 211);
@@ -45,6 +50,11 @@ input {
   font-size: .85em;
   padding: 4px;
   margin-left: 4px;
+  margin-top: 7px;
   border: 1px solid rgb(230, 211, 211);
   border-radius: 5px;
 }
+.menu-selection li {
+  display: inline-block;
+}
+

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './AdminDashboard.css'
 const axios = require('axios');
 const { API_BASE_URL } = require('../config');
@@ -53,12 +54,25 @@ export default class AdminDashboard extends React.Component {
             filterInput: e.target.value
         })
     }
-    componentDidUpdate() {
-        console.log('state: ', this.state)
-    }
+    // componentDidUpdate() {
+    //     console.log('state: ', this.state)
+    // }
     render() {
         const menus = this.state.menus.map((menu, index) => {
-            return <li key={index}>{menu.name}</li>
+            return (
+                <div>
+                    <Link to={`/menu/${menu.id}`}>
+                        <li key={index}>{menu.name}</li>
+                    </Link>
+                    <br />
+                </div>
+                
+            )
+        })
+        const menuSelection = this.state.menus.map((menu, index) => {
+            return (
+                <li>{menu.name}</li>
+            )                
         })
         const menuItems = this.state.menuItems.map((menuItem, index) => {
             return (
@@ -66,6 +80,7 @@ export default class AdminDashboard extends React.Component {
                     <p>{menuItem.name}</p>
                     <p>{menuItem.description}</p>
                     <p>&#36;{menuItem.cost}</p>
+                    <ul className="menu-selection">{menuSelection}</ul>
                 </li>
             )
         })
@@ -77,19 +92,21 @@ export default class AdminDashboard extends React.Component {
                 <li key={index}>
                     <p>{item.name}</p>
                     <p>{item.description}</p>
-                    <p>&#36;{item.cost}</p>
+                    <p>&#36;{item.cost}</p> 
+                    <ul className="menu-selection">{menuSelection}</ul>
                 </li>
             )  
         })
-        console.log('filteredItems: ', filteredItems)
+        
         return (
             <div>
 
                 <h2>Menus</h2>
                 <button>Create New Menu</button>
-                <ul>{menus}</ul>
+                <p><i>Select a menu to make edits</i></p>
+                <ul className="menus">{menus}</ul>
                 
-                <h2>Menu Items</h2>
+                <h2>All Menu Items</h2>
                 <button>Create New Menu Item</button>
                 <br />
                 <label htmlFor="filter">Filter By Name</label>
