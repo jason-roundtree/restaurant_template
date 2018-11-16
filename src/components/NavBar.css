@@ -5,11 +5,6 @@ h1 {
 nav ul {
     background-color: rgb(188, 188, 237);
 }
-/* ul {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-} */
 nav li {
     margin: 20px;
     list-style-type: none;

@@ -38,7 +38,9 @@ export default class AdminDashboard extends React.Component {
                     return {
                         name: item.name, 
                         description: item.description,
-                        cost: item.cost
+                        cost: item.cost,
+                        menus: item.menus,
+                        id: item._id
                     }
                 })
                 this.setState({
@@ -54,9 +56,34 @@ export default class AdminDashboard extends React.Component {
             filterInput: e.target.value
         })
     }
-    // componentDidUpdate() {
-    //     console.log('state: ', this.state)
-    // }
+    handleMenuAssignment = e => {
+        console.log('e: ', e.target.parentNode.parentNode)
+        // TODO: Should I add IDs to the menus instead of looking up menu id by name?? Should I store some of this in state??
+        let menuItemId = e.target.parentNode.parentNode.getAttribute('id')
+        console.log('menuItemId: ', menuItemId)
+        let menuName = e.target.textContent
+        console.log('menuName: ', menuName)
+        let menuId = { menuId: ''}
+        console.log('menuId: ', menuId)
+        let menus = this.state.menus
+        console.log('menu: ', menus)
+        for (let i = 0; i < menus.length; i++) {
+            if (menus[i].name === menuName) {
+                menuId.menuId = menus[i].id
+            }
+        }
+        
+        axios.put(`${API_BASE_URL}/menu_items/${menuItemId}`, menuId)
+            .then(res => {
+                console.log('PUT response: ', res)
+            })
+            .catch(err => {
+                console.log(err)
+            });
+    }
+    componentDidUpdate() {
+        console.log('state: ', this.state)
+    }
     render() {
         const menus = this.state.menus.map((menu, index) => {
             return (
@@ -65,18 +92,26 @@ export default class AdminDashboard extends React.Component {
                         <li key={index}>{menu.name}</li>
                     </Link>
                     <br />
-                </div>
-                
+                </div> 
             )
         })
         const menuSelection = this.state.menus.map((menu, index) => {
             return (
-                <li>{menu.name}</li>
+                <li 
+                    key={index} 
+                    onClick={this.handleMenuAssignment}
+                >
+                    {menu.name}
+                </li>
             )                
         })
         const menuItems = this.state.menuItems.map((menuItem, index) => {
+            console.log('menuItem: ', menuItem)
             return (
-                <li key={index}>
+                <li 
+                    key={index}
+                    id={menuItem.id}
+                >
                     <p>{menuItem.name}</p>
                     <p>{menuItem.description}</p>
                     <p>&#36;{menuItem.cost}</p>
@@ -89,7 +124,10 @@ export default class AdminDashboard extends React.Component {
         })
         filteredItems = filteredItems.map((item, index) => {
             return (
-                <li key={index}>
+                <li 
+                    key={index}
+                    id={item.id}
+                >
                     <p>{item.name}</p>
                     <p>{item.description}</p>
                     <p>&#36;{item.cost}</p> 

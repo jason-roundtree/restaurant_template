@@ -13,13 +13,15 @@ button {
   font-size: .75em;
   border-radius: 3px;
 }
+button:hover {
+  background-color: rgb(230, 211, 211);
+}
 li { 
   list-style-type: none;
   margin: 4px;
 }
-
 ul.menu-items {
-  width: 70%;
+  width: 60%;
   margin: 0 auto;
   font-size: .85em;
 }
@@ -56,5 +58,6 @@ input {
 }
 .menu-selection li {
   display: inline-block;
+  font-size: .8em;
 }
 
