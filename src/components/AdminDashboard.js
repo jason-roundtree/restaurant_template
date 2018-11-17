@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import MenuItem from './MenuItem';
 import './AdminDashboard.css'
 const axios = require('axios');
 const { API_BASE_URL } = require('../config');
@@ -10,7 +11,8 @@ export default class AdminDashboard extends React.Component {
         this.state = {
             menus: [],
             menuItems: [],
-            filterInput: ''
+            filterInput: '',
+            editItemId: ''
         }
     }
     componentDidMount() {
@@ -34,7 +36,7 @@ export default class AdminDashboard extends React.Component {
           // GET all menu items
           axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
-                const menuItems = res.data.map(item => {
+                let menuItems = res.data.map(item => {
                     return {
                         name: item.name, 
                         description: item.description,
@@ -56,30 +58,23 @@ export default class AdminDashboard extends React.Component {
             filterInput: e.target.value
         })
     }
-    handleMenuAssignment = e => {
-        console.log('e: ', e.target.parentNode.parentNode)
-        // TODO: Should I add IDs to the menus instead of looking up menu id by name?? Should I store some of this in state??
-        let menuItemId = e.target.parentNode.parentNode.getAttribute('id')
-        console.log('menuItemId: ', menuItemId)
-        let menuName = e.target.textContent
-        console.log('menuName: ', menuName)
-        let menuId = { menuId: ''}
+    //     axios.put(`${API_BASE_URL}/menu_items/${menuItemId}`, menuId)
+    //         // TODO: what to do with this then? Can I just do catch or is then needed first?
+    //         .then(res => {
+    //             console.log('PUT response: ', res)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         });
+    // }
+    handleEditMenuItem = itemId => {
+        console.log('menu item id ', itemId)
+        this.setState({
+            editItemId: itemId
+        })
+    }
+    handleMenuAssignment = menuId => {
         console.log('menuId: ', menuId)
-        let menus = this.state.menus
-        console.log('menu: ', menus)
-        for (let i = 0; i < menus.length; i++) {
-            if (menus[i].name === menuName) {
-                menuId.menuId = menus[i].id
-            }
-        }
-        
-        axios.put(`${API_BASE_URL}/menu_items/${menuItemId}`, menuId)
-            .then(res => {
-                console.log('PUT response: ', res)
-            })
-            .catch(err => {
-                console.log(err)
-            });
     }
     componentDidUpdate() {
         console.log('state: ', this.state)
@@ -95,53 +90,17 @@ export default class AdminDashboard extends React.Component {
                 </div> 
             )
         })
-        const menuSelection = this.state.menus.map((menu, index) => {
-            return (
-                <li 
-                    key={index} 
-                    onClick={this.handleMenuAssignment}
-                >
-                    {menu.name}
-                </li>
-            )                
-        })
-        const menuItems = this.state.menuItems.map((menuItem, index) => {
-            console.log('menuItem: ', menuItem)
-            return (
-                <li 
-                    key={index}
-                    id={menuItem.id}
-                >
-                    <p>{menuItem.name}</p>
-                    <p>{menuItem.description}</p>
-                    <p>&#36;{menuItem.cost}</p>
-                    <ul className="menu-selection">{menuSelection}</ul>
-                </li>
-            )
-        })
-        let filteredItems = this.state.menuItems.filter(item => {
-            return item.name.toLowerCase().includes(this.state.filterInput.toLowerCase())
-        })
-        filteredItems = filteredItems.map((item, index) => {
-            return (
-                <li 
-                    key={index}
-                    id={item.id}
-                >
-                    <p>{item.name}</p>
-                    <p>{item.description}</p>
-                    <p>&#36;{item.cost}</p> 
-                    <ul className="menu-selection">{menuSelection}</ul>
-                </li>
-            )  
-        })
+
+        // let filteredItems = this.state.menuItems.filter(item => {
+        //     return item.name.toLowerCase().includes(this.state.filterInput.toLowerCase())
+        // })
         
         return (
             <div>
 
                 <h2>Menus</h2>
                 <button>Create New Menu</button>
-                <p><i>Select a menu to make edits</i></p>
+                {/* <p><i>Select a menu to view</i></p> */}
                 <ul className="menus">{menus}</ul>
                 
                 <h2>All Menu Items</h2>
@@ -154,11 +113,15 @@ export default class AdminDashboard extends React.Component {
                     onChange={this.handleInput}
                     value={this.state.input}
                 />
-                <ul className="menu-items">{
-                    this.state.filterInput !== '' 
-                        ? filteredItems
-                        : menuItems
-                }</ul>
+                <ul className="menu-items">
+                    <MenuItem 
+                        menuItems={this.state.menuItems}
+                        menus={this.state.menus} 
+                        onClick={this.handleEditMenuItem}
+                        handleMenuAssignment={this.handleMenuAssignment}
+                    />
+                    {/* onClick={() => this.handleMenuAssignment()} */}
+                </ul>
 
             </div>
         )

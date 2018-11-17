@@ -14,6 +14,6 @@ a {
     transition: background-color 0.25s ease;
 }
 nav a:hover {
-    background-color: rgb(240, 228, 178);
+    background-color: rgb(230, 211, 211);
 }
   

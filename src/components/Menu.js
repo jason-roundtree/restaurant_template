@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-export const Menu = (props) => { 
+export const Menu = props => { 
     const menuItems = props.menu.map((item, index) => {
         return (
             <li key={index} className="menu-item">
