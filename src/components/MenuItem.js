@@ -35,9 +35,9 @@ export default class MenuItem extends React.Component {
                         <MenuAssignmentList 
                             menus={this.props.menus}
                             handleMenuAssignment={this.props.handleMenuAssignment}
-                            // editMode={this.state.editMode}
+                            menuItemId={item.id}
+                            menuItemEditStatus={item.editable}
                         />
-                        
                         {/* <EditMenuButton menuItem={item.id} /> */}
                         <button 
                             onClick={() => this.props.onClick(item.id)}

@@ -58,15 +58,6 @@ export default class AdminDashboard extends React.Component {
             filterInput: e.target.value
         })
     }
-    //     axios.put(`${API_BASE_URL}/menu_items/${menuItemId}`, menuId)
-    //         // TODO: what to do with this then? Can I just do catch or is then needed first?
-    //         .then(res => {
-    //             console.log('PUT response: ', res)
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //         });
-    // }
     setMenuItemEditable = itemId => {
         // console.log('menu item id ', itemId)
         let menus = this.state.menuItems
@@ -85,8 +76,18 @@ export default class AdminDashboard extends React.Component {
             }
         }
     }
-    handleMenuAssignment = menuId => {
+    handleMenuAssignment = (menuId, menuItemId) => {
         console.log('menuId: ', menuId)
+        console.log('menuItemId: ', menuItemId)
+        axios.put(`${API_BASE_URL}/menu_items/${menuItemId}`, menuId)
+            // TODO: what to do with this then? Can I just do catch or is then needed first?
+            .then(res => {
+                console.log('PUT response: ', res)
+            })
+            .catch(err => {
+                console.log(err)
+            });
+        
     }
     componentDidUpdate() {
         console.log('AdminDash state: ', this.state)
