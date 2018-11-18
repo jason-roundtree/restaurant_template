@@ -1,16 +1,19 @@
 import React from 'react';
 import { MenuAssignmentList } from './MenuAssignmentList' 
+import { EditMenuButton } from './EditMenuButton' 
 
 export default class MenuItem extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            currentItem: '',
             editMode: false
         }
     }
-    toggleEditMode = () => {
+    toggleEditMode = id => {
         this.setState({
-            editMode: !this.state.editMode
+            // currentItem: id,
+            // editMode: !this.state.editMode
         })
     }
     componentDidUpdate() {
@@ -25,7 +28,6 @@ export default class MenuItem extends React.Component {
                         id={item.id}
                         className="menu-item"
                     >
-
                         <p>{item.name}</p>
                         <p>{item.description}</p>
                         <p>&#36;{item.cost}</p>
@@ -33,17 +35,15 @@ export default class MenuItem extends React.Component {
                         <MenuAssignmentList 
                             menus={this.props.menus}
                             handleMenuAssignment={this.props.handleMenuAssignment}
-                            editMode={this.state.editMode}
+                            // editMode={this.state.editMode}
                         />
                         
-                    <button 
-                        onClick={() => {
-                            this.props.onClick(item.id)
-                            this.toggleEditMode()
-                        }}
-                    >
-                        {this.state.editMode ? 'Save' : 'Edit'}
-                    </button>
+                        {/* <EditMenuButton menuItem={item.id} /> */}
+                        <button 
+                            onClick={() => this.props.onClick(item.id)}
+                        >
+                            {item.editable ? 'Save' : 'Edit'}
+                        </button>
 
                     </li>
                 </div>

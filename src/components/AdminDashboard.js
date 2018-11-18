@@ -11,8 +11,7 @@ export default class AdminDashboard extends React.Component {
         this.state = {
             menus: [],
             menuItems: [],
-            filterInput: '',
-            editItemId: ''
+            // filterInput: ''
         }
     }
     componentDidMount() {
@@ -36,12 +35,13 @@ export default class AdminDashboard extends React.Component {
           // GET all menu items
           axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
-                let menuItems = res.data.map(item => {
+                const menuItems = res.data.map(item => {
                     return {
                         name: item.name, 
                         description: item.description,
                         cost: item.cost,
                         menus: item.menus,
+                        editable: item.editable,
                         id: item._id
                     }
                 })
@@ -67,17 +67,29 @@ export default class AdminDashboard extends React.Component {
     //             console.log(err)
     //         });
     // }
-    handleEditMenuItem = itemId => {
-        console.log('menu item id ', itemId)
-        this.setState({
-            editItemId: itemId
-        })
+    setMenuItemEditable = itemId => {
+        // console.log('menu item id ', itemId)
+        let menus = this.state.menuItems
+        for (let i = 0; i < menus.length; i++) {
+            let targetItemObject
+            if (menus[i].id === itemId) {
+                targetItemObject = menus[i]
+                targetItemObject.editable = !targetItemObject.editable 
+                this.setState({
+                    menuItems: [
+                        ...this.state.menuItems.slice(0, i),
+                        targetItemObject,
+                        ...this.state.menuItems.slice(i + 1)
+                    ]
+                })
+            }
+        }
     }
     handleMenuAssignment = menuId => {
         console.log('menuId: ', menuId)
     }
     componentDidUpdate() {
-        console.log('state: ', this.state)
+        console.log('AdminDash state: ', this.state)
     }
     render() {
         const menus = this.state.menus.map((menu, index) => {
@@ -117,10 +129,9 @@ export default class AdminDashboard extends React.Component {
                     <MenuItem 
                         menuItems={this.state.menuItems}
                         menus={this.state.menus} 
-                        onClick={this.handleEditMenuItem}
+                        onClick={this.setMenuItemEditable}
                         handleMenuAssignment={this.handleMenuAssignment}
                     />
-                    {/* onClick={() => this.handleMenuAssignment()} */}
                 </ul>
 
             </div>
