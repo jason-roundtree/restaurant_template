@@ -58,18 +58,18 @@ export default class AdminDashboard extends React.Component {
             filterInput: e.target.value
         })
     }
-    setMenuItemEditable = itemId => {
+    toggleMenuItemEditable = itemId => {
         // console.log('menu item id ', itemId)
         let menus = this.state.menuItems
         for (let i = 0; i < menus.length; i++) {
-            let targetItemObject
             if (menus[i].id === itemId) {
-                targetItemObject = menus[i]
-                targetItemObject.editable = !targetItemObject.editable 
+                const updatedMenuItem = Object.assign({}, menus[i], {
+                    editable: !menus[i].editable
+                })
                 this.setState({
                     menuItems: [
                         ...this.state.menuItems.slice(0, i),
-                        targetItemObject,
+                        updatedMenuItem,
                         ...this.state.menuItems.slice(i + 1)
                     ]
                 })
@@ -77,8 +77,8 @@ export default class AdminDashboard extends React.Component {
         }
     }
     handleMenuAssignment = (menuId, menuItemId) => {
-        console.log('menuId: ', menuId)
-        console.log('menuItemId: ', menuItemId)
+        // console.log('menuId: ', menuId)
+        // console.log('menuItemId: ', menuItemId)
         axios.put(`${API_BASE_URL}/menu_items/${menuItemId}`, menuId)
             // TODO: what to do with this then? Can I just do catch or is then needed first?
             .then(res => {
@@ -130,7 +130,7 @@ export default class AdminDashboard extends React.Component {
                     <MenuItem 
                         menuItems={this.state.menuItems}
                         menus={this.state.menus} 
-                        onClick={this.setMenuItemEditable}
+                        onClick={this.toggleMenuItemEditable}
                         handleMenuAssignment={this.handleMenuAssignment}
                     />
                 </ul>
