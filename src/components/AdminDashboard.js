@@ -14,6 +14,7 @@ export default class AdminDashboard extends React.Component {
             // filterInput: ''
         }
     }
+    // TODO: Move axios requests to their own module
     componentDidMount() {
         // GET menus
         axios.get(`${API_BASE_URL}/menus`)
@@ -71,6 +72,7 @@ export default class AdminDashboard extends React.Component {
         const menus = this.state.menuItems
         for (let i = 0; i < menus.length; i++) {
             if (menus[i].id === itemId) {
+                // TODO: is it necessary to be immutable here with the updatedMenuItem (and also in method below) or is it not necessary because we're not updating state yet? 
                 const updatedMenuItem = Object.assign({}, menus[i], {
                     editable: !menus[i].editable
                 })
@@ -78,22 +80,18 @@ export default class AdminDashboard extends React.Component {
             }
         }
     }
-    
-    // TODO: add axios requests to remove and add menus to menus in db and also there surely must be a better way to handle this??
+    // TODO: Is there a better way to handle this with less code?
     handleMenuAssignment = (menuId, menuItemId) => {
         const menuItems = this.state.menuItems
         for (let i = 0; i < menuItems.length; i++) {
             if (menuItems[i].id === menuItemId) {
                 if (menuItems[i].menus.includes(menuId)) {
-                    console.log('menu removed')
-                    // TODO: is it necessary to be immutable here or just when setting state? Same with else condition below and toggleMenuItem above
                     let menusLessRemovedMenu = menuItems[i].menus.filter(menu => menu.id !== menuId)
                     let updatedMenuItem = Object.assign({}, menuItems[i], {
                         menus: menusLessRemovedMenu
                     })
                     this.updateMenuItemState(updatedMenuItem, i)
                 } else {
-                    console.log('menu added')
                     let menusWithAddedMenu = [...menuItems[i].menus, menuId]
                     let updatedMenuItem = Object.assign({}, menuItems[i], {
                         menus: menusWithAddedMenu
