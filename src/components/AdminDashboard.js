@@ -58,63 +58,50 @@ export default class AdminDashboard extends React.Component {
             filterInput: e.target.value
         })
     }
+    updateMenuItemState = (updatedMenuItem, menuItemIndex) => {
+        this.setState({
+            menuItems: [
+                ...this.state.menuItems.slice(0, menuItemIndex),
+                updatedMenuItem,
+                ...this.state.menuItems.slice(menuItemIndex + 1)
+            ]
+        })
+    }
     toggleMenuItemEditable = itemId => {
-        // console.log('menu item id ', itemId)
-        let menus = this.state.menuItems
+        const menus = this.state.menuItems
         for (let i = 0; i < menus.length; i++) {
             if (menus[i].id === itemId) {
                 const updatedMenuItem = Object.assign({}, menus[i], {
                     editable: !menus[i].editable
                 })
-                this.setState({
-                    menuItems: [
-                        ...this.state.menuItems.slice(0, i),
-                        updatedMenuItem,
-                        ...this.state.menuItems.slice(i + 1)
-                    ]
-                })
+                this.updateMenuItemState(updatedMenuItem, i)
             }
         }
     }
+    
     // TODO: add axios requests to remove and add menus to menus in db and also there surely must be a better way to handle this??
     handleMenuAssignment = (menuId, menuItemId) => {
-        // console.log('menuId: ', menuId)
-        // console.log('menuItemId: ', menuItemId)
         const menuItems = this.state.menuItems
         for (let i = 0; i < menuItems.length; i++) {
             if (menuItems[i].id === menuItemId) {
                 if (menuItems[i].menus.includes(menuId)) {
-                    // console.log('menu removed')
-                    // TODO: is it necessary to be immutable here or just when setting state? Same with else condition below
+                    console.log('menu removed')
+                    // TODO: is it necessary to be immutable here or just when setting state? Same with else condition below and toggleMenuItem above
                     let menusLessRemovedMenu = menuItems[i].menus.filter(menu => menu.id !== menuId)
                     let updatedMenuItem = Object.assign({}, menuItems[i], {
                         menus: menusLessRemovedMenu
                     })
-                    this.setState({
-                        menuItems: [
-                            ...this.state.menuItems.slice(0, i),
-                            updatedMenuItem,
-                            ...this.state.menuItems.slice(i + 1)
-                        ]
-                    })
+                    this.updateMenuItemState(updatedMenuItem, i)
                 } else {
-                    // console.log('menu added')
+                    console.log('menu added')
                     let menusWithAddedMenu = [...menuItems[i].menus, menuId]
                     let updatedMenuItem = Object.assign({}, menuItems[i], {
                         menus: menusWithAddedMenu
                     })
-                    this.setState({
-                        menuItems: [
-                            ...this.state.menuItems.slice(0, i),
-                            updatedMenuItem,
-                            ...this.state.menuItems.slice(i + 1)
-                        ]
-                    })
+                    this.updateMenuItemState(updatedMenuItem, i)
                 }
             }
         }
-        
-        
     }
     componentDidUpdate() {
         console.log('AdminDash state: ', this.state)
