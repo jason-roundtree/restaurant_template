@@ -107,7 +107,6 @@ export default class AdminDashboard extends React.Component {
         }
     }
     saveUpdatedMenuItemToDb = updatedMenuItem => {
-        // console.log('updatedMenuItem: ', updatedMenuItem)
         axios.put(`${API_BASE_URL}/menu_items/${updatedMenuItem.id}`, updatedMenuItem)
             .catch(err => {
                 console.log(err)

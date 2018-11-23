@@ -1,9 +1,8 @@
 import React from 'react';
 
 export const MenuAssignmentList = props => {
-    // console.log('activeMenus props: ', props)
     let menuItemId = props.menuItemId
-    console.log('menuItemId: ', menuItemId)
+    let currentItemActiveMenus = props.activeMenus
     let menuList = props.menus.map((menu, index) => {
         return (
             <li
@@ -12,6 +11,9 @@ export const MenuAssignmentList = props => {
                 onClick={() => {
                     props.menuItemEditStatus ? props.handleMenuAssignment(menu.id, menuItemId) : ''
                 }}
+                className={
+                    currentItemActiveMenus.includes(menu.id) ? 'selectedMenu' : ''
+                }
             >
                 {menu.name}
             </li>

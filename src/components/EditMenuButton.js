@@ -6,7 +6,6 @@ export const EditMenuButton = props => {
         <button
 
         >
-            Edit
             {/* {props.item.editable ? 'Save' : 'Edit'} */}
         </button>
     )
