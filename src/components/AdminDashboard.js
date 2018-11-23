@@ -66,6 +66,11 @@ export default class AdminDashboard extends React.Component {
                 updatedMenuItem,
                 ...this.state.menuItems.slice(menuItemIndex + 1)
             ]
+        }, () => {
+            // TODO: this will send a request to update a menu item when the save button is selected but it doesn't test if the menuItem was actually updated. Maybe you can use prevState to check??
+            if (this.state.menuItems[menuItemIndex].editable === false) {
+                this.saveUpdatedMenuItemToDb(this.state.menuItems[menuItemIndex])
+            }
         })
     }
     toggleMenuItemEditable = itemId => {
@@ -86,7 +91,7 @@ export default class AdminDashboard extends React.Component {
         for (let i = 0; i < menuItems.length; i++) {
             if (menuItems[i].id === menuItemId) {
                 if (menuItems[i].menus.includes(menuId)) {
-                    let menusLessRemovedMenu = menuItems[i].menus.filter(menu => menu.id !== menuId)
+                    let menusLessRemovedMenu = menuItems[i].menus.filter(menu => menu !== menuId)
                     let updatedMenuItem = Object.assign({}, menuItems[i], {
                         menus: menusLessRemovedMenu
                     })
@@ -100,6 +105,13 @@ export default class AdminDashboard extends React.Component {
                 }
             }
         }
+    }
+    saveUpdatedMenuItemToDb = updatedMenuItem => {
+        // console.log('updatedMenuItem: ', updatedMenuItem)
+        axios.put(`${API_BASE_URL}/menu_items/${updatedMenuItem.id}`, updatedMenuItem)
+            .catch(err => {
+                console.log(err)
+            })
     }
     componentDidUpdate() {
         console.log('AdminDash state: ', this.state)
