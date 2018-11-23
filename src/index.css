@@ -67,4 +67,7 @@ input {
 .selectedMenu {
   background-color: rgb(230, 211, 211);
 }
+.hidden {
+  display: none;
+}
 

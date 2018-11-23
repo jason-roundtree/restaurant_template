@@ -10,21 +10,26 @@ export default class AddMenuItem extends React.Component {
         }
     }
     handleButtonClick = () => {
-        
+        this.setState({
+            componentActive: true
+        })
     }
     handleMenuAssignment = () => {
 
     }
+    saveMenuItem = () => {
+        this.setState({
+            componentActive: false
+        })
+    }
     render() {
         return (
             <div>
-                <button
-                    onClick={this.handleButtonClick}
-                >
+                <button onClick={this.handleButtonClick}>
                     Create New Menu
                 </button>
 
-                <form>
+                <form className={!this.state.componentActive ? 'hidden' : ''}>
                     <label htmlFor="menu-name">Item Name</label>
                     <input 
                         type="text" 
@@ -49,11 +54,9 @@ export default class AddMenuItem extends React.Component {
                         />
                     </ul>
                     
+                    <button onClick={this.saveMenuItem}>Save Item</button>
                 </form>
-                
-
             </div>
-            
         )
     }
 }
