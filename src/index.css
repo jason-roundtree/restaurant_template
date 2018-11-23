@@ -32,7 +32,7 @@ ul.menu-items {
 .menu-items li p:last-of-type {
   color: rgb(139, 0, 139);
 }
-.menu-items li {
+.menu-selection li, .menu-items li {
   border: 1px solid rgb(230, 211, 211);
   text-align: left;
   border-radius: 5px;
@@ -60,6 +60,9 @@ input {
 .menu-selection li {
   display: inline-block;
   font-size: .8em;
+}
+.menu-selection:hover {
+  cursor: default;
 }
 .selectedMenu {
   background-color: rgb(230, 211, 211);

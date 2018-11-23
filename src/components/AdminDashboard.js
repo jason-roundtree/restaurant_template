@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MenuItem from './MenuItem';
+import AddMenuItem from './AddMenuItem';
 import './AdminDashboard.css'
 const axios = require('axios');
 const { API_BASE_URL } = require('../config');
@@ -133,14 +134,15 @@ export default class AdminDashboard extends React.Component {
         
         return (
             <div>
-
                 <h2>Menus</h2>
                 <button>Create New Menu</button>
                 {/* <p><i>Select a menu to view</i></p> */}
                 <ul className="menus">{menus}</ul>
                 
                 <h2>All Menu Items</h2>
-                <button>Create New Menu Item</button>
+                <AddMenuItem 
+                    menus={this.state.menus}
+                />
                 <br />
                 <label htmlFor="filter">Filter By Name</label>
                 <input 
