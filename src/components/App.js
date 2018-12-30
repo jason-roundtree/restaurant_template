@@ -4,7 +4,7 @@ import Router from './Router';
 import NavBar from './NavBar';
 import { connect } from 'react-redux';
 
-const App = () => {
+export const App = () => {
   return (
     <BrowserRouter>
       <div>

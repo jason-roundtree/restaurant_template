@@ -1,16 +1,15 @@
 import React from 'react';
-import { MenuAssignmentList } from './MenuAssignmentList' 
-import { EditMenuButton } from './EditMenuButton' 
+import { MenuAssignmentList } from './MenuAssignmentList'; 
 
 // TODO: change this back to functional component
 export default class MenuItem extends React.Component {
     render () {
-        let menuItems = this.props.menuItems.map((item, index) => {
+        let menuItems = this.props.menuItems.map(item => {
             let activeMenus = item.menus
             return (
-                <div>
+                <div key={item.id}>
                     <li 
-                        key={index}
+                        key={item.id}
                         id={item.id}
                         className="menu-item"
                     >

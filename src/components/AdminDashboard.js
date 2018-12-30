@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import MenuItem from './MenuItem';
 import AddMenuItem from './AddMenuItem';
-import './AdminDashboard.css'
+import './AdminDashboard.css';
 const axios = require('axios');
 const { API_BASE_URL } = require('../config');
 
@@ -113,15 +113,15 @@ export default class AdminDashboard extends React.Component {
                 console.log(err)
             })
     }
-    componentDidUpdate() {
-        console.log('AdminDash state: ', this.state)
-    }
+    // componentDidUpdate() {
+    //     console.log('AdminDash state: ', this.state)
+    // }
     render() {
-        const menus = this.state.menus.map((menu, index) => {
+        const menus = this.state.menus.map(menu => {
             return (
-                <div>
+                <div key={menu.id}>
                     <Link to={`/menu/${menu.id}`}>
-                        <li key={index}>{menu.name}</li>
+                        <li key={menu.id}>{menu.name}</li>
                     </Link>
                     <br />
                 </div> 
@@ -140,10 +140,9 @@ export default class AdminDashboard extends React.Component {
                 <ul className="menus">{menus}</ul>
                 
                 <h2>All Menu Items</h2>
-                <AddMenuItem 
-                    menus={this.state.menus}
-                />
+                <AddMenuItem menus={this.state.menus} />
                 <br />
+
                 <label htmlFor="filter">Filter By Name</label>
                 <input 
                     type="text" 
