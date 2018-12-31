@@ -13,6 +13,7 @@ export default function MenuItem(props) {
                 >
                     <p>{item.name}</p>
                     <p>{item.description}</p>
+                    {/* TODO: conditionally render cost for items with no cost */}
                     <p>&#36;{item.cost}</p>
 
                     <MenuAssignmentList 

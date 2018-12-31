@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import MenuItem from './MenuItem';
 import AddMenuItem from './AddMenuItem';
 import './AdminDashboard.css';
+// TODO: change all requires to imports??
 const axios = require('axios');
 const { API_BASE_URL } = require('../config');
 
@@ -78,7 +79,6 @@ export default class AdminDashboard extends React.Component {
         const menus = this.state.menuItems
         for (let i = 0; i < menus.length; i++) {
             if (menus[i].id === itemId) {
-                // TODO: is it necessary to be immutable here with the updatedMenuItem (and also in method below) or is it not necessary because we're not updating state yet? 
                 const updatedMenuItem = Object.assign({}, menus[i], {
                     editable: !menus[i].editable
                 })
@@ -109,13 +109,12 @@ export default class AdminDashboard extends React.Component {
     }
     saveUpdatedMenuItemToDb = updatedMenuItem => {
         axios.put(`${API_BASE_URL}/menu_items/${updatedMenuItem.id}`, updatedMenuItem)
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(err => console.log(err))
     }
     // componentDidUpdate() {
     //     console.log('AdminDash state: ', this.state)
     // }
+
     render() {
         const menus = this.state.menus.map(menu => {
             return (
@@ -140,7 +139,10 @@ export default class AdminDashboard extends React.Component {
                 <ul className="menus">{menus}</ul>
                 
                 <h2>All Menu Items</h2>
-                <AddMenuItem menus={this.state.menus} />
+                <AddMenuItem 
+                    menus={this.state.menus} 
+                    rerenderAdminDashboard={() => this.componentDidMount()}
+                />
                 <br />
 
                 <label htmlFor="filter">Filter By Name</label>

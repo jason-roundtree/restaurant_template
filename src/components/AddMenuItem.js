@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+const { API_BASE_URL } = require('../config');
 
 export default class AddMenuItem extends React.Component {
     constructor(props) {
@@ -31,7 +32,6 @@ export default class AddMenuItem extends React.Component {
             componentActive: true
         })
     }
-    // TODO: add validation for input fields and setup post route
     saveMenuItem = e => {
         e.preventDefault()
         if (this.state.nameInput === '' || this.state.activeMenus.length < 1) {
@@ -39,6 +39,18 @@ export default class AddMenuItem extends React.Component {
                 showInputErrorMsg: true
             })
         } else {
+            const menuItem = {
+                name: this.state.nameInput,
+                description: this.state.descriptionInput,
+                cost: this.state.costInput,
+                menus: this.state.activeMenus
+            }
+            axios.post(`${API_BASE_URL}/menu_items`, menuItem)
+                .then(res => {
+                    console.log('menu item posted response: ', res)
+                })
+                .catch(err => console.log(err))
+
             this.setState({
                 componentActive: false,
                 showInputErrorMsg: false,
@@ -47,7 +59,8 @@ export default class AddMenuItem extends React.Component {
                 nameInput: '',
                 descriptionInput: '',
                 costInput: '',
-            })
+                // TODO: best react or react-router way to reload parent component?? Do I have to lift state up to AdminDashboard??
+            }, () => window.location.reload())
         }
     }
     handleInputChange = e => {
