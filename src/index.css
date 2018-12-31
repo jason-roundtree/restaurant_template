@@ -70,5 +70,13 @@ input {
 .hidden {
   display: none;
 }
+.error-msg {
+  color: #f45f42;
+  font-size: .75em;
+}
+.success-msg {
+  color: rgb(134, 134, 245);
+  font-size: .75em;
+}
 
 

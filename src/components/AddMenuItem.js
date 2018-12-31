@@ -1,16 +1,20 @@
 import React from 'react';
-import '../index.css';
+import axios from 'axios';
 
 export default class AddMenuItem extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             componentActive: false,
-            activeMenus: [] 
+            activeMenus: [],
+            nameInput: '',
+            descriptionInput: '',
+            costInput: '',
+            showInputErrorMsg: false,
+            showSuccessMsg: false 
         }
     }
     toggleMenuAssignment = menuId => {
-        console.log('toggleMenuAssignment')
         if (!this.state.activeMenus.includes(menuId)) {
             this.setState({
                 activeMenus: [...this.state.activeMenus, menuId]
@@ -22,23 +26,39 @@ export default class AddMenuItem extends React.Component {
             })
         }
     }
-    handleCreateNewMenuItemClick = () => {
-        console.log('handleCreateNewMenuItemClick')
+    createNewMenuItemClick = () => {
         this.setState({
             componentActive: true
         })
     }
-    // TODO: add validation for input fields
+    // TODO: add validation for input fields and setup post route
     saveMenuItem = e => {
-        console.log('saveMenuItem')
         e.preventDefault()
+        if (this.state.nameInput === '' || this.state.activeMenus.length < 1) {
+            this.setState({
+                showInputErrorMsg: true
+            })
+        } else {
+            this.setState({
+                componentActive: false,
+                showInputErrorMsg: false,
+                showSuccessMsg: true,
+                activeMenus: [],
+                nameInput: '',
+                descriptionInput: '',
+                costInput: '',
+            })
+        }
+    }
+    handleInputChange = e => {
+        const { id, value } = e.target
         this.setState({
-            componentActive: false
+            [id]: value
         })
     }
-    componentDidUpdate() {
-        console.log('add menu item ', this.state)
-    }
+    // componentDidUpdate() {
+    //     console.log('STATE', this.state)
+    // }
     render() {
         const menuList = this.props.menus.map(menu => {
             return (
@@ -46,11 +66,7 @@ export default class AddMenuItem extends React.Component {
                     key={menu.id}
                     id={menu.id}
                     onClick={() => this.toggleMenuAssignment(menu.id)}
-                    className={
-                        this.state.activeMenus.includes(menu.id) 
-                            ? 'selectedMenu' 
-                            : ''
-                    }
+                    className={this.state.activeMenus.includes(menu.id) ? 'selectedMenu' : ''}
                 >
                     {menu.name}
                 </li>
@@ -58,41 +74,58 @@ export default class AddMenuItem extends React.Component {
         })
         return (
             <div>
-                <button onClick={this.handleCreateNewMenuItemClick}>
+                <button onClick={this.createNewMenuItemClick}>
                     Create New Menu Item
                 </button>
 
-                <form className={!this.state.componentActive ? 'hidden' : ''}>
-                    <label htmlFor="menu-name">Item Name</label>
+                <form 
+                    id="addMenuItem" 
+                    className={!this.state.componentActive ? 'hidden' : ''}
+                >
+                    {/* TODO: Create editMenuInput component for these?? */}
+                    <label htmlFor="nameInput">Item Name</label>
                     <input 
                         type="text" 
-                        id="menu-name"
+                        id="nameInput"
+                        value={this.state.nameInput}
+                        onChange={this.handleInputChange}
+                        required
                     />
                     <br />
 
-                    <label htmlFor="menu-description">Description</label>
+                    <label htmlFor="descriptionInput">Description</label>
                     <input 
                         type="text" 
-                        id="menu-description"
+                        id="descriptionInput"
+                        value={this.state.descriptionInput}
+                        onChange={this.handleInputChange}
+                        required
                     />
                     <br />
 
-                    <label htmlFor="menu-cost">Cost</label>
+                    <label htmlFor="costInput">Cost</label>
                     <input 
-                        type="text" 
-                        id="menu-cost"
+                        type="number" 
+                        id="costInput"
+                        value={this.state.costInput}
+                        onChange={this.handleInputChange}
+                        required
                     />
                     <br />
 
-                    <label htmlFor="menu-selection">Select Menus</label>
-                    <ul className="menu-selection" id="menu-selection">
+                    <label htmlFor="menuSelection">Select Menus</label>
+                    <ul className="menu-selection" id="menuSelection">
                         {menuList}
                     </ul>
-                    
-                    <button onClick={this.saveMenuItem}>
+                    <button onClick={this.saveMenuItem} form="addMenuItem">
                         Add Item
                     </button>
                 </form>
+                
+                {this.state.showInputErrorMsg ? <p className='error-msg'>At the minimum, please enter an item name and assign it to a menu</p> : ''}
+
+                {this.state.showSuccessMsg && !this.state.componentActive ? <p className='success-msg'>The menu item has successfully been added</p> : ''}
+                
             </div>
         )
     }

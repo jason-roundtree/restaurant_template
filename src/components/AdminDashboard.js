@@ -32,10 +32,10 @@ export default class AdminDashboard extends React.Component {
           })
           .catch(err => {
             console.log(err)
-          });
+          })
 
-          // GET all menu items
-          axios.get(`${API_BASE_URL}/menu_items`)
+        // GET all menu items
+        axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
                 const menuItems = res.data.map(item => {
                     return {
