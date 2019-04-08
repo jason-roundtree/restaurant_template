@@ -7,51 +7,55 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem } from 'reactstrap';
+    NavLink } from 'reactstrap';
 import './NavBar.css';
 
-const NavBar = () => {
-    return (
-        <div>
-            <Navbar color="light" light expand="md">
-                <NavbarBrand>
-                    <Link to="/home">Restaurant Name</Link>
-                </NavbarBrand>
-                <NavbarToggler />
-                <Collapse navbar>
-                    <Nav navbar className="ml-auto">
-                    {/* <NavItem>
-                        <Link to="/home">Home</Link>
-                    </NavItem> */}
-                        <NavItem>
-                            <Link to="/about">About</Link>
-                        </NavItem>
-
-                        <NavItem>
-                            <Link to="/menu">Menu</Link>
-                        </NavItem>
-
-                        <NavItem>
-                            <Link to="/contact">Contact</Link>
-                        </NavItem>
-
-                        <NavItem>
-                            <Link to="/order">Order</Link>
-                        </NavItem>
-                        {/* Reservations */}
-                        <NavItem>
-                            <Link to="/gallery">Gallery</Link>
-                        </NavItem>
-                        {/* Store */}
-                    </Nav>
-                </Collapse>
-            </Navbar>
-        </div>
-    )
+export default class NavBar extends React.Component {
+    state = {
+        isOpen: false
+    }
+    toggle = () => {
+        this.setState({
+          isOpen: !this.state.isOpen
+        });
+    }
+    render() {
+        return (
+            <div>
+                <Navbar color="light" light expand="md">
+                    <NavbarBrand>
+                        <Link to="/home">Restaurant Name</Link>
+                    </NavbarBrand>
+                    <NavbarToggler onClick={this.toggle} />
+                    <Collapse navbar isOpen={this.state.isOpen}>
+                        <Nav navbar className="ml-auto">
+                        {/* <NavItem>
+                            <Link to="/home">Home</Link>
+                        </NavItem> */}
+                            <NavItem>
+                                <NavLink tag={Link} to="/about">About</NavLink>
+                            </NavItem>
+    
+                            <NavItem>
+                                <NavLink tag={Link} to="/menu">Menu</NavLink>
+                            </NavItem>
+    
+                            <NavItem>
+                                <NavLink tag={Link} to="/contact">Contact</NavLink>
+                            </NavItem>
+    
+                            <NavItem>
+                                <NavLink tag={Link} to="/order">Order</NavLink>
+                            </NavItem>
+                            {/* Reservations */}
+                            <NavItem>
+                                <NavLink tag={Link} to="/gallery">Gallery</NavLink>
+                            </NavItem>
+                            {/* Store */}
+                        </Nav>
+                    </Collapse>
+                </Navbar>
+            </div>
+        )
+    }
 }
-
-export default NavBar;
