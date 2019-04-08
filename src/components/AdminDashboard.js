@@ -56,7 +56,7 @@ export default class AdminDashboard extends React.Component {
                 console.log(err)
             })
     }
-    handleInput = e => {
+    handleFilterInputChange = e => {
         this.setState({
             filterInput: e.target.value
         })
@@ -92,14 +92,14 @@ export default class AdminDashboard extends React.Component {
         for (let i = 0; i < menuItems.length; i++) {
             if (menuItems[i].id === menuItemId) {
                 if (menuItems[i].menus.includes(menuId)) {
-                    let menusLessRemovedMenu = menuItems[i].menus.filter(menu => menu !== menuId)
-                    let updatedMenuItem = Object.assign({}, menuItems[i], {
+                    const menusLessRemovedMenu = menuItems[i].menus.filter(menu => menu !== menuId)
+                    const updatedMenuItem = Object.assign({}, menuItems[i], {
                         menus: menusLessRemovedMenu
                     })
                     this.updateMenuItemState(updatedMenuItem, i)
                 } else {
-                    let menusWithAddedMenu = [...menuItems[i].menus, menuId]
-                    let updatedMenuItem = Object.assign({}, menuItems[i], {
+                    const menusWithAddedMenu = [...menuItems[i].menus, menuId]
+                    const updatedMenuItem = Object.assign({}, menuItems[i], {
                         menus: menusWithAddedMenu
                     })
                     this.updateMenuItemState(updatedMenuItem, i)
@@ -114,7 +114,6 @@ export default class AdminDashboard extends React.Component {
     // componentDidUpdate() {
     //     console.log('AdminDash state: ', this.state)
     // }
-
     render() {
         const menus = this.state.menus.map(menu => {
             return (
@@ -139,9 +138,8 @@ export default class AdminDashboard extends React.Component {
                 <ul className="menus">{menus}</ul>
                 
                 <h2>All Menu Items</h2>
-                <AddMenuItem 
-                    menus={this.state.menus} 
-                    rerenderAdminDashboard={() => this.componentDidMount()}
+                <AddMenuItem
+                    menus={this.state.menus}
                 />
                 <br />
 
@@ -149,7 +147,7 @@ export default class AdminDashboard extends React.Component {
                 <input 
                     type="text" 
                     id="filter" 
-                    onChange={this.handleInput}
+                    onChange={this.handleFilterInputChange}
                     value={this.state.input}
                 />
                 <ul className="menu-items">

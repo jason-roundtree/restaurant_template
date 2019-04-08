@@ -7,7 +7,7 @@
 body {
   font-size: 1.4em;
 }
-button {
+/* button {
   padding: 6px;
   font-size: .75em;
 }
@@ -67,9 +67,7 @@ input {
 .selectedMenu {
   background-color: rgb(230, 211, 211);
 }
-.hidden {
-  display: none;
-}
+
 .error-msg {
   color: #f45f42;
   font-size: .75em;
@@ -77,6 +75,10 @@ input {
 .success-msg {
   color: rgb(134, 134, 245);
   font-size: .75em;
+} */
+
+.hidden {
+  display: none;
 }
 
 

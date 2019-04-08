@@ -1,6 +1,9 @@
 import React from 'react';
 
 const Menu = props => { 
+    return ( 
+        null
+    )
     // const menuItems = props.menu.map((item, index) => {
     //     return (
     //         <li key={index} className="menu-item">
@@ -18,4 +21,5 @@ const Menu = props => {
     // ) 
 }
 
-export default Menu
+export default Menu;
+

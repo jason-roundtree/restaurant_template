@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router'
 import axios from 'axios';
 const { API_BASE_URL } = require('../config');
 
@@ -7,12 +8,12 @@ export default class AddMenuItem extends React.Component {
         super(props)
         this.state = {
             componentActive: false,
+            showInputErrorMsg: false,
+            showSuccessMsg: false,
             activeMenus: [],
             nameInput: '',
             descriptionInput: '',
-            costInput: '',
-            showInputErrorMsg: false,
-            showSuccessMsg: false 
+            costInput: ''
         }
     }
     toggleMenuAssignment = menuId => {
@@ -45,7 +46,9 @@ export default class AddMenuItem extends React.Component {
                 cost: this.state.costInput,
                 menus: this.state.activeMenus
             }
+            // TODO: move this code and input state to AdminDashboard or crate a shared parent component
             axios.post(`${API_BASE_URL}/menu_items`, menuItem)
+                // TODO: should I do something with the response??
                 .then(res => {
                     console.log('menu item posted response: ', res)
                 })

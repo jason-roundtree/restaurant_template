@@ -3,7 +3,6 @@ import React from 'react';
 class Order extends React.Component {
     constructor(props) {
         super(props);
-        // TODO: move to redux?
         this.state = {
             items: [{}],
             costPreTax: '',

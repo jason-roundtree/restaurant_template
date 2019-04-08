@@ -7,16 +7,8 @@ export const MenuAssignmentList = props => {
             <li
                 key={menu.id}
                 id={menu.id}
-                onClick={() => {
-                    props.menuItemEditStatus 
-                        ? props.handleMenuAssignment(menu.id, menuItemId) 
-                        : ''
-                }}
-                className={
-                    props.activeMenus.includes(menu.id) 
-                        ? 'selectedMenu' 
-                        : ''
-                }
+                onClick={() => props.menuItemEditStatus ? props.handleMenuAssignment(menu.id, menuItemId) : ''}
+                className={props.activeMenus.includes(menu.id) ? 'selectedMenu' : ''}
             >
                 {menu.name}
             </li>
