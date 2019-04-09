@@ -7,16 +7,60 @@
 body {
   font-size: 1.4em;
 }
-/* button {
-  padding: 6px;
-  font-size: .75em;
-}
-button:hover {
-  background-color: rgb(230, 211, 211);
+p, div.card-title {
+  margin-bottom: 0;
 }
 li { 
   list-style-type: none;
-  margin: 4px;
+}
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
+/* .card-container > div {
+  width: 33%;
+} */
+div {
+  text-align: center;
+}
+h2 {
+  margin-top: 30px;
+}
+
+button {
+  padding: 4px 10px;
+  border-radius: 5px;
+}
+.menu-button {
+  margin: 0 .85em .85em .85em;
+  font-size: .8em;
+}
+button.selected-menu {
+  background-color: rgb(33, 233, 140);
+  border-color: rgb(33, 233, 140);
+  color: black;
+}
+button[data-disabled="true"] {
+  cursor: not-allowed;
+}
+button[data-disabled="false"]:hover {
+  background-color: rgb(34, 194, 120);
+  border-color: rgb(34, 194, 120);
+  color: black;
+}
+div.menu-item-name {
+  /* font-weight: 600; */
+  font-family: 'Glegoo', serif;
+}
+.hidden {
+  display: none;
+}
+
+/* button {
+  padding: 6px;
+  font-size: .75em;
 }
 ul.menu-items {
   width: 60%;
@@ -44,9 +88,7 @@ ul.menu-items {
 .menu-items p {
   margin: 2px;
 }
-a {
-  text-decoration: none;
-}
+
 input {
   height: 30px;
   width: 250px;
@@ -64,9 +106,7 @@ input {
 .menu-selection:hover {
   cursor: default;
 }
-.selectedMenu {
-  background-color: rgb(230, 211, 211);
-}
+
 
 .error-msg {
   color: #f45f42;
@@ -77,8 +117,8 @@ input {
   font-size: .75em;
 } */
 
-.hidden {
-  display: none;
-}
+
+
+
 
 

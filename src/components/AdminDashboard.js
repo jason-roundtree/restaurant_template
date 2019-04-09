@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import MenuItem from './MenuItem';
 import AddMenuItem from './AddMenuItem';
-import './AdminDashboard.css';
+import { Button } from 'reactstrap';
+// import './AdminDashboard.css';
+// import '../index.css';
 // TODO: change all requires to imports??
 const axios = require('axios');
 const { API_BASE_URL } = require('../config');
@@ -56,11 +58,13 @@ export default class AdminDashboard extends React.Component {
                 console.log(err)
             })
     }
+    
     handleFilterInputChange = e => {
         this.setState({
             filterInput: e.target.value
         })
     }
+
     updateMenuItemState = (updatedMenuItem, menuItemIndex) => {
         this.setState({
             menuItems: [
@@ -75,6 +79,7 @@ export default class AdminDashboard extends React.Component {
             }
         })
     }
+
     toggleMenuItemEditable = itemId => {
         const menus = this.state.menuItems
         for (let i = 0; i < menus.length; i++) {
@@ -107,22 +112,24 @@ export default class AdminDashboard extends React.Component {
             }
         }
     }
+
     saveUpdatedMenuItemToDb = updatedMenuItem => {
         axios.put(`${API_BASE_URL}/menu_items/${updatedMenuItem.id}`, updatedMenuItem)
             .catch(err => console.log(err))
     }
-    // componentDidUpdate() {
-    //     console.log('AdminDash state: ', this.state)
-    // }
+
     render() {
         const menus = this.state.menus.map(menu => {
             return (
-                <div key={menu.id}>
-                    <Link to={`/menu/${menu.id}`}>
-                        <li key={menu.id}>{menu.name}</li>
-                    </Link>
-                    <br />
-                </div> 
+                <Button 
+                    to={`/menu/${menu.id}`} 
+                    color="primary" 
+                    className="menu-button"
+                    tag={Link} 
+                    key={menu.id}
+                >
+                    {menu.name}
+                </Button>
             )
         })
 
@@ -132,12 +139,12 @@ export default class AdminDashboard extends React.Component {
         
         return (
             <div>
-                <h2>Menus</h2>
-                <button>Create New Menu</button>
+                <h2 className="mt-4">Menus</h2>
                 {/* <p><i>Select a menu to view</i></p> */}
-                <ul className="menus">{menus}</ul>
+                <ul className="menu-list">{menus}</ul>
+                <Button color="primary">Create New Menu</Button>
                 
-                <h2>All Menu Items</h2>
+                <h2 className="mt-4">All Menu Items</h2>
                 <AddMenuItem
                     menus={this.state.menus}
                 />
@@ -150,14 +157,14 @@ export default class AdminDashboard extends React.Component {
                     onChange={this.handleFilterInputChange}
                     value={this.state.input}
                 />
-                <ul className="menu-items">
+                <div className="card-container">
                     <MenuItem 
                         menuItems={this.state.menuItems}
                         menus={this.state.menus} 
                         onClick={this.toggleMenuItemEditable}
                         handleMenuAssignment={this.handleMenuAssignment}
                     />
-                </ul>
+                </div>
 
             </div>
         )

@@ -1,34 +1,45 @@
 import React from 'react';
 import { MenuAssignmentList } from './MenuAssignmentList'; 
+import { Button, Card, CardImg, CardText, CardBody,
+    CardTitle } from 'reactstrap';
+
+import burger from '../images/beef-bread-bun-1639557.jpg';
 
 export default function MenuItem(props) {
     let menuItems = props.menuItems.map(item => {
         let activeMenus = item.menus
         return (
-            <div key={item.id}>
-                <li 
+                <Card 
                     key={item.id}
                     id={item.id}
                     className="menu-item"
                 >
-                    <p>{item.name}</p>
-                    <p>{item.description}</p>
-                    <p>{item.cost ? `$ ${item.cost}` : ''}</p>
+                    <CardImg left src={burger} />
+                    <CardBody>
+                        <CardTitle className="menu-item-name">{item.name}</CardTitle>
+                        <CardText>{item.description}</CardText>
+                        <CardText>{item.cost ? `$ ${item.cost.toFixed(2)}` : ''}</CardText>
 
-                    <MenuAssignmentList 
-                        menus={props.menus}
-                        activeMenus={activeMenus}
-                        handleMenuAssignment={props.handleMenuAssignment}
-                        menuItemId={item.id}
-                        menuItemEditStatus={item.editable}
-                    />
-                    
-                    <button onClick={() => props.onClick(item.id)}>
-                        {item.editable ? 'Save' : 'Edit'}
-                    </button>
+                        <MenuAssignmentList 
+                            menus={props.menus}
+                            activeMenus={activeMenus}
+                            handleMenuAssignment={props.handleMenuAssignment}
+                            menuItemId={item.id}
+                            menuItemEditStatus={item.editable}
+                            className="menu-list"
+                            buttonDisabled={!item.editable}
+                        />   
 
-                </li>
-            </div>
+                        <Button 
+                            onClick={() => props.onClick(item.id)}
+                            color="primary"
+                        >
+                            {item.editable ? 'Save' : 'Edit'}
+                        </Button>
+
+                    </CardBody>
+                </Card>
+            
         )
     })
     return menuItems

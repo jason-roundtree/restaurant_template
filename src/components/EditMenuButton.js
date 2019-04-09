@@ -1,12 +1,11 @@
 import React from 'react'
+import { Button } from 'reactstrap';
 
 export const EditMenuButton = props => {
     let menuItemId = props.menuItem
     return (
-        <button
-
-        >
+        <Button color="primary">
             {/* {props.item.editable ? 'Save' : 'Edit'} */}
-        </button>
+        </Button>
     )
 }

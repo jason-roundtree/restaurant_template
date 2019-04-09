@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router'
+import { Button } from 'reactstrap';
 import axios from 'axios';
 const { API_BASE_URL } = require('../config');
 
@@ -90,9 +91,9 @@ export default class AddMenuItem extends React.Component {
         })
         return (
             <div>
-                <button onClick={this.createNewMenuItemClick}>
+                <Button color="primary" onClick={this.createNewMenuItemClick}>
                     Create New Menu Item
-                </button>
+                </Button>
 
                 <form 
                     id="addMenuItem" 
@@ -133,9 +134,9 @@ export default class AddMenuItem extends React.Component {
                     <ul className="menu-selection" id="menuSelection">
                         {menuList}
                     </ul>
-                    <button onClick={this.saveMenuItem} form="addMenuItem">
+                    <Button color="primary" onClick={this.saveMenuItem} form="addMenuItem">
                         Add Item
-                    </button>
+                    </Button>
                 </form>
                 
                 {this.state.showInputErrorMsg ? <p className='error-msg'>At the minimum, please enter an item name and assign it to a menu</p> : ''}

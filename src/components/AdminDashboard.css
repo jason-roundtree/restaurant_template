@@ -3,4 +3,15 @@
 }
 h2 {
     margin-top: 30px;
+}
+.menu-button {
+    margin: 0 1.25em 1.25em 1.25em;
+}
+.selected-menu {
+    background-color: rgb(33, 233, 140);
+    border-color: rgb(33, 233, 140);
+    color: black;
+}
+.hidden {
+    display: none;
 } */
