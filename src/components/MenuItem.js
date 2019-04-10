@@ -9,12 +9,14 @@ export default function MenuItem(props) {
     let menuItems = props.menuItems.map(item => {
         let activeMenus = item.menus
         return (
+            
                 <Card 
                     key={item.id}
                     id={item.id}
-                    className="menu-item"
+                    className="menu-item-card shadow-sm"
+                    
                 >
-                    <CardImg left src={burger} />
+                    {/* <CardImg left src={burger} /> */}
                     <CardBody>
                         <CardTitle className="menu-item-name">{item.name}</CardTitle>
                         <CardText>{item.description}</CardText>
@@ -32,14 +34,13 @@ export default function MenuItem(props) {
 
                         <Button 
                             onClick={() => props.onClick(item.id)}
-                            color="primary"
+                            className={item.editable ? 'edit-menu' : ''}
                         >
                             {item.editable ? 'Save' : 'Edit'}
                         </Button>
 
                     </CardBody>
                 </Card>
-            
         )
     })
     return menuItems

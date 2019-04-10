@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router'
+// import { Redirect } from 'react-router'
 import { Button } from 'reactstrap';
 import axios from 'axios';
 const { API_BASE_URL } = require('../config');
@@ -17,7 +17,9 @@ export default class AddMenuItem extends React.Component {
             costInput: ''
         }
     }
-    toggleMenuAssignment = menuId => {
+    toggleMenuAssignment = (e, menuId) => {
+        e.preventDefault()
+        console.log('menuId: ', menuId)
         if (!this.state.activeMenus.includes(menuId)) {
             this.setState({
                 activeMenus: [...this.state.activeMenus, menuId]
@@ -73,36 +75,42 @@ export default class AddMenuItem extends React.Component {
             [id]: value
         })
     }
-    // componentDidUpdate() {
-    //     console.log('STATE', this.state)
-    // }
+    componentDidUpdate() {
+        console.log('STATE', this.state)
+    }
     render() {
         const menuList = this.props.menus.map(menu => {
             return (
-                <li
+                <button
                     key={menu.id}
                     id={menu.id}
-                    onClick={() => this.toggleMenuAssignment(menu.id)}
-                    className={this.state.activeMenus.includes(menu.id) ? 'selectedMenu' : ''}
+                    onClick={(e) => this.toggleMenuAssignment(e, menu.id)}
+                    className={this.state.activeMenus.includes(menu.id) ? 'selected-menu menu-select-button' : 'menu-select-button'}
                 >
                     {menu.name}
-                </li>
+                </button>
             )
         })
         return (
             <div>
-                <Button color="primary" onClick={this.createNewMenuItemClick}>
-                    Create New Menu Item
-                </Button>
+                {this.state.componentActive 
+                    ?   <label>Enter New Item Info:</label>
+                    :   <Button 
+                            color="primary" 
+                            onClick={this.createNewMenuItemClick}
+                        >
+                            Create New Menu Item
+                        </Button>
+                }
 
                 <form 
                     id="addMenuItem" 
                     className={!this.state.componentActive ? 'hidden' : ''}
                 >
                     {/* TODO: Create editMenuInput component for these?? */}
-                    <label htmlFor="nameInput">Item Name</label>
                     <input 
                         type="text" 
+                        placeholder="Name"
                         id="nameInput"
                         value={this.state.nameInput}
                         onChange={this.handleInputChange}
@@ -110,31 +118,34 @@ export default class AddMenuItem extends React.Component {
                     />
                     <br />
 
-                    <label htmlFor="descriptionInput">Description</label>
                     <input 
                         type="text" 
+                        placeholder="Description"
                         id="descriptionInput"
                         value={this.state.descriptionInput}
                         onChange={this.handleInputChange}
-                        required
                     />
                     <br />
 
-                    <label htmlFor="costInput">Cost</label>
                     <input 
                         type="number" 
+                        placeholder="Cost"
                         id="costInput"
                         value={this.state.costInput}
                         onChange={this.handleInputChange}
-                        required
                     />
                     <br />
 
-                    <label htmlFor="menuSelection">Select Menus</label>
-                    <ul className="menu-selection" id="menuSelection">
+                    <label className="mt-2" htmlFor="menuSelection">Select Menus</label>
+                    <div className="menu-selection" id="menuSelection">
                         {menuList}
-                    </ul>
-                    <Button color="primary" onClick={this.saveMenuItem} form="addMenuItem">
+                    </div>
+
+                    <Button 
+                        className="edit-menu"
+                        onClick={this.saveMenuItem} 
+                        form="addMenuItem"
+                    >
                         Add Item
                     </Button>
                 </form>

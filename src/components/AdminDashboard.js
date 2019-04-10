@@ -124,7 +124,7 @@ export default class AdminDashboard extends React.Component {
                 <Button 
                     to={`/menu/${menu.id}`} 
                     color="primary" 
-                    className="menu-button"
+                    className="menu-select-button"
                     tag={Link} 
                     key={menu.id}
                 >
@@ -139,12 +139,12 @@ export default class AdminDashboard extends React.Component {
         
         return (
             <div>
-                <h2 className="mt-4">Menus</h2>
+                <h2 className="mt-5">Menus</h2>
                 {/* <p><i>Select a menu to view</i></p> */}
                 <ul className="menu-list">{menus}</ul>
                 <Button color="primary">Create New Menu</Button>
                 
-                <h2 className="mt-4">All Menu Items</h2>
+                <h2 className="mt-5">All Menu Items</h2>
                 <AddMenuItem
                     menus={this.state.menus}
                 />

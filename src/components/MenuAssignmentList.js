@@ -6,8 +6,8 @@ export const MenuAssignmentList = props => {
         return (
             <button
                 className={props.activeMenus.includes(menu.id) 
-                    ? 'selected-menu menu-button' 
-                    : 'menu-button'
+                    ? 'selected-menu menu-select-button' 
+                    : 'menu-select-button '
                 }
                 data-disabled={props.buttonDisabled}
                 key={menu.id}

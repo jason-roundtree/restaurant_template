@@ -6,6 +6,8 @@
 }
 body {
   font-size: 1.4em;
+  text-align: center;
+  
 }
 p, div.card-title {
   margin-bottom: 0;
@@ -13,41 +15,53 @@ p, div.card-title {
 li { 
   list-style-type: none;
 }
-.card-container {
+/* .card-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   width: 100%;
-}
+} */
 /* .card-container > div {
   width: 33%;
 } */
-div {
-  text-align: center;
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	grid-gap: 7px;
 }
-h2 {
-  margin-top: 30px;
+div.menu-item-card {
+  text-align: left;
 }
-
+div.menu-item-card > div {
+  padding: 5px 15px;
+}
 button {
   padding: 4px 10px;
   border-radius: 5px;
 }
-.menu-button {
-  margin: 0 .85em .85em .85em;
+.menu-select-button {
+  margin: 0 .70em .70em 0;
   font-size: .8em;
 }
+button.edit-menu {
+  background-color: rgb(244, 146, 124);
+  border-color: rgb(233, 128, 72);
+}
+button.edit-menu:hover {
+  background-color: rgb(233, 128, 72);
+  border-color: rgb(233, 128, 72);
+}
 button.selected-menu {
-  background-color: rgb(33, 233, 140);
-  border-color: rgb(33, 233, 140);
+  background-color: rgb(39, 235, 199);
+  border-color: rgb(39, 235, 199);
   color: black;
 }
 button[data-disabled="true"] {
   cursor: not-allowed;
 }
-button[data-disabled="false"]:hover {
-  background-color: rgb(34, 194, 120);
-  border-color: rgb(34, 194, 120);
+button[data-disabled="false"]:hover, button.menu-select-button:hover {
+  background-color: rgb(24, 205, 177);
+  border-color: rgb(24, 205, 177);
   color: black;
 }
 div.menu-item-name {
@@ -58,57 +72,31 @@ div.menu-item-name {
   display: none;
 }
 
-/* button {
-  padding: 6px;
-  font-size: .75em;
-}
-ul.menu-items {
-  width: 60%;
-  margin: 0 auto;
-  font-size: .85em;
-}
-.menu-items li p:first-of-type {
-  color: rgb(134, 134, 245);
-}
-.menu-items li p:nth-child(2) {
-  color: rgb(75, 0, 130);
-}
-.menu-items li p:last-of-type {
-  color: rgb(139, 0, 139);
-}
-.menu-selection li, .menu-items li {
-  border: 1px solid rgb(230, 211, 211);
-  text-align: left;
-  border-radius: 5px;
-  padding: 5px; 
-}
-.menu-item li {
-  padding: 2px; 
-}
-.menu-items p {
-  margin: 2px;
-}
-
 input {
-  height: 30px;
-  width: 250px;
-  font-size: .85em;
-  padding: 4px;
-  margin-left: 4px;
-  margin-top: 7px;
+  height: 2.25em;
+  /* TODO: set rules for lengths of each field */
+  font-size: .75em;
+  padding: 7px;
+  margin: 7px 0 0 7px;
   border: 1px solid rgb(230, 211, 211);
   border-radius: 5px;
 }
-.menu-selection li {
-  display: inline-block;
-  font-size: .8em;
+/* TODO: add breakpoints for larger screens */
+input#nameInput {
+  width: 80%;
 }
-.menu-selection:hover {
-  cursor: default;
+input#descriptionInput {
+  width: 90%;
+}
+input#costInput {
+  width: 33%;
 }
 
 
-.error-msg {
+
+
+
+/* .error-msg {
   color: #f45f42;
   font-size: .75em;
 }

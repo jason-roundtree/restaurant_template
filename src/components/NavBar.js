@@ -22,7 +22,7 @@ export default class NavBar extends React.Component {
     render() {
         return (
             <div>
-                <Navbar color="light" light expand="md">
+                <Navbar className="shadow" color="light" light expand="md">
                     <NavbarBrand tag={Link} to="/home">
                         Restaurant Name
                     </NavbarBrand>
