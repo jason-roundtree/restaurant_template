@@ -49,7 +49,6 @@ export default class AddMenuItem extends React.Component {
                 cost: this.state.costInput,
                 menus: this.state.activeMenus
             }
-            // TODO: move this code and input state to AdminDashboard or crate a shared parent component
             axios.post(`${API_BASE_URL}/menu_items`, menuItem)
                 // TODO: should I do something with the response??
                 .then(res => {
@@ -85,7 +84,9 @@ export default class AddMenuItem extends React.Component {
                     key={menu.id}
                     id={menu.id}
                     onClick={(e) => this.toggleMenuAssignment(e, menu.id)}
+                    data-disabled="false"
                     className={this.state.activeMenus.includes(menu.id) ? 'selected-menu menu-select-button' : 'menu-select-button'}
+
                 >
                     {menu.name}
                 </button>
