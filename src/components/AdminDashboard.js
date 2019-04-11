@@ -144,7 +144,7 @@ export default class AdminDashboard extends React.Component {
                 <ul className="menu-list">{menus}</ul>
                 <Button color="primary">Create New Menu</Button>
                 
-                <h2 className="mt-5">All Menu Items</h2>
+                <h2 className="mt-5">Menu Items</h2>
                 <AddMenuItem
                     menus={this.state.menus}
                 />

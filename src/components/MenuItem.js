@@ -39,6 +39,8 @@ export default function MenuItem(props) {
                             {item.editable ? 'Save' : 'Edit'}
                         </Button>
 
+                        {/* TODO: Add delete button to show if item is in edit mode */}
+                        
                     </CardBody>
                 </Card>
         )

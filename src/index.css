@@ -59,7 +59,7 @@ button.selected-menu {
 button[data-disabled="true"] {
   cursor: not-allowed;
 }
-button[data-disabled="false"]:hover, button.menu-select-button:hover {
+button[data-disabled="false"]:hover {
   background-color: rgb(24, 205, 177);
   border-color: rgb(24, 205, 177);
   color: black;
