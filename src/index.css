@@ -91,6 +91,10 @@ input#descriptionInput {
 input#costInput {
   width: 33%;
 }
+input#newMenuInput {
+  width: 33%;
+  margin-bottom: .7em;
+}
 
 
 

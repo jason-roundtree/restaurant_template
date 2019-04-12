@@ -15,6 +15,8 @@ export default class AdminDashboard extends React.Component {
         this.state = {
             menus: [],
             menuItems: [],
+            newMenuSectionActive: false,
+            newMenuInput: ''
             // filterInput: ''
         }
     }
@@ -59,9 +61,10 @@ export default class AdminDashboard extends React.Component {
             })
     }
     
-    handleFilterInputChange = e => {
+    handleInputChange = e => {
+        const { id, value } = e.target
         this.setState({
-            filterInput: e.target.value
+            [id]: value
         })
     }
 
@@ -118,6 +121,20 @@ export default class AdminDashboard extends React.Component {
             .catch(err => console.log(err))
     }
 
+    toggleNewMenuForm = () => {
+        this.setState({
+            newMenuSectionActive: !this.state.newMenuSectionActive
+        })
+    }
+    saveNewMenu = () => {
+        // TODO:
+        // - validate input
+        // - toggle section active state
+        // - axios call to back-end. Not sure if route is setup yet
+        // this.setState({
+
+        // })
+    }
     render() {
         const menus = this.state.menus.map(menu => {
             return (
@@ -142,7 +159,37 @@ export default class AdminDashboard extends React.Component {
                 <h2 className="mt-5">Menus</h2>
                 {/* <p><i>Select a menu to view</i></p> */}
                 <ul className="menu-list">{menus}</ul>
-                <Button color="primary">Create New Menu</Button>
+                
+                {/* <br /> */}
+
+                {this.state.newMenuSectionActive 
+                    ?   <form 
+                            id="add-new-menu-form"
+                        >
+                            <input 
+                                type="text" 
+                                id="newMenuInput" 
+                                placeholder="Menu Name"
+                                onChange={this.handleInputChange}
+                                value={this.state.newMenuInput}
+                            />
+                            <br />
+
+                            <Button 
+                                className="edit-menu"
+                                onClick={this.saveNewMenu} 
+                            >
+                                Add Menu
+                            </Button>
+                        </form>
+
+                    :   <Button 
+                            color="primary"
+                            onClick={this.toggleNewMenuForm}
+                        >
+                            Create New Menu
+                        </Button>
+                }
                 
                 <h2 className="mt-5">Menu Items</h2>
                 <AddMenuItem
@@ -150,10 +197,10 @@ export default class AdminDashboard extends React.Component {
                 />
                 <br />
 
-                <label htmlFor="filter">Filter By Name</label>
+                <label htmlFor="filterInput">Filter By Name</label>
                 <input 
                     type="text" 
-                    id="filter" 
+                    id="filterInput" 
                     onChange={this.handleFilterInputChange}
                     value={this.state.input}
                 />

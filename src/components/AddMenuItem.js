@@ -105,7 +105,7 @@ export default class AddMenuItem extends React.Component {
                 }
 
                 <form 
-                    id="addMenuItem" 
+                    id="add-menu-item-form" 
                     className={!this.state.componentActive ? 'hidden' : ''}
                 >
                     {/* TODO: Create editMenuInput component for these?? */}
@@ -145,7 +145,8 @@ export default class AddMenuItem extends React.Component {
                     <Button 
                         className="edit-menu"
                         onClick={this.saveMenuItem} 
-                        form="addMenuItem"
+                        // TODO: what exactly does this form attr do?
+                        form="add-menu-item-form"
                     >
                         Add Item
                     </Button>
