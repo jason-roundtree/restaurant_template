@@ -115,7 +115,7 @@ export default class AddMenuItem extends React.Component {
                         id="nameInput"
                         value={this.state.nameInput}
                         onChange={this.handleInputChange}
-                        required
+                        // required
                     />
                     <br />
 
@@ -145,8 +145,6 @@ export default class AddMenuItem extends React.Component {
                     <Button 
                         className="edit-menu"
                         onClick={this.saveMenuItem} 
-                        // TODO: what exactly does this form attr do?
-                        form="add-menu-item-form"
                     >
                         Add Item
                     </Button>

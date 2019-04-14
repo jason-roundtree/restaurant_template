@@ -5,9 +5,17 @@ import AddMenuItem from './AddMenuItem';
 import { Button } from 'reactstrap';
 // import './AdminDashboard.css';
 // import '../index.css';
-// TODO: change all requires to imports??
 const axios = require('axios');
 const { API_BASE_URL } = require('../config');
+
+// TODO: 
+// - allow deletion of menus
+// - remove bootstrap from buttons and restyle 
+// - add filtering functionality
+// - move axios requests to their own module
+// - Enhance input validation, check out libraries
+// - Add modal for editing menu
+// - Move axios calls to a new module
 
 export default class AdminDashboard extends React.Component {
     constructor(props) {
@@ -20,7 +28,7 @@ export default class AdminDashboard extends React.Component {
             // filterInput: ''
         }
     }
-    // TODO: Move axios requests to their own module
+    
     componentDidMount() {
         // GET menus
         axios.get(`${API_BASE_URL}/menus`)
@@ -121,19 +129,26 @@ export default class AdminDashboard extends React.Component {
             .catch(err => console.log(err))
     }
 
-    toggleNewMenuForm = () => {
+    activateNewMenuForm = () => {
         this.setState({
-            newMenuSectionActive: !this.state.newMenuSectionActive
+            newMenuSectionActive: true
         })
     }
     saveNewMenu = () => {
-        // TODO:
-        // - validate input
-        // - toggle section active state
-        // - axios call to back-end. Not sure if route is setup yet
-        // this.setState({
-
-        // })
+        if (this.state.newMenuInput === '') {
+            alert('Please enter the menu name')
+        } else if (this.state.menus.includes(this.state.newMenuInput)) {
+            alert('This menu already exists')
+        } else {
+            const menu = { name: this.state.newMenuInput }
+            axios.post(`${API_BASE_URL}/menu`, menu)
+                .then(res => {
+                    this.setState({
+                        newMenuSectionActive: false
+                    }, () => window.location.reload())
+                })
+                .catch(err => console.log(err))
+        }
     }
     render() {
         const menus = this.state.menus.map(menu => {
@@ -156,12 +171,12 @@ export default class AdminDashboard extends React.Component {
         
         return (
             <div>
-                <h2 className="mt-5">Menus</h2>
-                {/* <p><i>Select a menu to view</i></p> */}
-                <ul className="menu-list">{menus}</ul>
-                
-                {/* <br /> */}
 
+                <h2 className="mt-5">Menus</h2>
+                <ul className="menu-list">
+                    {menus}
+                </ul>
+                
                 {this.state.newMenuSectionActive 
                     ?   <form 
                             id="add-new-menu-form"
@@ -172,6 +187,7 @@ export default class AdminDashboard extends React.Component {
                                 placeholder="Menu Name"
                                 onChange={this.handleInputChange}
                                 value={this.state.newMenuInput}
+                                required
                             />
                             <br />
 
@@ -185,11 +201,12 @@ export default class AdminDashboard extends React.Component {
 
                     :   <Button 
                             color="primary"
-                            onClick={this.toggleNewMenuForm}
+                            onClick={this.activateNewMenuForm}
                         >
                             Create New Menu
                         </Button>
                 }
+                
                 
                 <h2 className="mt-5">Menu Items</h2>
                 <AddMenuItem
