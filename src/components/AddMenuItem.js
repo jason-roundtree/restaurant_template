@@ -74,9 +74,7 @@ export default class AddMenuItem extends React.Component {
             [id]: value
         })
     }
-    componentDidUpdate() {
-        console.log('STATE', this.state)
-    }
+    
     render() {
         const menuList = this.props.menus.map(menu => {
             return (

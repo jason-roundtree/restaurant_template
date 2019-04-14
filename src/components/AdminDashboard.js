@@ -72,7 +72,7 @@ export default class AdminDashboard extends React.Component {
     handleInputChange = e => {
         const { id, value } = e.target
         this.setState({
-            [id]: value
+            [id]: value.trim()
         })
     }
 
@@ -134,11 +134,15 @@ export default class AdminDashboard extends React.Component {
             newMenuSectionActive: true
         })
     }
+
     saveNewMenu = () => {
+        const menuNames = this.state.menus.map(menu => {
+            return menu.name
+        })
         if (this.state.newMenuInput === '') {
             alert('Please enter the menu name')
-        } else if (this.state.menus.includes(this.state.newMenuInput)) {
-            alert('This menu already exists')
+        } else if (menuNames.includes(this.state.newMenuInput)) {
+                alert('This menu already exists')
         } else {
             const menu = { name: this.state.newMenuInput }
             axios.post(`${API_BASE_URL}/menu`, menu)
@@ -151,6 +155,7 @@ export default class AdminDashboard extends React.Component {
         }
     }
     render() {
+        console.log('AdminDashboard state: ', this.state)
         const menus = this.state.menus.map(menu => {
             return (
                 <Button 
