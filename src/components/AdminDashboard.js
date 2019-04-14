@@ -24,8 +24,8 @@ export default class AdminDashboard extends React.Component {
             menus: [],
             menuItems: [],
             newMenuSectionActive: false,
-            newMenuInput: ''
-            // filterInput: ''
+            newMenuInput: '',
+            filterInput: ''
         }
     }
     
@@ -154,6 +154,7 @@ export default class AdminDashboard extends React.Component {
                 .catch(err => console.log(err))
         }
     }
+
     render() {
         console.log('AdminDashboard state: ', this.state)
         const menus = this.state.menus.map(menu => {
@@ -170,10 +171,10 @@ export default class AdminDashboard extends React.Component {
             )
         })
 
-        // let filteredItems = this.state.menuItems.filter(item => {
-        //     return item.name.toLowerCase().includes(this.state.filterInput.toLowerCase())
-        // })
-        
+        const filteredMenuItems = this.state.menuItems.filter(item => {
+            return item.name.toLowerCase().includes(this.state.filterInput.toLowerCase())
+        })
+
         return (
             <div>
 
@@ -223,12 +224,17 @@ export default class AdminDashboard extends React.Component {
                 <input 
                     type="text" 
                     id="filterInput" 
-                    onChange={this.handleFilterInputChange}
+                    onChange={this.handleInputChange}
                     value={this.state.input}
                 />
                 <div className="card-container">
                     <MenuItem 
-                        menuItems={this.state.menuItems}
+                        // TODO: should I be storing filtered items in state?
+                        menuItems={
+                            this.state.filterInput !== ''
+                                ? filteredMenuItems
+                                : this.state.menuItems
+                        }
                         menus={this.state.menus} 
                         onClick={this.toggleMenuItemEditable}
                         handleMenuAssignment={this.handleMenuAssignment}

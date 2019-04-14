@@ -37,8 +37,7 @@ export default function MenuItem(props) {
                         {item.editable ? 'Save' : 'Edit'}
                     </Button>
                     {/* TODO: Edit mode activates modal to allow for longer text inputs and isolation */}
-                    {/* TODO: Add delete button with precautions if item is in edit mode */}
-
+                    {/* TODO: Add cancel and delete buttons with precautions if item is in edit mode */}
                 </CardBody>
             </Card>
         )
