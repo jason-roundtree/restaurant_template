@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import MenuItem from './MenuItem';
 import AddMenuItem from './AddMenuItem';
-import { Button } from 'reactstrap';
+import MenuAssignmentList from './MenuAssignmentList';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 // import './AdminDashboard.css';
 // import '../index.css';
 const axios = require('axios');
@@ -11,11 +12,8 @@ const { API_BASE_URL } = require('../config');
 // TODO: 
 // - allow deletion of menus
 // - remove bootstrap from buttons and restyle 
-// - add filtering functionality
 // - move axios requests to their own module
 // - Enhance input validation, check out libraries
-// - Add modal for editing menu
-// - Move axios calls to a new module
 
 export default class AdminDashboard extends React.Component {
     constructor(props) {
@@ -25,7 +23,11 @@ export default class AdminDashboard extends React.Component {
             menuItems: [],
             newMenuSectionActive: false,
             newMenuInput: '',
-            filterInput: ''
+            filterInput: '',
+            modalActive: false,
+            menuItemBeingEdited: {},
+            editItemActiveMenuIds: [],
+            // editItemDescriptionInput: ''
         }
     }
     
@@ -50,16 +52,17 @@ export default class AdminDashboard extends React.Component {
         // GET all menu items
         axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
+                console.log('data ', res.data)
                 const menuItems = res.data.map(item => {
                     return {
                         name: item.name, 
                         description: item.description,
                         cost: item.cost,
                         menus: item.menus,
-                        editable: item.editable,
                         id: item._id
                     }
                 })
+                // console.log('menuItems ', menuItems)s
                 this.setState({
                     menuItems
                 })
@@ -76,56 +79,72 @@ export default class AdminDashboard extends React.Component {
         })
     }
 
-    updateMenuItemState = (updatedMenuItem, menuItemIndex) => {
+    updateMenuItemState = () => {
+        const updatedMenuItem = Object.assign({},
+            this.state.menuItemBeingEdited,
+            { menus: this.state.editItemActiveMenuIds } 
+        )
+        console.log('updatedMenuItem: ', updatedMenuItem)
         this.setState({
-            menuItems: [
-                ...this.state.menuItems.slice(0, menuItemIndex),
-                updatedMenuItem,
-                ...this.state.menuItems.slice(menuItemIndex + 1)
-            ]
+            menuItemBeingEdited: updatedMenuItem
         }, () => {
-            // TODO: this will send a request to update a menu item when the save button is selected but it doesn't test if the menuItem was actually updated. Maybe you can use prevState to check??
-            if (this.state.menuItems[menuItemIndex].editable === false) {
-                this.saveUpdatedMenuItemToDb(this.state.menuItems[menuItemIndex])
-            }
+            this.saveUpdatedMenuItemToDb(this.state.menuItemBeingEdited)
         })
     }
 
-    toggleMenuItemEditable = itemId => {
+    openModal = itemId => {
         const menus = this.state.menuItems
+        let menuItem = ''
         for (let i = 0; i < menus.length; i++) {
-            if (menus[i].id === itemId) {
-                const updatedMenuItem = Object.assign({}, menus[i], {
-                    editable: !menus[i].editable
-                })
-                this.updateMenuItemState(updatedMenuItem, i)
+            if (menus[i].id === itemId) menuItem = menus[i]
+        }
+        // console.log('menuItem: ', menuItem)
+        this.setState({
+            modalActive: !this.state.modalActive,
+            menuItemBeingEdited: menuItem
+        }, () => this.extractActiveMenuIds())
+    }
+    
+    cancelAndCloseModal = () => {
+        this.setState({
+            modalActive: !this.state.modalActive,
+            menuItemBeingEdited: {},
+            editItemActiveMenuIds: []
+        })
+    }
+
+    // This initializes and stores an array of active menus in state for the menu item being edited. I found it easier to do it this way than work with an array of menu objects in the 'menuItemBeingEdited:' state property when toggling active menus
+    extractActiveMenuIds = () => {
+        const itemBeingEditedMenus = this.state.menuItemBeingEdited.menus
+        const activeMenuIds = []
+        for (let i = 0; i < itemBeingEditedMenus.length; i++) {
+            if (typeof itemBeingEditedMenus[i] === 'object') {
+                activeMenuIds.push(itemBeingEditedMenus[i].id)
+            } else {
+                activeMenuIds.push(itemBeingEditedMenus[i])
             }
         }
+        this.setState({
+            editItemActiveMenuIds: activeMenuIds
+        })
     }
-    // TODO: Is there a better way to handle this with less code?
-    handleMenuAssignment = (menuId, menuItemId) => {
-        const menuItems = this.state.menuItems
-        for (let i = 0; i < menuItems.length; i++) {
-            if (menuItems[i].id === menuItemId) {
-                if (menuItems[i].menus.includes(menuId)) {
-                    const menusLessRemovedMenu = menuItems[i].menus.filter(menu => menu !== menuId)
-                    const updatedMenuItem = Object.assign({}, menuItems[i], {
-                        menus: menusLessRemovedMenu
-                    })
-                    this.updateMenuItemState(updatedMenuItem, i)
-                } else {
-                    const menusWithAddedMenu = [...menuItems[i].menus, menuId]
-                    const updatedMenuItem = Object.assign({}, menuItems[i], {
-                        menus: menusWithAddedMenu
-                    })
-                    this.updateMenuItemState(updatedMenuItem, i)
-                }
-            }
+
+    toggleMenuAssignment = (menuId, menuItemId) => {
+        const activeMenus = this.state.editItemActiveMenuIds
+        if (activeMenus.includes(menuId)) {
+            this.setState({
+                editItemActiveMenuIds: this.state.editItemActiveMenuIds.filter(_menuId => _menuId !== menuId)
+            })
+        } else {
+            this.setState({
+                editItemActiveMenuIds: [...this.state.editItemActiveMenuIds, menuId]
+            })
         }
     }
 
     saveUpdatedMenuItemToDb = updatedMenuItem => {
         axios.put(`${API_BASE_URL}/menu_items/${updatedMenuItem.id}`, updatedMenuItem)
+            .then(() => window.location.reload())
             .catch(err => console.log(err))
     }
 
@@ -156,7 +175,7 @@ export default class AdminDashboard extends React.Component {
     }
 
     render() {
-        console.log('AdminDashboard state: ', this.state)
+        console.log('Admin State: ', this.state)
         const menus = this.state.menus.map(menu => {
             return (
                 <Button 
@@ -172,7 +191,9 @@ export default class AdminDashboard extends React.Component {
         })
 
         const filteredMenuItems = this.state.menuItems.filter(item => {
-            return item.name.toLowerCase().includes(this.state.filterInput.toLowerCase())
+            // console.log('item.name: ', item)
+            return item.name.toLowerCase()
+                            .includes(this.state.filterInput.toLowerCase())
         })
 
         return (
@@ -184,9 +205,7 @@ export default class AdminDashboard extends React.Component {
                 </ul>
                 
                 {this.state.newMenuSectionActive 
-                    ?   <form 
-                            id="add-new-menu-form"
-                        >
+                    ?   <form id="add-new-menu-form">
                             <input 
                                 type="text" 
                                 id="newMenuInput" 
@@ -227,6 +246,38 @@ export default class AdminDashboard extends React.Component {
                     onChange={this.handleInputChange}
                     value={this.state.input}
                 />
+
+                {/* TODO: just needs work */}
+                <Modal isOpen={this.state.modalActive}>
+                    <ModalHeader>{this.state.menuItemBeingEdited.name}</ModalHeader>
+                    <ModalBody>
+                        <input 
+                            id="editDescriptionInput"
+                            type="text"
+                            value={this.state.menuItemBeingEdited.description}
+                            className="mb-2"
+                            onChange={this.handleInputChange}
+                        />
+
+                       <MenuAssignmentList 
+                            className="menu-list"
+                            menus={this.state.menus}
+                            activeMenus={this.state.editItemActiveMenuIds}
+                            toggleMenuAssignment={this.toggleMenuAssignment}
+                            menuItemId={this.state.menuItemBeingEdited.id}
+                        />  
+
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button onClick={this.updateMenuItemState}>
+                            Save
+                        </Button>
+                        <Button onClick={this.cancelAndCloseModal}>
+                            Cancel
+                        </Button>
+                    </ModalFooter> 
+                </Modal>
+
                 <div className="card-container">
                     <MenuItem 
                         // TODO: should I be storing filtered items in state?
@@ -236,8 +287,7 @@ export default class AdminDashboard extends React.Component {
                                 : this.state.menuItems
                         }
                         menus={this.state.menus} 
-                        onClick={this.toggleMenuItemEditable}
-                        handleMenuAssignment={this.handleMenuAssignment}
+                        onClick={this.openModal}
                     />
                 </div>
 

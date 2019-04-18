@@ -56,14 +56,14 @@ button.selected-menu {
   border-color: rgb(39, 235, 199);
   color: black;
 }
-button[data-disabled="true"] {
+/* button[data-disabled="true"] {
   cursor: not-allowed;
 }
 button[data-disabled="false"]:hover {
   background-color: rgb(24, 205, 177);
   border-color: rgb(24, 205, 177);
   color: black;
-}
+} */
 div.menu-item-name {
   /* font-weight: 600; */
   font-family: 'Glegoo', serif;
@@ -88,6 +88,10 @@ input#nameInput {
 input#descriptionInput {
   width: 90%;
 }
+input#editDescriptionInput {
+  width: 95%;
+
+}
 input#costInput {
   width: 33%;
 }
@@ -99,13 +103,13 @@ input#newMenuInput {
   margin-bottom: .7em;
 }
 
+#active-menu-list li {
+  /* display: inline-block; */
+  padding-left: .9em;
+}
 /* .invalidInput {
   border: 2px solid red;
 } */
-
-
-
-
 /* .error-msg {
   color: #f45f42;
   font-size: .75em;

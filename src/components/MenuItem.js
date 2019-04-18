@@ -1,43 +1,43 @@
 import React from 'react';
-import { MenuAssignmentList } from './MenuAssignmentList'; 
-import { Button, Card, CardImg, CardText, CardBody,
-    CardTitle } from 'reactstrap';
-
-// import burger from '../images/beef-bread-bun-1639557.jpg';
+import { 
+    Button, 
+    Card, 
+    CardImg, 
+    CardText, 
+    CardBody,
+    CardTitle 
+   } from 'reactstrap';
 
 export default function MenuItem(props) {
-    let menuItems = props.menuItems.map(item => {
-        let activeMenus = item.menus
+    const menuItems = props.menuItems.map(item => {
+        // console.log('menu item: ', item)
+        // let activeMenus = item.menus
         return (
             <Card 
                 key={item.id}
                 id={item.id}
                 className="menu-item-card shadow-sm"
             >
-                {/* <CardImg left src={burger} /> */}
                 <CardBody>
                     <CardTitle className="menu-item-name">{item.name}</CardTitle>
                     <CardText>{item.description}</CardText>
-                    <CardText>{item.cost ? `$ ${item.cost.toFixed(2)}` : ''}</CardText>
+                    <CardText>{item.cost ? `$${item.cost.toFixed(2)}` : ''}</CardText>
+                    <p className="mb-0">Menus:</p>
+                    <ul id="active-menu-list">    
+                        {item.menus.map(menu => {
+                            return (
+                                // TODO: needs work for when menus haven't been assigned
+                                <li key={menu.id}>
+                                    {menu.name === 'null' ? 'No menus' : menu.name}
+                                </li>
+                            )
+                        })}
+                    </ul>
 
-                    <MenuAssignmentList 
-                        menus={props.menus}
-                        activeMenus={activeMenus}
-                        handleMenuAssignment={props.handleMenuAssignment}
-                        menuItemId={item.id}
-                        menuItemEditStatus={item.editable}
-                        className="menu-list"
-                        buttonDisabled={!item.editable}
-                    />   
-
-                    <Button 
-                        onClick={() => props.onClick(item.id)}
-                        className={item.editable ? 'edit-menu' : ''}
-                    >
-                        {item.editable ? 'Save' : 'Edit'}
+                    <Button onClick={() => props.onClick(item.id)}>
+                        Edit
                     </Button>
-                    {/* TODO: Edit mode activates modal to allow for longer text inputs and isolation */}
-                    {/* TODO: Add cancel and delete buttons with precautions if item is in edit mode */}
+                    
                 </CardBody>
             </Card>
         )

@@ -82,9 +82,7 @@ export default class AddMenuItem extends React.Component {
                     key={menu.id}
                     id={menu.id}
                     onClick={(e) => this.toggleMenuAssignment(e, menu.id)}
-                    data-disabled="false"
                     className={this.state.activeMenus.includes(menu.id) ? 'selected-menu menu-select-button' : 'menu-select-button'}
-
                 >
                     {menu.name}
                 </button>

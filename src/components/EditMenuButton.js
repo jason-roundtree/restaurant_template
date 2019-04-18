@@ -5,7 +5,7 @@ export const EditMenuButton = props => {
     let menuItemId = props.menuItem
     return (
         <Button color="primary">
-            {/* {props.item.editable ? 'Save' : 'Edit'} */}
+            {/* {props.item ? 'Save' : 'Edit'} */}
         </Button>
     )
 }

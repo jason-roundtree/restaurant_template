@@ -1,23 +1,24 @@
 import React from 'react';
 
-export const MenuAssignmentList = props => {
+const MenuAssignmentList = props => {
+    console.log('props.activeMenus: ', props.activeMenus)
     const menuItemId = props.menuItemId
+    const activeMenusIds = []
+    for (let menuId of props.activeMenus) {
+        console.log('mmeennuuIIdd: ', menuId)
+        activeMenusIds.push(menuId)
+    }
+    // console.log('activeMenus: ', activeMenus)
     const menuList = props.menus.map(menu => {
         return (
             <button
-                className={props.activeMenus.includes(menu.id) 
+                className={activeMenusIds.includes(menu.id) 
                     ? 'selected-menu menu-select-button' 
                     : 'menu-select-button '
                 }
-                data-disabled={props.buttonDisabled}
                 key={menu.id}
                 id={menu.id}
-                onClick={() => {
-                    props.menuItemEditStatus 
-                        ? props.handleMenuAssignment(menu.id, menuItemId) 
-                        : ''
-                    }
-                }
+                onClick={() => props.toggleMenuAssignment(menu.id, menuItemId)}
             >
                 {menu.name}
             </button>
@@ -29,3 +30,5 @@ export const MenuAssignmentList = props => {
         </div> 
     )
 }
+
+export default MenuAssignmentList
