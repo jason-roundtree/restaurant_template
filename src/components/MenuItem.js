@@ -24,14 +24,17 @@ export default function MenuItem(props) {
                     <CardText>{item.cost ? `$${item.cost.toFixed(2)}` : ''}</CardText>
                     <p className="mb-0">Menus:</p>
                     <ul id="active-menu-list">    
-                        {item.menus.map(menu => {
-                            return (
-                                // TODO: needs work for when menus haven't been assigned
-                                <li key={menu.id}>
-                                    {menu.name === 'null' ? 'No menus' : menu.name}
-                                </li>
-                            )
-                        })}
+                        {item.menus.length > 0 
+                            ?   item.menus.map(menu => {
+                                    console.log('menu: ', menu)
+                                    return (
+                                        <li key={menu.id}>
+                                            {menu.name}
+                                        </li>
+                                    )
+                                })
+                            :   <li>No menus</li>
+                        }
                     </ul>
 
                     <Button onClick={() => props.onClick(item.id)}>
