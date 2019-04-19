@@ -85,8 +85,8 @@ input {
 input#nameInput {
   width: 80%;
 }
-input#editItemDescriptionInput {
-  width: 95%;
+input#editItemDescriptionInput, input#descriptionInput{
+  width: 90%;
 
 }
 input#costInput {

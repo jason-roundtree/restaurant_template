@@ -11,6 +11,7 @@ const { API_BASE_URL } = require('../config');
 
 // TODO: 
 // - setup sub-menu categories (e.g. Sandwiches, Pasta, Fish, etc) on front and back-end
+// create and use some similar components for both admin menu items and regular menu items
 // - allow deletion of menus
 // - remove bootstrap from buttons and restyle 
 // - move axios requests to their own module
@@ -39,6 +40,7 @@ class AdminDashboard extends React.Component {
         // GET menus
         axios.get(`${API_BASE_URL}/menus`)
           .then(res => {
+            console.log('/menus data ', res.data)
             const menus = res.data.map(menu => {
                 return {
                     name: menu.name, 
@@ -56,7 +58,7 @@ class AdminDashboard extends React.Component {
         // GET all menu items
         axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
-                console.log('data ', res.data)
+                // console.log('data ', res.data)
                 const menuItems = res.data.map(item => {
                     return {
                         name: item.name, 
@@ -91,7 +93,7 @@ class AdminDashboard extends React.Component {
         this.setState({
             menuItemBeingEdited: updatedMenuItem
         }, () => {
-            this.saveUpdatedMenuItemToDb(this.state.menuItemBeingEdited)
+            this.saveUpdatedMenuItem(this.state.menuItemBeingEdited)
         })
     }
 
@@ -107,12 +109,14 @@ class AdminDashboard extends React.Component {
         }, () => this.extractActiveMenuIds())
     }
     
+    // TODO: use the same logic/function for this and 'deleteMenuItem'???
     cancelAndCloseModal = () => {
         this.setState({
-            modalActive: !this.state.modalActive,
+            modalActive: false,
             menuItemBeingEdited: {},
             editItemActiveMenuIds: [],
-            editItemDescriptionInput: ''
+            editItemDescriptionInput: '',
+            editItemCostInput: ''
         })
     }
 
@@ -145,9 +149,24 @@ class AdminDashboard extends React.Component {
         }
     }
 
-    saveUpdatedMenuItemToDb = updatedMenuItem => {
+    saveUpdatedMenuItem = updatedMenuItem => {
         axios.put(`${API_BASE_URL}/menu_items/${updatedMenuItem.id}`, updatedMenuItem)
             .then(() => window.location.reload())
+            .catch(err => console.log(err))
+    }
+
+    deleteMenuItem = () => {
+        axios.delete(`${API_BASE_URL}/menu_items/${this.state.menuItemBeingEdited.id}`)
+            .then(res => {
+                console.log('Item removed Res: ', res)
+                this.setState({
+                    modalActive: false,
+                    menuItemBeingEdited: {},
+                    editItemActiveMenuIds: [],
+                    editItemDescriptionInput: '',
+                    editItemCostInput: ''
+                })
+            })
             .catch(err => console.log(err))
     }
 
@@ -254,6 +273,7 @@ class AdminDashboard extends React.Component {
                     <ModalHeader>
                         {this.state.menuItemBeingEdited.name}
                     </ModalHeader>
+
                     <ModalBody>
                         <input 
                             id="editItemDescriptionInput"
@@ -286,6 +306,7 @@ class AdminDashboard extends React.Component {
                             menuItemId={this.state.menuItemBeingEdited.id}
                         />  
                     </ModalBody>
+
                     <ModalFooter>
                         <Button onClick={this.updateMenuItemState}>
                             Save
@@ -293,7 +314,7 @@ class AdminDashboard extends React.Component {
                         <Button onClick={this.cancelAndCloseModal}>
                             Cancel
                         </Button>
-                        <Button color="danger">
+                        <Button color="danger" onClick={this.deleteMenuItem}>
                             Delete Item
                         </Button>
                     </ModalFooter> 
