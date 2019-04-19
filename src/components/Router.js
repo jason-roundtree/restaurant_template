@@ -9,17 +9,17 @@ import Order from './Order';
 import AdminDashboard from './AdminDashboard';
 // import Reservations from './Reservations';
 
-
 const Router = () => {
     return (
         <div>
-            <Route path="/home" component={Home} />
+            <Route exact={true} path="/" component={Home} />
             <Route path="/about" component={About} />
-            <Route path="/menu" component={Menu} />
+            {/* <Route path="/menus" component={Menus} /> */}
             <Route path="/contact" component={Contact} />
             <Route path="/order" component={Order} />
             <Route path="/gallery" component={Gallery} />
             <Route path="/admin" component={AdminDashboard} />
+            <Route path="/menu/:id" component={Menu} />
         </div>
     )
 }

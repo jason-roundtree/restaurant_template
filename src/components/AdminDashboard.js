@@ -10,12 +10,13 @@ const axios = require('axios');
 const { API_BASE_URL } = require('../config');
 
 // TODO: 
+// - setup sub-menu categories (e.g. Sandwiches, Pasta, Fish, etc) on front and back-end
 // - allow deletion of menus
 // - remove bootstrap from buttons and restyle 
 // - move axios requests to their own module
 // - Enhance input validation, check out libraries
 
-export default class AdminDashboard extends React.Component {
+class AdminDashboard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -27,7 +28,10 @@ export default class AdminDashboard extends React.Component {
             modalActive: false,
             menuItemBeingEdited: {},
             editItemActiveMenuIds: [],
-            // editItemDescriptionInput: ''
+            editItemDescriptionInput: '',
+            editItemCostInput: '',
+            // editItemNameInput: ''
+            
         }
     }
     
@@ -75,7 +79,7 @@ export default class AdminDashboard extends React.Component {
     handleInputChange = e => {
         const { id, value } = e.target
         this.setState({
-            [id]: value.trim()
+            [id]: value
         })
     }
 
@@ -84,7 +88,6 @@ export default class AdminDashboard extends React.Component {
             this.state.menuItemBeingEdited,
             { menus: this.state.editItemActiveMenuIds } 
         )
-        console.log('updatedMenuItem: ', updatedMenuItem)
         this.setState({
             menuItemBeingEdited: updatedMenuItem
         }, () => {
@@ -98,7 +101,6 @@ export default class AdminDashboard extends React.Component {
         for (let i = 0; i < menus.length; i++) {
             if (menus[i].id === itemId) menuItem = menus[i]
         }
-        // console.log('menuItem: ', menuItem)
         this.setState({
             modalActive: !this.state.modalActive,
             menuItemBeingEdited: menuItem
@@ -109,7 +111,8 @@ export default class AdminDashboard extends React.Component {
         this.setState({
             modalActive: !this.state.modalActive,
             menuItemBeingEdited: {},
-            editItemActiveMenuIds: []
+            editItemActiveMenuIds: [],
+            editItemDescriptionInput: ''
         })
     }
 
@@ -129,7 +132,7 @@ export default class AdminDashboard extends React.Component {
         })
     }
 
-    toggleMenuAssignment = (menuId, menuItemId) => {
+    toggleMenuAssignment = menuId => {
         const activeMenus = this.state.editItemActiveMenuIds
         if (activeMenus.includes(menuId)) {
             this.setState({
@@ -160,7 +163,7 @@ export default class AdminDashboard extends React.Component {
         })
         if (this.state.newMenuInput === '') {
             alert('Please enter the menu name')
-        } else if (menuNames.includes(this.state.newMenuInput)) {
+        } else if (menuNames.includes(this.state.newMenuInput.trim())) {
                 alert('This menu already exists')
         } else {
             const menu = { name: this.state.newMenuInput }
@@ -178,6 +181,7 @@ export default class AdminDashboard extends React.Component {
         console.log('Admin State: ', this.state)
         const menus = this.state.menus.map(menu => {
             return (
+                // TODO: how to incorporate React Router Link with his button or do I even need to? Seems to work fine even with match.params.id being passed down as props but I'm not sure about page reloading
                 <Button 
                     to={`/menu/${menu.id}`} 
                     color="primary" 
@@ -191,7 +195,6 @@ export default class AdminDashboard extends React.Component {
         })
 
         const filteredMenuItems = this.state.menuItems.filter(item => {
-            // console.log('item.name: ', item)
             return item.name.toLowerCase()
                             .includes(this.state.filterInput.toLowerCase())
         })
@@ -246,27 +249,42 @@ export default class AdminDashboard extends React.Component {
                     onChange={this.handleInputChange}
                     value={this.state.input}
                 />
-
-                {/* TODO: just needs work */}
+                {/* TODO: Break this modal into a separate component */}
                 <Modal isOpen={this.state.modalActive}>
-                    <ModalHeader>{this.state.menuItemBeingEdited.name}</ModalHeader>
+                    <ModalHeader>
+                        {this.state.menuItemBeingEdited.name}
+                    </ModalHeader>
                     <ModalBody>
                         <input 
-                            id="editDescriptionInput"
+                            id="editItemDescriptionInput"
                             type="text"
-                            value={this.state.menuItemBeingEdited.description}
-                            className="mb-2"
+                            value={
+                                this.state.editItemDescriptionInput !== ''
+                                    ? this.state.editItemDescriptionInput
+                                    : this.state.menuItemBeingEdited.description
+                            }
                             onChange={this.handleInputChange}
+                            className="mb-2"
                         />
 
-                       <MenuAssignmentList 
+                        <input 
+                            id="editItemCostInput"
+                            type="text"
+                            value={
+                                this.state.editItemCostInput !== ''
+                                    ? this.state.editItemCostInput
+                                    : this.state.menuItemBeingEdited.cost
+                            }
+                            onChange={this.handleInputChange}
+                            className="mb-2"
+                        />
+                        <MenuAssignmentList 
                             className="menu-list"
                             menus={this.state.menus}
                             activeMenus={this.state.editItemActiveMenuIds}
                             toggleMenuAssignment={this.toggleMenuAssignment}
                             menuItemId={this.state.menuItemBeingEdited.id}
                         />  
-
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={this.updateMenuItemState}>
@@ -274,6 +292,9 @@ export default class AdminDashboard extends React.Component {
                         </Button>
                         <Button onClick={this.cancelAndCloseModal}>
                             Cancel
+                        </Button>
+                        <Button color="danger">
+                            Delete Item
                         </Button>
                     </ModalFooter> 
                 </Modal>
@@ -295,3 +316,5 @@ export default class AdminDashboard extends React.Component {
         )
     }
 }
+
+export default AdminDashboard

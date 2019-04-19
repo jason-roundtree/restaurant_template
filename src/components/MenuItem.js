@@ -26,7 +26,6 @@ export default function MenuItem(props) {
                     <ul id="active-menu-list">    
                         {item.menus.length > 0 
                             ?   item.menus.map(menu => {
-                                    console.log('menu: ', menu)
                                     return (
                                         <li key={menu.id}>
                                             {menu.name}
