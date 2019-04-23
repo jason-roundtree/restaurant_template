@@ -32,7 +32,7 @@ class AdminDashboard extends React.Component {
             editItemActiveMenuIds: [],
             editItemDescriptionInput: '',
             editItemCostInput: '',
-            // editItemNameInput: ''
+            editItemNameInput: '',
             deleteButtonClicked: false
         }
     }
@@ -106,18 +106,6 @@ class AdminDashboard extends React.Component {
             modalActive: !this.state.modalActive,
             menuItemBeingEdited: menuItem
         }, () => this.extractActiveMenuIds())
-    }
-    
-    // TODO: use the same logic/function for this and 'deleteMenuItem'???
-    cancelAndCloseModal = () => {
-        this.setState({
-            modalActive: false,
-            menuItemBeingEdited: {},
-            editItemActiveMenuIds: [],
-            editItemDescriptionInput: '',
-            editItemCostInput: '',
-            deleteButtonClicked: false
-        })
     }
 
     clearModalState = reload => {
@@ -314,11 +302,23 @@ class AdminDashboard extends React.Component {
 
                 {/* TODO: Break this modal into a separate component */}
                 <Modal isOpen={this.state.modalActive}>
-                    <ModalHeader>
-                        {this.state.menuItemBeingEdited.name}
+                    <ModalHeader >
+                        Edit Menu Item
                     </ModalHeader>
 
                     <ModalBody>
+                        <input
+                            id="editItemNameInput"
+                            type="text"
+                            value={
+                                this.state.editItemNameInput !== ''
+                                    ? this.state.editItemNameInput
+                                    : this.state.menuItemBeingEdited.name
+                            }
+                            onChange={this.handleInputChange}
+                            className="mb-2"
+                        />
+
                         <input 
                             id="editItemDescriptionInput"
                             type="text"
@@ -361,7 +361,10 @@ class AdminDashboard extends React.Component {
                             Cancel
                         </Button>
 
-                        <Button color="danger" onClick={this.activeDeleteConfirmation}>
+                        <Button 
+                            color="danger" 
+                            onClick={this.activeDeleteConfirmation}
+                        >
                             Delete Item
                         </Button>
                         
