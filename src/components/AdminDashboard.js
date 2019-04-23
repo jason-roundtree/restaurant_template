@@ -12,9 +12,11 @@ const { API_BASE_URL } = require('../config');
 // TODO: 
 // - setup sub-menu categories (e.g. Sandwiches, Pasta, Fish, etc) on front and back-end
 // - create and re-use common components for both admin menu items and regular menu items
+// - create separate components for different elements on this page
 // - remove bootstrap from buttons and restyle 
 // - move axios requests to their own module
 // - Enhance input validation, check out libraries
+// - 
 
 class AdminDashboard extends React.Component {
     constructor(props) {
@@ -118,6 +120,18 @@ class AdminDashboard extends React.Component {
         })
     }
 
+    clearModalState = reload => {
+        this.setState({
+            modalActive: false,
+            menuItemBeingEdited: {},
+            editItemActiveMenuIds: [],
+            editItemDescriptionInput: '',
+            editItemCostInput: '',
+            deleteButtonClicked: false
+        }, () => {
+            reload === true && window.location.reload()
+        })
+    }
     // This initializes and stores a flat array of active menus in state for the menu item being edited. For toggling active menus I found it easier to do it this way than work with an array of menu objects in the 'menuItemBeingEdited:' state property 
     extractActiveMenuIds = () => {
         const itemBeingEditedMenus = this.state.menuItemBeingEdited.menus
@@ -163,14 +177,7 @@ class AdminDashboard extends React.Component {
         axios.delete(`${API_BASE_URL}/menu_items/${this.state.menuItemBeingEdited.id}`)
             .then(res => {
                 console.log('Item removed Res: ', res)
-                this.setState({
-                    modalActive: false,
-                    menuItemBeingEdited: {},
-                    editItemActiveMenuIds: [],
-                    editItemDescriptionInput: '',
-                    editItemCostInput: '',
-                    deleteButtonClicked: false
-                }, () => window.location.reload())
+                this.clearModalState(true)
             })
             .catch(err => console.log(err))
     }
@@ -346,11 +353,11 @@ class AdminDashboard extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button onClick={this.updateMenuItemState}>
+                        <Button onClick={() => this.updateMenuItemState(null)}>
                             Save
                         </Button>
 
-                        <Button onClick={this.cancelAndCloseModal}>
+                        <Button onClick={this.clearModalState}>
                             Cancel
                         </Button>
 
@@ -359,7 +366,7 @@ class AdminDashboard extends React.Component {
                         </Button>
                         
                     </ModalFooter> 
-                    {/* TODO: better way to do this without using 2nd ModalFooter? Also, there seems to be a weird delay on deletion confirmation. May be something to do with page reload */}
+                    
                     {this.state.deleteButtonClicked &&
                         <ModalFooter style={{display: "block"}}>
                             <p style={{marginRight: "0", fontSize: ".85em"}}>Are you sure?</p>
