@@ -84,10 +84,25 @@ class AdminDashboard extends React.Component {
         })
     }
 
+    // TODO: this currently only handles menu assignment but also need to handle changes to name, description and cost
     updateMenuItemState = () => {
-        const updatedMenuItem = Object.assign({},
+        let name = this.state.editItemNameInput 
+            ? this.state.editItemDescriptionInput
+            : this.state.menuItemBeingEdited.name 
+        let description = this.state.editItemDescriptionInput
+            ? this.state.editItemDescriptionInput
+            : this.state.menuItemBeingEdited.description
+        let cost = this.state.editItemCostInput   
+            ? this.state.editItemCostInput 
+            : this.state.menuItemBeingEdited.cost 
+        let menus = this.state.editItemActiveMenuIds
+
+        let updatedMenuItem = Object.assign({},
             this.state.menuItemBeingEdited,
-            { menus: this.state.editItemActiveMenuIds } 
+            { name },
+            { description },
+            { cost }, 
+            { menus },
         )
         this.setState({
             menuItemBeingEdited: updatedMenuItem
@@ -155,7 +170,7 @@ class AdminDashboard extends React.Component {
             .catch(err => console.log(err))
     }
 
-    activeDeleteConfirmation = () => {
+    runDeleteConfirmation = () => {
         this.setState({
             deleteButtonClicked: true
         })
@@ -300,7 +315,7 @@ class AdminDashboard extends React.Component {
                 </Button> */}
 
 
-                {/* TODO: Break this modal into a separate component */}
+                {/* TODO: Break this modal into a separate component along with input fields */}
                 <Modal isOpen={this.state.modalActive}>
                     <ModalHeader >
                         Edit Menu Item
@@ -353,17 +368,17 @@ class AdminDashboard extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button onClick={() => this.updateMenuItemState(null)}>
+                        <Button onClick={this.updateMenuItemState}>
                             Save
                         </Button>
 
-                        <Button onClick={this.clearModalState}>
+                        <Button onClick={() => this.clearModalState(null)}>
                             Cancel
                         </Button>
 
                         <Button 
                             color="danger" 
-                            onClick={this.activeDeleteConfirmation}
+                            onClick={this.runDeleteConfirmation}
                         >
                             Delete Item
                         </Button>
