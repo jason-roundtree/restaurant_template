@@ -9,7 +9,10 @@ body {
   text-align: center;
   
 }
-p, div.card-title {
+p {
+  margin: 0;
+}
+div.card-title {
   margin-bottom: 0;
 }
 li { 
@@ -39,9 +42,9 @@ button {
   padding: 4px 10px;
   border-radius: 5px;
 }
-.menu-select-button {
+.menu-select-button, .sort-button {
   margin: 0 .70em .70em 0;
-  font-size: .8em;
+  font-size: .7em;
 }
 button.edit-menu {
   background-color: rgb(244, 146, 124);
@@ -87,7 +90,6 @@ input#nameInput {
 }
 input#editItemDescriptionInput, input#descriptionInput{
   width: 90%;
-
 }
 input#costInput {
   width: 33%;
@@ -97,6 +99,8 @@ input#editItemCostInput {
 }
 input#filterInput {
   width: 45%;
+  margin: 0 0 .6em .6em;
+  
 }
 input#newMenuInput {
   width: 33%;

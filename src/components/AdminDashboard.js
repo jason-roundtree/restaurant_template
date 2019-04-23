@@ -11,8 +11,7 @@ const { API_BASE_URL } = require('../config');
 
 // TODO: 
 // - setup sub-menu categories (e.g. Sandwiches, Pasta, Fish, etc) on front and back-end
-// create and use some similar components for both admin menu items and regular menu items
-// - allow deletion of menus
+// - create and re-use common components for both admin menu items and regular menu items
 // - remove bootstrap from buttons and restyle 
 // - move axios requests to their own module
 // - Enhance input validation, check out libraries
@@ -32,12 +31,12 @@ class AdminDashboard extends React.Component {
             editItemDescriptionInput: '',
             editItemCostInput: '',
             // editItemNameInput: ''
-            
+            deleteButtonClicked: false
         }
     }
     
     componentDidMount() {
-        // GET menus
+        // GET all menus
         axios.get(`${API_BASE_URL}/menus`)
           .then(res => {
             console.log('/menus data ', res.data)
@@ -58,7 +57,6 @@ class AdminDashboard extends React.Component {
         // GET all menu items
         axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
-                // console.log('data ', res.data)
                 const menuItems = res.data.map(item => {
                     return {
                         name: item.name, 
@@ -68,7 +66,6 @@ class AdminDashboard extends React.Component {
                         id: item._id
                     }
                 })
-                // console.log('menuItems ', menuItems)s
                 this.setState({
                     menuItems
                 })
@@ -97,7 +94,7 @@ class AdminDashboard extends React.Component {
         })
     }
 
-    openModal = itemId => {
+    openEditMenuItemModal = itemId => {
         const menus = this.state.menuItems
         let menuItem = ''
         for (let i = 0; i < menus.length; i++) {
@@ -116,11 +113,12 @@ class AdminDashboard extends React.Component {
             menuItemBeingEdited: {},
             editItemActiveMenuIds: [],
             editItemDescriptionInput: '',
-            editItemCostInput: ''
+            editItemCostInput: '',
+            deleteButtonClicked: false
         })
     }
 
-    // This initializes and stores an array of active menus in state for the menu item being edited. I found it easier to do it this way than work with an array of menu objects in the 'menuItemBeingEdited:' state property when toggling active menus
+    // This initializes and stores a flat array of active menus in state for the menu item being edited. For toggling active menus I found it easier to do it this way than work with an array of menu objects in the 'menuItemBeingEdited:' state property 
     extractActiveMenuIds = () => {
         const itemBeingEditedMenus = this.state.menuItemBeingEdited.menus
         const activeMenuIds = []
@@ -155,6 +153,12 @@ class AdminDashboard extends React.Component {
             .catch(err => console.log(err))
     }
 
+    activeDeleteConfirmation = () => {
+        this.setState({
+            deleteButtonClicked: true
+        })
+    }
+
     deleteMenuItem = () => {
         axios.delete(`${API_BASE_URL}/menu_items/${this.state.menuItemBeingEdited.id}`)
             .then(res => {
@@ -164,8 +168,9 @@ class AdminDashboard extends React.Component {
                     menuItemBeingEdited: {},
                     editItemActiveMenuIds: [],
                     editItemDescriptionInput: '',
-                    editItemCostInput: ''
-                })
+                    editItemCostInput: '',
+                    deleteButtonClicked: false
+                }, () => window.location.reload())
             })
             .catch(err => console.log(err))
     }
@@ -180,10 +185,10 @@ class AdminDashboard extends React.Component {
         const menuNames = this.state.menus.map(menu => {
             return menu.name
         })
-        if (this.state.newMenuInput === '') {
+        if (menuNames.includes(this.state.newMenuInput.trim())) {
+            alert('This menu already exists')
+        } else if (this.state.newMenuInput === '') {
             alert('Please enter the menu name')
-        } else if (menuNames.includes(this.state.newMenuInput.trim())) {
-                alert('This menu already exists')
         } else {
             const menu = { name: this.state.newMenuInput }
             axios.post(`${API_BASE_URL}/menu`, menu)
@@ -196,15 +201,32 @@ class AdminDashboard extends React.Component {
         }
     }
 
+    // sort_MenuItemName_AZ = () => {
+    //     const menuItems = this.state.menuItems
+    //     // for (let i = 0; i < menuItems.length; i++) {
+
+    //     // }
+    //     const sortedItems = menuItems.sort((a, b) => {
+    //         const itemNameA = a.name.toLowerCase()
+    //         const itemNameB = b.name.toLowerCase()
+    //         if (itemNameA < itemNameB) return -1
+    //         if (itemNameA > itemNameB) return 1
+    //         return 0;
+    //     })
+    //     this.setState({
+    //         menuItems: sortedItems
+    //     })
+
+    // }
+
     render() {
         console.log('Admin State: ', this.state)
         const menus = this.state.menus.map(menu => {
             return (
-                // TODO: how to incorporate React Router Link with his button or do I even need to? Seems to work fine even with match.params.id being passed down as props but I'm not sure about page reloading
                 <Button 
                     to={`/menu/${menu.id}`} 
-                    color="primary" 
                     className="menu-select-button"
+                    // I think this somehow lets <Button> act as <Link>
                     tag={Link} 
                     key={menu.id}
                 >
@@ -213,9 +235,9 @@ class AdminDashboard extends React.Component {
             )
         })
 
+        // TODO: Should this be a method? Should I store filtered menus in state (I'm currenty not but it seems to work fine)
         const filteredMenuItems = this.state.menuItems.filter(item => {
-            return item.name.toLowerCase()
-                            .includes(this.state.filterInput.toLowerCase())
+            return item.name.toLowerCase().includes(this.state.filterInput.toLowerCase())
         })
 
         return (
@@ -254,7 +276,6 @@ class AdminDashboard extends React.Component {
                         </Button>
                 }
                 
-                
                 <h2 className="mt-5">Menu Items</h2>
                 <AddMenuItem
                     menus={this.state.menus}
@@ -268,6 +289,22 @@ class AdminDashboard extends React.Component {
                     onChange={this.handleInputChange}
                     value={this.state.input}
                 />
+                <br />
+
+                {/* <Button
+                    onClick={this.sort_MenuItemName_AZ}
+                    className="sort-button"
+                >
+                    Sort A-Z
+                </Button>
+                <Button
+                    onClick={this.sort_MenuItemName_ZA}
+                    className="sort-button"
+                >
+                    Sort Z-A
+                </Button> */}
+
+
                 {/* TODO: Break this modal into a separate component */}
                 <Modal isOpen={this.state.modalActive}>
                     <ModalHeader>
@@ -298,6 +335,7 @@ class AdminDashboard extends React.Component {
                             onChange={this.handleInputChange}
                             className="mb-2"
                         />
+
                         <MenuAssignmentList 
                             className="menu-list"
                             menus={this.state.menus}
@@ -311,13 +349,30 @@ class AdminDashboard extends React.Component {
                         <Button onClick={this.updateMenuItemState}>
                             Save
                         </Button>
+
                         <Button onClick={this.cancelAndCloseModal}>
                             Cancel
                         </Button>
-                        <Button color="danger" onClick={this.deleteMenuItem}>
+
+                        <Button color="danger" onClick={this.activeDeleteConfirmation}>
                             Delete Item
                         </Button>
+                        
                     </ModalFooter> 
+                    {/* TODO: better way to do this without using 2nd ModalFooter? Also, there seems to be a weird delay on deletion confirmation. May be something to do with page reload */}
+                    {this.state.deleteButtonClicked &&
+                        <ModalFooter style={{display: "block"}}>
+                            <p style={{marginRight: "0", fontSize: ".85em"}}>Are you sure?</p>
+                            
+                            <Button 
+                                color="danger" 
+                                onClick={this.deleteMenuItem}
+                                style={{marginLeft: "0"}}
+                            >
+                                Confirm Deletion
+                            </Button>
+                        </ModalFooter>
+                    }
                 </Modal>
 
                 <div className="card-container">
@@ -329,7 +384,7 @@ class AdminDashboard extends React.Component {
                                 : this.state.menuItems
                         }
                         menus={this.state.menus} 
-                        onClick={this.openModal}
+                        onClick={this.openEditMenuItemModal}
                     />
                 </div>
 
