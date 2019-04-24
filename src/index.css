@@ -9,10 +9,7 @@ body {
   text-align: center;
   
 }
-p {
-  margin: 0;
-}
-div.card-title {
+p, div.card-title {
   margin-bottom: 0;
 }
 li { 
@@ -88,8 +85,11 @@ input {
 input#nameInput {
   width: 80%;
 }
+input#editItemNameInput {
+  width: 235px;
+}
 input#editItemDescriptionInput, input#descriptionInput{
-  width: 90%;
+  width: 95%;
 }
 input#costInput {
   width: 33%;
@@ -102,7 +102,7 @@ input#filterInput {
   margin: 0 0 .6em .6em;
   
 }
-input#newMenuInput {
+input#newMenuInput, input#deleteMenuInput {
   width: 33%;
   margin-bottom: .7em;
 }

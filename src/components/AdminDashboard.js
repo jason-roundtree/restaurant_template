@@ -11,12 +11,12 @@ const { API_BASE_URL } = require('../config');
 
 // TODO: 
 // - setup sub-menu categories (e.g. Sandwiches, Pasta, Fish, etc) on front and back-end
+// - setup input for comments/additional menu item info
 // - create and re-use common components for both admin menu items and regular menu items
 // - create separate components for different elements on this page
 // - remove bootstrap from buttons and restyle 
 // - move axios requests to their own module
 // - Enhance input validation, check out libraries
-// - 
 
 class AdminDashboard extends React.Component {
     constructor(props) {
@@ -25,6 +25,9 @@ class AdminDashboard extends React.Component {
             menus: [],
             menuItems: [],
             newMenuSectionActive: false,
+            deleteMenuSectionActive: false,
+            deleteMenuInput: '',
+
             newMenuInput: '',
             filterInput: '',
             modalActive: false,
@@ -84,10 +87,10 @@ class AdminDashboard extends React.Component {
         })
     }
 
-    // TODO: this currently only handles menu assignment but also need to handle changes to name, description and cost
+    // TODO: Figure out how to allow inputs to be empty if everything is deleted before being edited
     updateMenuItemState = () => {
         let name = this.state.editItemNameInput 
-            ? this.state.editItemDescriptionInput
+            ? this.state.editItemNameInput
             : this.state.menuItemBeingEdited.name 
         let description = this.state.editItemDescriptionInput
             ? this.state.editItemDescriptionInput
@@ -184,27 +187,62 @@ class AdminDashboard extends React.Component {
             })
             .catch(err => console.log(err))
     }
-
+    // TODO: combine this and delete menu handler?
     activateNewMenuForm = () => {
         this.setState({
             newMenuSectionActive: true
         })
     }
 
-    saveNewMenu = () => {
-        const menuNames = this.state.menus.map(menu => {
-            return menu.name
+    activateDeleteMenuForm = () => {
+        this.setState({
+            deleteMenuSectionActive: true
         })
-        if (menuNames.includes(this.state.newMenuInput.trim())) {
+    }
+    // Checks existance of menus for deletion or addition of menus
+    // TODO: these menu add/delete funcs seem clunky. Think on better ways to handle deletion by id
+    checkIfMenuExists = inputName => {
+        // console.log('inputName: ', inputName)
+        const menuNameInputLower = this.state[inputName].trim().toLowerCase()
+        // console.log('menuNameInputLower: ', menuNameInputLower)
+        for (let i = 0; i < this.state.menus.length; i++) {
+            // console.log('Loop menu: ', this.state.menus[i].name.trim().toLowerCase())
+            if (this.state.menus[i].name.trim().toLowerCase() === menuNameInputLower) {
+                return [true, this.state.menus[i].id]
+            }
+        }
+    }
+
+    saveNewMenu = () => {
+        if (this.state.newMenuInput === '') {
+            alert('Please enter the menu name.')
+        } else if (this.checkIfMenuExists('newMenuInput')[0]) {
             alert('This menu already exists')
-        } else if (this.state.newMenuInput === '') {
-            alert('Please enter the menu name')
         } else {
             const menu = { name: this.state.newMenuInput }
             axios.post(`${API_BASE_URL}/menu`, menu)
                 .then(res => {
                     this.setState({
                         newMenuSectionActive: false
+                    }, () => window.location.reload())
+                })
+                .catch(err => console.log(err))
+        }
+    }
+
+    deleteMenu = () => {
+        console.log('del menu: ', this.checkIfMenuExists('deleteMenuInput'))
+        if (this.state.deleteMenuInput === '') {
+            alert('Please enter the name of the menu you want to delete.')
+        } else if (this.checkIfMenuExists('deleteMenuInput') === undefined) {
+            alert('This menu doesn\'t exist. Please check your spelling.')
+        } else {
+            const menuId = this.checkIfMenuExists('deleteMenuInput')[1]
+           
+            axios.delete(`${API_BASE_URL}/menu/${menuId}`)
+                .then(res => {
+                    this.setState({
+                        deleteMenuSectionActive: false
                     }, () => window.location.reload())
                 })
                 .catch(err => console.log(err))
@@ -252,7 +290,7 @@ class AdminDashboard extends React.Component {
 
         return (
             <div>
-
+            {/* TODO: New component */}
                 <h2 className="mt-5">Menus</h2>
                 <ul className="menu-list">
                     {menus}
@@ -266,7 +304,7 @@ class AdminDashboard extends React.Component {
                                 placeholder="Menu Name"
                                 onChange={this.handleInputChange}
                                 value={this.state.newMenuInput}
-                                required
+                                // required
                             />
                             <br />
 
@@ -285,7 +323,38 @@ class AdminDashboard extends React.Component {
                             Create New Menu
                         </Button>
                 }
+                <br />
+
+                {this.state.deleteMenuSectionActive 
+                    ?   <form id="delete-menu-form">
+                            <input 
+                                type="text" 
+                                id="deleteMenuInput" 
+                                placeholder="Enter menu name and confirm"
+                                onChange={this.handleInputChange}
+                                value={this.state.deleteMenuInput}
+                                // required
+                            />
+                            <br />
+                            <Button 
+                                color="danger"
+                                onClick={this.deleteMenu} 
+                            >
+                                Confirm Menu Deletion
+                            </Button>
+                        </form>
+
+                    :   <Button
+                            color="primary"
+                            onClick={this.activateDeleteMenuForm}
+                        >
+                            Delete a Menu
+                        </Button>
+
+                }
                 
+                
+            {/* TODO: New component */}
                 <h2 className="mt-5">Menu Items</h2>
                 <AddMenuItem
                     menus={this.state.menus}
@@ -318,7 +387,7 @@ class AdminDashboard extends React.Component {
                 {/* TODO: Break this modal into a separate component along with input fields */}
                 <Modal isOpen={this.state.modalActive}>
                     <ModalHeader >
-                        Edit Menu Item
+                        Edit Menu Item: {this.state.menuItemBeingEdited.name}
                     </ModalHeader>
 
                     <ModalBody>
