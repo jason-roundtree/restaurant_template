@@ -10,13 +10,17 @@ const axios = require('axios');
 const { API_BASE_URL } = require('../config');
 
 // TODO: 
-// - setup sub-menu categories (e.g. Sandwiches, Pasta, Fish, etc) on front and back-end
-// - setup input for comments/additional menu item info
 // - create and re-use common components for both admin menu items and regular menu items
 // - create separate components for different elements on this page
-// - remove bootstrap from buttons and restyle 
-// - move axios requests to their own module
+// - group related components into dedicated folders
+// - remove bootstrap from buttons and restyle
 // - Enhance input validation, check out libraries
+// - Change alerts to modals or something else
+
+// Post-MVP todos:
+// - setup sub-menu categories (e.g. Sandwiches, Pasta, Fish, etc) on front and back-end
+// - setup input for comments/additional menu item info
+// - move axios requests to their own module
 
 class AdminDashboard extends React.Component {
     constructor(props) {
@@ -24,12 +28,13 @@ class AdminDashboard extends React.Component {
         this.state = {
             menus: [],
             menuItems: [],
+            filterInput: '',
+
             newMenuSectionActive: false,
+            newMenuInput: '',
             deleteMenuSectionActive: false,
             deleteMenuInput: '',
 
-            newMenuInput: '',
-            filterInput: '',
             modalActive: false,
             menuItemBeingEdited: {},
             editItemActiveMenuIds: [],
@@ -87,7 +92,7 @@ class AdminDashboard extends React.Component {
         })
     }
 
-    // TODO: Figure out how to allow inputs to be empty if everything is deleted before being edited
+    // TODO: Figure out how to allow inputs to be empty if entire input text is deleted before being edited
     updateMenuItemState = () => {
         let name = this.state.editItemNameInput 
             ? this.state.editItemNameInput
@@ -158,7 +163,7 @@ class AdminDashboard extends React.Component {
         const activeMenus = this.state.editItemActiveMenuIds
         if (activeMenus.includes(menuId)) {
             this.setState({
-                editItemActiveMenuIds: this.state.editItemActiveMenuIds.filter(_menuId => _menuId !== menuId)
+                editItemActiveMenuIds: this.state.editItemActiveMenuIds.filter(id => id !== menuId)
             })
         } else {
             this.setState({
@@ -187,19 +192,24 @@ class AdminDashboard extends React.Component {
             })
             .catch(err => console.log(err))
     }
-    // TODO: combine this and delete menu handler?
-    activateNewMenuForm = () => {
+    // TODO: combine this and delete menu handler
+
+    openMenuSectionForm = e => {
+        let section = e.target.id
+        let sectionState = ''
+        switch(section) {
+            case 'activateNewMenuForm' :
+                sectionState = 'newMenuSectionActive'
+                break
+            case 'activateDeleteMenuForm' :
+                sectionState = 'deleteMenuSectionActive'
+                break
+        }
         this.setState({
-            newMenuSectionActive: true
+            [sectionState]: true
         })
     }
 
-    activateDeleteMenuForm = () => {
-        this.setState({
-            deleteMenuSectionActive: true
-        })
-    }
-    // Checks existance of menus for deletion or addition of menus
     // TODO: these menu add/delete funcs seem clunky. Think on better ways to handle deletion by id
     checkIfMenuExists = inputName => {
         // console.log('inputName: ', inputName)
@@ -290,7 +300,7 @@ class AdminDashboard extends React.Component {
 
         return (
             <div>
-            {/* TODO: New component */}
+            {/* TODO: Move to new component */}
                 <h2 className="mt-5">Menus</h2>
                 <ul className="menu-list">
                     {menus}
@@ -318,7 +328,8 @@ class AdminDashboard extends React.Component {
 
                     :   <Button 
                             color="primary"
-                            onClick={this.activateNewMenuForm}
+                            id="activateNewMenuForm"
+                            onClick={this.openMenuSectionForm}
                         >
                             Create New Menu
                         </Button>
@@ -346,7 +357,8 @@ class AdminDashboard extends React.Component {
 
                     :   <Button
                             color="primary"
-                            onClick={this.activateDeleteMenuForm}
+                            id="activateDeleteMenuForm"
+                            onClick={this.openMenuSectionForm}
                         >
                             Delete a Menu
                         </Button>
@@ -354,7 +366,7 @@ class AdminDashboard extends React.Component {
                 }
                 
                 
-            {/* TODO: New component */}
+            {/* TODO: Move to new component */}
                 <h2 className="mt-5">Menu Items</h2>
                 <AddMenuItem
                     menus={this.state.menus}
@@ -384,7 +396,7 @@ class AdminDashboard extends React.Component {
                 </Button> */}
 
 
-                {/* TODO: Break this modal into a separate component along with input fields */}
+            {/* TODO: Move modal to new component and same with modal input fields */}
                 <Modal isOpen={this.state.modalActive}>
                     <ModalHeader >
                         Edit Menu Item: {this.state.menuItemBeingEdited.name}
