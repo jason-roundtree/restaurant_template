@@ -1,3 +1,51 @@
+# Summary of App
+I decided to develop this app as a relatively simple template that restaurants can use (or that I or other developers can use on behalf of restaurants) to easily build and maintain their website without needing to be too technically-minded or too overwhelmed with a myriad of configurations or options. My motivation for making this, aside from trying to build on my development skills, is that I always see restaurants or eateries, often smaller, mon-and-pop-type establishments, that have good food but either have no website or have a really poor or outdated sites. 
+
+# User stories
+## Users should be able to:
+- create an account with login credentials
+- add, edit, delete:
+  * menus
+  * menu-items
+  * restaurant name
+  * restaurant contact info
+
+# Tech Used:
+- React
+- Javascript
+- Mongo/Mongoose
+- Node/Express
+- Axios
+- HTML
+- CSS
+- Bootstrap
+
+# TODOs:
+- setup backend and frontend for editing restaurant, about and contact info 
+- create and re-use common components for both admin menu item list and public menu items
+- create separate components for different elements on this page
+- group related components into dedicated folders
+- enhance and clean-up styling
+- remove bootstrap from buttons and restyle
+- Enhance input validation, check out libraries
+- Change alerts to modals or something else
+- Setup auth
+- integrate google maps into contact page
+- allow user to load logo and images (maybe move to post-MVP)
+
+## Post-MVP todos:
+- setup sub-menu categories (e.g. Sandwiches, Pasta, Fish, etc)
+- setup input for comments/additional menu item info (e.g. Spiciness level, Gluten free, etc)
+- setup online ordering for pickup
+- add pages for online reservations and online store
+- move axios requests to their own api module
+- move backend routing to it's own module
+- allow users with authorized access the ability to grant permissions to other users
+- more to come...
+
+
+## Create React Crap
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
