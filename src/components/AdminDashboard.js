@@ -177,7 +177,7 @@ class AdminDashboard extends React.Component {
             .then(() => window.location.reload())
             .catch(err => console.log(err))
     }
-
+    // TODO: move this to openMenuSection??
     runDeleteConfirmation = () => {
         this.setState({
             deleteButtonClicked: true
@@ -192,9 +192,8 @@ class AdminDashboard extends React.Component {
             })
             .catch(err => console.log(err))
     }
-    // TODO: combine this and delete menu handler
-
-    openMenuSectionForm = e => {
+   
+    openMenuSection = e => {
         let section = e.target.id
         let sectionState = ''
         switch(section) {
@@ -329,7 +328,7 @@ class AdminDashboard extends React.Component {
                     :   <Button 
                             color="primary"
                             id="activateNewMenuForm"
-                            onClick={this.openMenuSectionForm}
+                            onClick={this.openMenuSection}
                         >
                             Create New Menu
                         </Button>
@@ -358,7 +357,7 @@ class AdminDashboard extends React.Component {
                     :   <Button
                             color="primary"
                             id="activateDeleteMenuForm"
-                            onClick={this.openMenuSectionForm}
+                            onClick={this.openMenuSection}
                         >
                             Delete a Menu
                         </Button>

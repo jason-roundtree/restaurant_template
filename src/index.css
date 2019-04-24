@@ -44,12 +44,12 @@ button {
   font-size: .7em;
 }
 button.edit-menu {
-  background-color: rgb(244, 146, 124);
-  border-color: rgb(233, 128, 72);
+  background-color: rgb(23, 132, 215);
+  border-color: rgb(23, 132, 215);
 }
 button.edit-menu:hover {
-  background-color: rgb(233, 128, 72);
-  border-color: rgb(233, 128, 72);
+  background-color: rgb(7, 119, 205);
+  border-color: rgb(7, 119, 205);
 }
 button.selected-menu {
   background-color: rgb(39, 235, 199);
