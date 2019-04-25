@@ -9,7 +9,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 const axios = require('axios');
 const { API_BASE_URL } = require('../config');
 
-// TODO: 
+// TODO: - CREATE NEW MENU AND LOOKUP MENUS NOT WORKING
 // - create and re-use common components for both admin menu items and regular menu items
 // - create separate components for different elements on this page
 // - group related components into dedicated folders
@@ -222,12 +222,14 @@ class AdminDashboard extends React.Component {
         }
     }
 
-    saveNewMenu = () => {
+    saveNewMenu = e => {
+        e.preventDefault()
+        console.log('saveNewMenu: ', this.checkIfMenuExists('newMenuInput'))
         if (this.state.newMenuInput === '') {
+            
             alert('Please enter the menu name.')
-        } else if (this.checkIfMenuExists('newMenuInput')[0]) {
-            alert('This menu already exists')
-        } else {
+        } 
+        else if (this.checkIfMenuExists('newMenuInput') === undefined) {
             const menu = { name: this.state.newMenuInput }
             axios.post(`${API_BASE_URL}/menu`, menu)
                 .then(res => {
@@ -236,10 +238,14 @@ class AdminDashboard extends React.Component {
                     }, () => window.location.reload())
                 })
                 .catch(err => console.log(err))
+        } 
+        else if (this.checkIfMenuExists('newMenuInput')[0]) {
+            alert('This menu already exists')
         }
     }
 
-    deleteMenu = () => {
+    deleteMenu = (e) => {
+        e.preventDefault()
         console.log('del menu: ', this.checkIfMenuExists('deleteMenuInput'))
         if (this.state.deleteMenuInput === '') {
             alert('Please enter the name of the menu you want to delete.')
@@ -280,15 +286,15 @@ class AdminDashboard extends React.Component {
         console.log('Admin State: ', this.state)
         const menus = this.state.menus.map(menu => {
             return (
-                <Button 
+                <button 
                     to={`/menu/${menu.id}`} 
                     className="menu-select-button"
                     // I think this somehow lets <Button> act as <Link>
-                    tag={Link} 
+                    // tag={Link} 
                     key={menu.id}
                 >
                     {menu.name}
-                </Button>
+                </button>
             )
         })
 
@@ -317,21 +323,22 @@ class AdminDashboard extends React.Component {
                             />
                             <br />
 
-                            <Button 
+                            <button 
                                 className="edit-menu"
                                 onClick={this.saveNewMenu} 
+                                type="submit"
                             >
                                 Add Menu
-                            </Button>
+                            </button>
                         </form>
 
-                    :   <Button 
+                    :   <button 
                             color="primary"
                             id="activateNewMenuForm"
                             onClick={this.openMenuSection}
                         >
                             Create New Menu
-                        </Button>
+                        </button>
                 }
                 <br />
 
@@ -354,13 +361,13 @@ class AdminDashboard extends React.Component {
                             </Button>
                         </form>
 
-                    :   <Button
+                    :   <button
                             color="primary"
                             id="activateDeleteMenuForm"
                             onClick={this.openMenuSection}
                         >
                             Delete a Menu
-                        </Button>
+                        </button>
 
                 }
                 
@@ -445,6 +452,7 @@ class AdminDashboard extends React.Component {
                             toggleMenuAssignment={this.toggleMenuAssignment}
                             menuItemId={this.state.menuItemBeingEdited.id}
                         />  
+                        
                     </ModalBody>
 
                     <ModalFooter>
