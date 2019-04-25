@@ -36,9 +36,9 @@ export default function MenuItem(props) {
                         }
                     </ul>
 
-                    <Button onClick={() => props.onClick(item.id)}>
+                    <button onClick={() => props.onClick(item.id)}>
                         Edit
-                    </Button>
+                    </button>
                     
                 </CardBody>
             </Card>

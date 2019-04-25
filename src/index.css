@@ -15,15 +15,6 @@ p, div.card-title {
 li { 
   list-style-type: none;
 }
-/* .card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  width: 100%;
-} */
-/* .card-container > div {
-  width: 33%;
-} */
 .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -35,35 +26,55 @@ div.menu-item-card {
 div.menu-item-card > div {
   padding: 5px 15px;
 }
+
 button {
   padding: 4px 10px;
-  border-radius: 5px;
-}
-.menu-select-button, .sort-button {
   margin: 0 .70em .70em 0;
-  font-size: .7em;
-}
-button.edit-menu {
+  border-radius: 5px;
+  font-size: .8em;
   background-color: rgb(23, 132, 215);
   border-color: rgb(23, 132, 215);
+  color: white;
 }
-button.edit-menu:hover {
-  background-color: rgb(7, 119, 205);
-  border-color: rgb(7, 119, 205);
+button:hover {
+  background-color: rgb(4, 108, 187);
+  border-color: rgb(4, 108, 187);
+}
+/* navbar-toggler is a bootstrap class */
+button.navbar-toggler {
+  margin: 5px 15px 5px;
+}
+button:hover {
+  background-color: white;
+}
+.menu-select-button {
+  background-color: white;
+  color: black;
+  border-color: rgb(136, 136, 136);
+}
+.menu-select-button:hover {
+  background-color: rgb(13, 208, 172);
+  border-color: rgb(13, 208, 172);
 }
 button.selected-menu {
   background-color: rgb(39, 235, 199);
   border-color: rgb(39, 235, 199);
   color: black;
 }
-/* button[data-disabled="true"] {
-  cursor: not-allowed;
+.danger-btn {
+  background-color: rgb(255, 76, 76);
+  border-color: rgb(255, 76, 76);
 }
-button[data-disabled="false"]:hover {
-  background-color: rgb(24, 205, 177);
-  border-color: rgb(24, 205, 177);
-  color: black;
+.danger-btn:hover {
+  background-color: rgb(235, 34, 34);
+  border-color: rgb(235, 34, 34);
+}
+/* button.edit-menu {
+}
+button.edit-menu:hover {
 } */
+
+
 div.menu-item-name {
   /* font-weight: 600; */
   font-family: 'Glegoo', serif;

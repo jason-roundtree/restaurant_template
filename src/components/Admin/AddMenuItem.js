@@ -2,7 +2,7 @@ import React from 'react';
 // import { Redirect } from 'react-router'
 import { Button } from 'reactstrap';
 import axios from 'axios';
-const { API_BASE_URL } = require('../config');
+const { API_BASE_URL } = require('../../config');
 
 export default class AddMenuItem extends React.Component {
     constructor(props) {
@@ -92,12 +92,12 @@ export default class AddMenuItem extends React.Component {
             <div>
                 {this.state.componentActive 
                     ?   <label>Enter New Item Info:</label>
-                    :   <Button 
-                            color="primary" 
+                    :   <button 
+                            // color="primary" 
                             onClick={this.createNewMenuItemClick}
                         >
                             Create New Menu Item
-                        </Button>
+                        </button>
                 }
 
                 <form 
@@ -138,12 +138,11 @@ export default class AddMenuItem extends React.Component {
                         {menuList}
                     </div>
 
-                    <Button 
-                        className="edit-menu"
+                    <button 
                         onClick={this.saveMenuItem} 
                     >
                         Add Item
-                    </Button>
+                    </button>
                 </form>
                 
                 {this.state.showInputErrorMsg ? <p className='error-msg'>At the minimum, please enter an item name and assign it to a menu</p> : ''}

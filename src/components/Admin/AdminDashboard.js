@@ -7,13 +7,12 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 // import './AdminDashboard.css';
 // import '../index.css';
 const axios = require('axios');
-const { API_BASE_URL } = require('../config');
+const { API_BASE_URL } = require('../../config');
 
 // TODO: - CREATE NEW MENU AND LOOKUP MENUS NOT WORKING
 // - create and re-use common components for both admin menu items and regular menu items
 // - create separate components for different elements on this page
 // - group related components into dedicated folders
-// - remove bootstrap from buttons and restyle
 // - Enhance input validation, check out libraries
 // - Change alerts to modals or something else
 
@@ -244,7 +243,7 @@ class AdminDashboard extends React.Component {
         }
     }
 
-    deleteMenu = (e) => {
+    deleteMenu = e => {
         e.preventDefault()
         console.log('del menu: ', this.checkIfMenuExists('deleteMenuInput'))
         if (this.state.deleteMenuInput === '') {
@@ -286,15 +285,12 @@ class AdminDashboard extends React.Component {
         console.log('Admin State: ', this.state)
         const menus = this.state.menus.map(menu => {
             return (
-                <button 
-                    to={`/menu/${menu.id}`} 
-                    className="menu-select-button"
-                    // I think this somehow lets <Button> act as <Link>
-                    // tag={Link} 
+                <Link 
+                    to={`/menu/${menu.id}`}
                     key={menu.id}
                 >
-                    {menu.name}
-                </button>
+                    <button>{menu.name}</button>
+                </Link>
             )
         })
 
@@ -324,7 +320,6 @@ class AdminDashboard extends React.Component {
                             <br />
 
                             <button 
-                                className="edit-menu"
                                 onClick={this.saveNewMenu} 
                                 type="submit"
                             >
@@ -333,7 +328,6 @@ class AdminDashboard extends React.Component {
                         </form>
 
                     :   <button 
-                            color="primary"
                             id="activateNewMenuForm"
                             onClick={this.openMenuSection}
                         >
@@ -353,16 +347,16 @@ class AdminDashboard extends React.Component {
                                 // required
                             />
                             <br />
-                            <Button 
-                                color="danger"
+                            <button 
+                                class="danger-btn"
                                 onClick={this.deleteMenu} 
                             >
                                 Confirm Menu Deletion
-                            </Button>
+                            </button>
                         </form>
 
                     :   <button
-                            color="primary"
+                            class="danger-btn"
                             id="activateDeleteMenuForm"
                             onClick={this.openMenuSection}
                         >
@@ -456,20 +450,20 @@ class AdminDashboard extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button onClick={this.updateMenuItemState}>
+                        <button onClick={this.updateMenuItemState}>
                             Save
-                        </Button>
+                        </button>
 
-                        <Button onClick={() => this.clearModalState(null)}>
+                        <button onClick={() => this.clearModalState(null)}>
                             Cancel
-                        </Button>
+                        </button>
 
-                        <Button 
-                            color="danger" 
+                        <button 
+                            class="danger-btn"
                             onClick={this.runDeleteConfirmation}
                         >
                             Delete Item
-                        </Button>
+                        </button>
                         
                     </ModalFooter> 
                     
@@ -477,13 +471,13 @@ class AdminDashboard extends React.Component {
                         <ModalFooter style={{display: "block"}}>
                             <p style={{marginRight: "0", fontSize: ".85em"}}>Are you sure?</p>
                             
-                            <Button 
-                                color="danger" 
+                            <button 
+                                class="danger-btn"
                                 onClick={this.deleteMenuItem}
                                 style={{marginLeft: "0"}}
                             >
                                 Confirm Deletion
-                            </Button>
+                            </button>
                         </ModalFooter>
                     }
                 </Modal>
