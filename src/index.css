@@ -7,7 +7,7 @@
 body {
   font-size: 1.4em;
   text-align: center;
-  
+  background-color: rgb(213, 210, 210);
 }
 p, div.card-title {
   margin-bottom: 0;
@@ -15,10 +15,25 @@ p, div.card-title {
 li { 
   list-style-type: none;
 }
+
+/* modal-... classes are bootstrap */
+.modal-body {
+  background-color: rgb(223, 221, 221);
+  color: white;
+}
+.modal-header span {
+  font-family: 'Glegoo', serif;
+  /* text-decoration: underline rgb(39, 235, 199); */
+  font-weight: 700;
+}
 .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	grid-gap: 7px;
+}
+div.menu-item-name {
+  /* font-weight: 600; */
+  font-family: 'Glegoo', serif;
 }
 div.menu-item-card {
   text-align: left;
@@ -27,57 +42,49 @@ div.menu-item-card > div {
   padding: 5px 15px;
 }
 
-button {
+button:not(.navbar-toggler) {
   padding: 4px 10px;
-  margin: 0 .70em .70em 0;
+  margin: .70em 0;
   border-radius: 5px;
   font-size: .8em;
   background-color: rgb(23, 132, 215);
   border-color: rgb(23, 132, 215);
   color: white;
+  box-shadow: 1px 1px 2px rgb(174, 167, 167);
 }
 button:hover {
   background-color: rgb(4, 108, 187);
   border-color: rgb(4, 108, 187);
 }
-/* navbar-toggler is a bootstrap class */
-button.navbar-toggler {
-  margin: 5px 15px 5px;
-}
-button:hover {
+/* navbar-toggler is bootstrap */
+button.navbar-toggler:hover {
   background-color: white;
 }
-.menu-select-button {
-  background-color: white;
-  color: black;
-  border-color: rgb(136, 136, 136);
+button.menu-select-button, button.menu-assignment-button {
+  margin: 15px 4px 0;
 }
-.menu-select-button:hover {
+button.menu-assignment-button {
+  background-color: white;
+  color: rgb(136, 136, 136);
+  border-color: rgb(186, 184, 184);
+}
+button.menu-assignment-button:hover {
   background-color: rgb(13, 208, 172);
   border-color: rgb(13, 208, 172);
+  color: black;
 }
 button.selected-menu {
   background-color: rgb(39, 235, 199);
   border-color: rgb(39, 235, 199);
   color: black;
 }
-.danger-btn {
+button.danger-btn {
   background-color: rgb(255, 76, 76);
   border-color: rgb(255, 76, 76);
 }
-.danger-btn:hover {
+button.danger-btn:hover {
   background-color: rgb(235, 34, 34);
   border-color: rgb(235, 34, 34);
-}
-/* button.edit-menu {
-}
-button.edit-menu:hover {
-} */
-
-
-div.menu-item-name {
-  /* font-weight: 600; */
-  font-family: 'Glegoo', serif;
 }
 .hidden {
   display: none;
@@ -125,15 +132,18 @@ input#newMenuInput, input#deleteMenuInput {
 /* .invalidInput {
   border: 2px solid red;
 } */
-/* .error-msg {
-  color: #f45f42;
-  font-size: .75em;
-}
+/* 
 .success-msg {
   color: rgb(134, 134, 245);
   font-size: .75em;
 } */
 
+.error-msg {
+  /* color: #f45f42; */
+  font-size: .75em;
+  padding: 7px;
+  margin: 0 10px;
+}
 
 
 

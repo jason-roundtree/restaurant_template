@@ -9,8 +9,8 @@ const MenuAssignmentList = props => {
         return (
             <button
                 className={activeMenusIds.includes(menu.id) 
-                    ? 'selected-menu menu-select-button' 
-                    : 'menu-select-button '
+                    ? 'selected-menu menu-assignment-button' 
+                    : 'menu-assignment-button '
                 }
                 key={menu.id}
                 id={menu.id}

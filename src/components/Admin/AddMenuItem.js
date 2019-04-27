@@ -1,9 +1,10 @@
 import React from 'react';
 // import { Redirect } from 'react-router'
-import { Button } from 'reactstrap';
+import { Button, Alert } from 'reactstrap';
 import axios from 'axios';
 const { API_BASE_URL } = require('../../config');
 
+// TODO: Review and sort out unused code
 export default class AddMenuItem extends React.Component {
     constructor(props) {
         super(props)
@@ -49,6 +50,7 @@ export default class AddMenuItem extends React.Component {
                 cost: this.state.costInput,
                 menus: this.state.activeMenus
             }
+
             axios.post(`${API_BASE_URL}/menu_items`, menuItem)
                 // TODO: should I do something with the response??
                 .then(res => {
@@ -81,8 +83,8 @@ export default class AddMenuItem extends React.Component {
                 <button
                     key={menu.id}
                     id={menu.id}
-                    onClick={(e) => this.toggleMenuAssignment(e, menu.id)}
-                    className={this.state.activeMenus.includes(menu.id) ? 'selected-menu menu-select-button' : 'menu-select-button'}
+                    onClick={e => this.toggleMenuAssignment(e, menu.id)}
+                    className={this.state.activeMenus.includes(menu.id) ? 'selected-menu menu-assignment-button' : 'menu-assignment-button'}
                 >
                     {menu.name}
                 </button>
@@ -96,7 +98,7 @@ export default class AddMenuItem extends React.Component {
                             // color="primary" 
                             onClick={this.createNewMenuItemClick}
                         >
-                            Create New Menu Item
+                            Create a New Menu Item
                         </button>
                 }
 
@@ -138,16 +140,15 @@ export default class AddMenuItem extends React.Component {
                         {menuList}
                     </div>
 
-                    <button 
-                        onClick={this.saveMenuItem} 
-                    >
+                    <button onClick={this.saveMenuItem}>
                         Add Item
                     </button>
                 </form>
                 
-                {this.state.showInputErrorMsg ? <p className='error-msg'>At the minimum, please enter an item name and assign it to a menu</p> : ''}
+                {/* TODO: remove these?? */}
+                {this.state.showInputErrorMsg ? <Alert color="danger" className='error-msg'>At the minimum, please enter an item name and assign it to a menu</Alert> : ''}
 
-                {this.state.showSuccessMsg && !this.state.componentActive ? <p className='success-msg'>The menu item has successfully been added</p> : ''}
+                {/* {this.state.showSuccessMsg && !this.state.componentActive ? <p className='success-msg'>The menu item has successfully been added</p> : ''} */}
                 
             </div>
         )

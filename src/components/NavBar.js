@@ -22,12 +22,12 @@ export default class NavBar extends React.Component {
     render() {
         return (
             <div>
-                <Navbar className="shadow" color="light" light expand="md">
+                <Navbar className="shadow" expand="md" light>
                     <NavbarBrand tag={Link} to="/home">
                         Restaurant Name
                     </NavbarBrand>
                     
-                    <NavbarToggler onClick={this.toggle} />
+                    <NavbarToggler onClick={this.toggle}  />
                     <Collapse navbar isOpen={this.state.isOpen}>
                         <Nav navbar className="ml-auto">
                         {/* <NavItem>
