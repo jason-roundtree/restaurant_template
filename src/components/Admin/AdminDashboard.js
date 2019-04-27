@@ -399,7 +399,8 @@ class AdminDashboard extends React.Component {
             {/* TODO: Move modal to new component and same with modal input fields */}
                 <Modal isOpen={this.state.modalActive} toggle={this.clearModalState}>
                     <ModalHeader>
-                        <span>Edit Menu Item:</span> {this.state.menuItemBeingEdited.name}
+                        <span>Edit Menu Item:  &nbsp;</span>
+                        {this.state.menuItemBeingEdited.name}
                     </ModalHeader>
 
                     <ModalBody>

@@ -135,7 +135,7 @@ export default class AddMenuItem extends React.Component {
                     />
                     <br />
 
-                    <label className="mt-2" htmlFor="menuSelection">Select Menus</label>
+                    <label className="mt-2 mb-0" htmlFor="menuSelection">Select Menus:</label>
                     <div className="menu-selection" id="menuSelection">
                         {menuList}
                     </div>
