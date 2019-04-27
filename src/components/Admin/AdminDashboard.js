@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import MenuItem from './MenuItem';
 import AddMenuItem from './AddMenuItem';
 import MenuAssignmentList from './MenuAssignmentList';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 // import './AdminDashboard.css';
 // import '../index.css';
 const axios = require('axios');
@@ -45,7 +45,6 @@ class AdminDashboard extends React.Component {
     }
     
     componentDidMount() {
-        // GET all menus
         axios.get(`${API_BASE_URL}/menus`)
           .then(res => {
             console.log('/menus data ', res.data)
@@ -63,7 +62,6 @@ class AdminDashboard extends React.Component {
             console.log(err)
           })
 
-        // GET all menu items
         axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
                 const menuItems = res.data.map(item => {
@@ -225,11 +223,10 @@ class AdminDashboard extends React.Component {
         e.preventDefault()
         console.log('saveNewMenu: ', this.checkIfMenuExists('newMenuInput'))
         if (this.state.newMenuInput === '') {
-            
             alert('Please enter the menu name.')
-        } 
-        else if (this.checkIfMenuExists('newMenuInput') === undefined) {
+        } else if (this.checkIfMenuExists('newMenuInput') === undefined) {
             const menu = { name: this.state.newMenuInput }
+
             axios.post(`${API_BASE_URL}/menu`, menu)
                 .then(res => {
                     this.setState({
@@ -245,7 +242,7 @@ class AdminDashboard extends React.Component {
 
     deleteMenu = e => {
         e.preventDefault()
-        console.log('del menu: ', this.checkIfMenuExists('deleteMenuInput'))
+        // console.log('del menu: ', this.checkIfMenuExists('deleteMenuInput'))
         if (this.state.deleteMenuInput === '') {
             alert('Please enter the name of the menu you want to delete.')
         } else if (this.checkIfMenuExists('deleteMenuInput') === undefined) {
@@ -263,6 +260,7 @@ class AdminDashboard extends React.Component {
         }
     }
 
+    // TODO: sort menu items 
     // sort_MenuItemName_AZ = () => {
     //     const menuItems = this.state.menuItems
     //     // for (let i = 0; i < menuItems.length; i++) {
@@ -289,7 +287,9 @@ class AdminDashboard extends React.Component {
                     to={`/menu/${menu.id}`}
                     key={menu.id}
                 >
-                    <button>{menu.name}</button>
+                    <button className="menu-select-button">
+                        {menu.name}
+                    </button>
                 </Link>
             )
         })
@@ -331,7 +331,7 @@ class AdminDashboard extends React.Component {
                             id="activateNewMenuForm"
                             onClick={this.openMenuSection}
                         >
-                            Create New Menu
+                            Create a New Menu
                         </button>
                 }
                 <br />
@@ -348,7 +348,7 @@ class AdminDashboard extends React.Component {
                             />
                             <br />
                             <button 
-                                class="danger-btn"
+                                className="danger-btn"
                                 onClick={this.deleteMenu} 
                             >
                                 Confirm Menu Deletion
@@ -356,7 +356,7 @@ class AdminDashboard extends React.Component {
                         </form>
 
                     :   <button
-                            class="danger-btn"
+                            className="danger-btn"
                             id="activateDeleteMenuForm"
                             onClick={this.openMenuSection}
                         >
@@ -397,9 +397,9 @@ class AdminDashboard extends React.Component {
 
 
             {/* TODO: Move modal to new component and same with modal input fields */}
-                <Modal isOpen={this.state.modalActive}>
-                    <ModalHeader >
-                        Edit Menu Item: {this.state.menuItemBeingEdited.name}
+                <Modal isOpen={this.state.modalActive} toggle={this.clearModalState}>
+                    <ModalHeader>
+                        <span>Edit Menu Item:</span> {this.state.menuItemBeingEdited.name}
                     </ModalHeader>
 
                     <ModalBody>
@@ -459,7 +459,7 @@ class AdminDashboard extends React.Component {
                         </button>
 
                         <button 
-                            class="danger-btn"
+                            className="danger-btn"
                             onClick={this.runDeleteConfirmation}
                         >
                             Delete Item
@@ -469,10 +469,10 @@ class AdminDashboard extends React.Component {
                     
                     {this.state.deleteButtonClicked &&
                         <ModalFooter style={{display: "block"}}>
-                            <p style={{marginRight: "0", fontSize: ".85em"}}>Are you sure?</p>
+                            <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>Are you sure?</Alert>
                             
                             <button 
-                                class="danger-btn"
+                                className="danger-btn"
                                 onClick={this.deleteMenuItem}
                                 style={{marginLeft: "0"}}
                             >
