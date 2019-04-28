@@ -8,7 +8,7 @@ import {
     Nav,
     NavItem,
     NavLink } from 'reactstrap';
-import utensils from '../images/utensils.svg'
+import utensils from '../images/utensils.svg';
 import './NavBar.css';
 
 export default class NavBar extends React.Component {
