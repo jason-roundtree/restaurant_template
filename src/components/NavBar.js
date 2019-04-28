@@ -8,6 +8,7 @@ import {
     Nav,
     NavItem,
     NavLink } from 'reactstrap';
+import utensils from '../images/utensils.svg'
 import './NavBar.css';
 
 export default class NavBar extends React.Component {
@@ -24,7 +25,13 @@ export default class NavBar extends React.Component {
             <div>
                 <Navbar className="shadow" expand="md" light>
                     <NavbarBrand tag={Link} to="/home">
-                        Restaurant Name
+                        <img 
+                            src={utensils} 
+                            alt="Restaurant logo" 
+                            width="50px"
+                            height="50px"
+                        />
+                        <span style={{marginLeft: '10px'}}>Restaurant Name</span>
                     </NavbarBrand>
                     
                     <NavbarToggler onClick={this.toggle}  />

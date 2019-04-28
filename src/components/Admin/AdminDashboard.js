@@ -9,10 +9,9 @@ import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'react
 const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
 
-// TODO: - CREATE NEW MENU AND LOOKUP MENUS NOT WORKING
+// TODO:
 // - create and re-use common components for both admin menu items and regular menu items
 // - create separate components for different elements on this page
-// - group related components into dedicated folders
 // - Enhance input validation, check out libraries
 // - Change alerts to modals or something else
 
@@ -22,28 +21,24 @@ const { API_BASE_URL } = require('../../config');
 // - move axios requests to their own module
 
 class AdminDashboard extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            menus: [],
-            menuItems: [],
-            filterInput: '',
+    state = {
+        menus: [],
+        menuItems: [],
+        filterInput: '',
 
-            newMenuSectionActive: false,
-            newMenuInput: '',
-            deleteMenuSectionActive: false,
-            deleteMenuInput: '',
+        newMenuSectionActive: false,
+        newMenuInput: '',
+        deleteMenuSectionActive: false,
+        deleteMenuInput: '',
 
-            modalActive: false,
-            menuItemBeingEdited: {},
-            editItemActiveMenuIds: [],
-            editItemDescriptionInput: '',
-            editItemCostInput: '',
-            editItemNameInput: '',
-            deleteButtonClicked: false
-        }
+        modalActive: false,
+        menuItemBeingEdited: {},
+        editItemActiveMenuIds: [],
+        editItemDescriptionInput: '',
+        editItemCostInput: '',
+        editItemNameInput: '',
+        deleteButtonClicked: false
     }
-    
     componentDidMount() {
         axios.get(`${API_BASE_URL}/menus`)
           .then(res => {

@@ -1,0 +1,17 @@
+#order-page h1 {
+    margin-top: 25px;
+}
+form {
+    width: 700px;
+    margin: auto;
+    align-items: center;
+}
+input {
+    width: 300px;
+}
+input[name="lastName"] {
+    width: 350px;
+}
+input[name="phoneNumber"] {
+    width: 250px;
+}

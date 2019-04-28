@@ -10,13 +10,11 @@ import {
 
 export default function MenuItem(props) {
     const menuItems = props.menuItems.map(item => {
-        // console.log('menu item: ', item)
-        // let activeMenus = item.menus
         return (
             <Card 
                 key={item.id}
                 id={item.id}
-                className="menu-item-card shadow-m"
+                className="menu-item-card"
             >
                 <CardBody>
                     <CardTitle className="menu-item-name">{item.name}</CardTitle>

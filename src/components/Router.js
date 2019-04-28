@@ -5,7 +5,7 @@ import About from './About';
 import Menu from './Menu';
 import Contact from './Contact';
 import Gallery from './Gallery';
-import Order from './Order';
+import Order from './Order/Order';
 import AdminDashboard from './Admin/AdminDashboard';
 // import Reservations from './Reservations';
 

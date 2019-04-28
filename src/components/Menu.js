@@ -36,7 +36,7 @@ class Menu extends React.Component {
         })
 
         return ( 
-            <div>
+            <div class="menu-page">
                 <h1>{this.state.menuName}</h1>
 
                 <div className="menu-item_container">
