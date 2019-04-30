@@ -203,11 +203,8 @@ class AdminDashboard extends React.Component {
 
     // TODO: these menu add/delete funcs seem clunky. Think on better ways to handle deletion by id
     checkIfMenuExists = inputName => {
-        // console.log('inputName: ', inputName)
         const menuNameInputLower = this.state[inputName].trim().toLowerCase()
-        // console.log('menuNameInputLower: ', menuNameInputLower)
         for (let i = 0; i < this.state.menus.length; i++) {
-            // console.log('Loop menu: ', this.state.menus[i].name.trim().toLowerCase())
             if (this.state.menus[i].name.trim().toLowerCase() === menuNameInputLower) {
                 return [true, this.state.menus[i].id]
             }
@@ -237,7 +234,6 @@ class AdminDashboard extends React.Component {
 
     deleteMenu = e => {
         e.preventDefault()
-        // console.log('del menu: ', this.checkIfMenuExists('deleteMenuInput'))
         if (this.state.deleteMenuInput === '') {
             alert('Please enter the name of the menu you want to delete.')
         } else if (this.checkIfMenuExists('deleteMenuInput') === undefined) {

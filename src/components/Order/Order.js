@@ -1,18 +1,22 @@
 import React from 'react';
-import OrderForm from './OrderForm';
+import MenuItems from './MenuItems';
+import OrderContactInfoForm from './OrderContactInfoForm';
+import OrderItemDetailsModal from './OrderItemDetailsModal';
+import OrderSummary from './OrderSummary';
 import './Order.css';
 const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
 
-
 class Order extends React.Component {
     state = {
         allMenuItems: [],
+        activeMenuItemId: '',
         
         customerFirstName: '',
         customerLastName: '',
         customerPhone: '',
-        customerEmail: '',
+        // customerEmail: '',
+        customerInfoComplete: false,
 
         itemsOrdered: [],
         specialRequests: '',
@@ -24,51 +28,88 @@ class Order extends React.Component {
         axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
                 console.log('res.data.menuItems: ', res.data)
-                this.setState({
-                    allMenuItems: res.data
-                })
+                this.setState({ allMenuItems: res.data })
             })
             .catch(err => console.log(err))
     }
 
-    handleItemToggle = () => {
-        console.log('handleItemToggle: ', this.handleItemToggle)
+    handleInputChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
+    handleContactInfoSubmit = e => {
+        e.preventDefault()
+        this.setState({ customerInfoComplete: true })
+    }
+    
+    openSelectedItemModal = id => {
+        console.log('openSelectedItemModal id: ', id)
+        this.setState({ activeMenuItemId: id })
+    }
+
+    clearModalState = () => {
+        this.setState({
+            activeMenuItemId: ''
+        })
+    }
     render () {
         console.log('Order state: ', this.state)
-        const menuItems = this.state.allMenuItems.map(item => {
-            return (
-                <div 
-                    key={item._id}
-                    // className="menu-item"
-                >
-                    <p>{item.name}</p>
-                    <p>{item.description}</p>
-                    <p>{item.cost ? `$${item.cost.toFixed(2)}` : ''}</p>
-                </div>
-            )
-        })
-       
+        
         return (
             <div id="order-page">
                 <h1>Order for Pickup</h1>
 
-                <OrderForm 
-                    addItem={this.handleItemToggle}
+                {/* {this.state.customerInfoComplete
+                    ?   <OrderSummary
+                            firstName={this.state.customerFirstName}
+                            lastName={this.state.customerLastName}
+                            phone={this.state.customerPhone}
+                        />
+                    :   <OrderContactInfoForm 
+                            handleSubmit={this.handleContactInfoSubmit}
+                            handleInputChange={this.handleInputChange}
+                            firstName={this.state.customerFirstName}
+                            lastName={this.state.customerLastName}
+                            phone={this.state.customerPhone}
+                        /> 
+                } */}
+
+                <OrderContactInfoForm 
+                    handleSubmit={this.handleContactInfoSubmit}
+                    handleInputChange={this.handleInputChange}
+                    firstName={this.state.customerFirstName}
+                    lastName={this.state.customerLastName}
+                    phone={this.state.customerPhone}
+                /> 
+
+                <div id="order-item-container">
+                    {this.state.allMenuItems.map((item) => {
+                        return (
+                            <MenuItems
+                                key={item._id}
+                                id={item._id}
+                                name={item.name}
+                                cost={item.cost}
+                                openSelectedItemModal={this.openSelectedItemModal}
+                            />
+                        )
+                    })}
+                </div>
+
+                <OrderItemDetailsModal
+                    modalOpen={this.state.activeMenuItemId}
+                    clearModalState={this.clearModalState}
+                />
+                
+                <OrderSummary
+                    firstName={this.state.customerFirstName}
+                    lastName={this.state.customerLastName}
+                    phone={this.state.customerPhone}
                 />
 
-                {menuItems}
-                
             </div>
         )
     } 
 }
 
 export default Order;
-
-// Add items from menu
-// Remove items from menu
-// Set number of each item
-// Add comments/special requests
-// Add name and phone number
