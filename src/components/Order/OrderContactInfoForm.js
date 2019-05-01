@@ -1,6 +1,7 @@
  import React, { Component } from 'react'
 import { Formik } from 'formik';
 
+// TODO: Change this to not be active until somebody checks out
 export default class OrderContactInfoForm extends Component {
     // state = {
     //     firstName: '',
@@ -12,6 +13,7 @@ export default class OrderContactInfoForm extends Component {
     render() {
         // console.log('OrderForm state: ', this.state)
         return (
+            // TODO: Is form necessary?
             <form onSubmit={this.props.handleSubmit}>
 
                 <input 

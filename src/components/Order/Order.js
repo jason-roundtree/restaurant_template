@@ -10,7 +10,9 @@ const { API_BASE_URL } = require('../../config');
 class Order extends React.Component {
     state = {
         allMenuItems: [],
-        activeMenuItemId: '',
+        // activeMenuItemId: '',
+        activeMenuItem: {},
+        modalActive: false,
         
         customerFirstName: '',
         customerLastName: '',
@@ -43,13 +45,26 @@ class Order extends React.Component {
     }
     
     openSelectedItemModal = id => {
-        console.log('openSelectedItemModal id: ', id)
-        this.setState({ activeMenuItemId: id })
+        const { allMenuItems } = this.state
+        // console.log('openSelectedItemModal id: ', id)
+        for (let item of allMenuItems) {
+            console.log('item: ', item)
+            if (item._id === id) {
+                this.setState({
+                    activeMenuItem: item
+                })
+            }
+        }
+        if (this.state.activeMenuItem !== false) {
+            console.log('set modal active')
+            this.setState({ modalActive: true })
+        }
+        
     }
 
     clearModalState = () => {
         this.setState({
-            activeMenuItemId: ''
+            modalActive: false
         })
     }
     render () {
@@ -59,28 +74,13 @@ class Order extends React.Component {
             <div id="order-page">
                 <h1>Order for Pickup</h1>
 
-                {/* {this.state.customerInfoComplete
-                    ?   <OrderSummary
-                            firstName={this.state.customerFirstName}
-                            lastName={this.state.customerLastName}
-                            phone={this.state.customerPhone}
-                        />
-                    :   <OrderContactInfoForm 
-                            handleSubmit={this.handleContactInfoSubmit}
-                            handleInputChange={this.handleInputChange}
-                            firstName={this.state.customerFirstName}
-                            lastName={this.state.customerLastName}
-                            phone={this.state.customerPhone}
-                        /> 
-                } */}
-
-                <OrderContactInfoForm 
+                {/* <OrderContactInfoForm 
                     handleSubmit={this.handleContactInfoSubmit}
                     handleInputChange={this.handleInputChange}
                     firstName={this.state.customerFirstName}
                     lastName={this.state.customerLastName}
                     phone={this.state.customerPhone}
-                /> 
+                />  */}
 
                 <div id="order-item-container">
                     {this.state.allMenuItems.map((item) => {
@@ -97,8 +97,9 @@ class Order extends React.Component {
                 </div>
 
                 <OrderItemDetailsModal
-                    modalOpen={this.state.activeMenuItemId}
+                    modalActive={this.state.modalActive}
                     clearModalState={this.clearModalState}
+                    menuItem={this.state.activeMenuItem}
                 />
                 
                 <OrderSummary

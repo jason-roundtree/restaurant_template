@@ -5,17 +5,19 @@ export default function OrderItemDetailsModal(props) {
     console.log('OrderItemDetailsModal props: ', props)
     return (
         <Modal 
-            isOpen={props.modalOpen ? true : false}
+            isOpen={props.modalActive ? true : false}
             toggle={props.clearModalState}
         >
-            <ModalHeader>
-                Header
-            </ModalHeader>
+            <ModalHeader>{props.menuItem.name}</ModalHeader>
             <ModalBody>
-                Bod
+                <p>{props.menuItem.description}</p>
+                <p>{`$${props.menuItem.cost}`}</p>
+                <label htmlFor="specialRequests">Special Requests:</label>
+                <textarea name="specialRequests" rows='3'></textarea> 
+                
             </ModalBody>
             <ModalFooter>
-                Footer
+                <button>Add to Order</button>
             </ModalFooter>
         </Modal>
     )
