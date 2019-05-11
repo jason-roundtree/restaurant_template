@@ -215,7 +215,8 @@ class AdminDashboard extends React.Component {
         e.preventDefault()
         console.log('saveNewMenu: ', this.checkIfMenuExists('newMenuInput'))
         if (this.state.newMenuInput === '') {
-            alert('Please enter the menu name.')
+            <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>Please enter the menu name.</Alert>
+            // alert('Please enter the menu name.')
         } else if (this.checkIfMenuExists('newMenuInput') === undefined) {
             const menu = { name: this.state.newMenuInput }
 
@@ -228,16 +229,19 @@ class AdminDashboard extends React.Component {
                 .catch(err => console.log(err))
         } 
         else if (this.checkIfMenuExists('newMenuInput')[0]) {
-            alert('This menu already exists')
+            <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>This menu doesn't exist. Please check your spelling.</Alert>
+            // alert('This menu already exists')
         }
     }
 
     deleteMenu = e => {
         e.preventDefault()
         if (this.state.deleteMenuInput === '') {
-            alert('Please enter the name of the menu you want to delete.')
+            <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>Please enter the name of the menu you want to delete.</Alert>
+            // alert('Please enter the name of the menu you want to delete.')
         } else if (this.checkIfMenuExists('deleteMenuInput') === undefined) {
-            alert('This menu doesn\'t exist. Please check your spelling.')
+            <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>This menu doesn't exist. Please check your spelling.</Alert>
+            // alert('This menu doesn\'t exist. Please check your spelling.')
         } else {
             const menuId = this.checkIfMenuExists('deleteMenuInput')[1]
            
