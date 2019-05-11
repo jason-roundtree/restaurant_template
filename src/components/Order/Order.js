@@ -3,6 +3,7 @@ import MenuItems from './MenuItems';
 import OrderContactInfoForm from './OrderContactInfoForm';
 import OrderItemDetailsModal from './OrderItemDetailsModal';
 import OrderSummary from './OrderSummary';
+import uuid from 'uuid'
 import './Order.css';
 const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
@@ -10,16 +11,12 @@ const { API_BASE_URL } = require('../../config');
 class Order extends React.Component {
     state = {
         allMenuItems: [],
-        // activeMenuItemId: '',
         activeMenuItem: {},
         modalActive: false,
-        
-        customerFirstName: '',
-        customerLastName: '',
-        customerPhone: '',
-        // customerEmail: '',
-        customerInfoComplete: false,
-
+        // customerFirstName: '',
+        // customerLastName: '',
+        // customerPhone: '',
+        // customerInfoComplete: false,
         itemsOrdered: [],
         specialRequests: '',
         costPreTax: '',
@@ -46,9 +43,7 @@ class Order extends React.Component {
     
     openSelectedItemModal = id => {
         const { allMenuItems } = this.state
-        // console.log('openSelectedItemModal id: ', id)
         for (let item of allMenuItems) {
-            console.log('item: ', item)
             if (item._id === id) {
                 this.setState({
                     activeMenuItem: item
@@ -56,10 +51,8 @@ class Order extends React.Component {
             }
         }
         if (this.state.activeMenuItem !== false) {
-            console.log('set modal active')
             this.setState({ modalActive: true })
         }
-        
     }
 
     clearModalState = () => {
@@ -67,45 +60,74 @@ class Order extends React.Component {
             modalActive: false
         })
     }
+
+    addItemToOrder = (id, specialRequest)=> {
+        console.log('add item id/specialReq: ', id, specialRequest)
+        const menuItem = this.state.allMenuItems.find(item => item._id === id)
+        console.log('menuItem: ', menuItem)
+        const orderItem = {
+            id,
+            // added custom id since orders can have multiples of the same item
+            customOrderItemId: uuid(),
+            name: menuItem.name,
+            cost: menuItem.cost,
+            specialRequest 
+        }
+
+        this.setState({
+            itemsOrdered: [...this.state.itemsOrdered, orderItem]
+        }, this.clearModalState())
+    }
+
+    removeItemFromOrder = _customId => {
+        this.setState({
+            itemsOrdered: [...this.state.itemsOrdered.filter(customId => customId !== _customId)]
+        })
+    }
+
     render () {
         console.log('Order state: ', this.state)
         
         return (
             <div id="order-page">
-                <h1>Order for Pickup</h1>
+                <div id="order-page-main">
+                    <h1>Order for Pickup</h1>
 
-                {/* <OrderContactInfoForm 
-                    handleSubmit={this.handleContactInfoSubmit}
-                    handleInputChange={this.handleInputChange}
-                    firstName={this.state.customerFirstName}
-                    lastName={this.state.customerLastName}
-                    phone={this.state.customerPhone}
-                />  */}
+                    {/* <OrderContactInfoForm 
+                        handleSubmit={this.handleContactInfoSubmit}
+                        handleInputChange={this.handleInputChange}
+                        firstName={this.state.customerFirstName}
+                        lastName={this.state.customerLastName}
+                        phone={this.state.customerPhone}
+                    />  */}
 
-                <div id="order-item-container">
-                    {this.state.allMenuItems.map((item) => {
-                        return (
-                            <MenuItems
-                                key={item._id}
-                                id={item._id}
-                                name={item.name}
-                                cost={item.cost}
-                                openSelectedItemModal={this.openSelectedItemModal}
-                            />
-                        )
-                    })}
+                    <div id="order-item-container">
+                        {this.state.allMenuItems.map((item) => {
+                            return (
+                                <MenuItems
+                                    key={item._id}
+                                    id={item._id}
+                                    name={item.name}
+                                    cost={item.cost}
+                                    openSelectedItemModal={this.openSelectedItemModal}
+                                />
+                            )
+                        })}
+                    </div>
+
+                    <OrderItemDetailsModal
+                        modalActive={this.state.modalActive}
+                        clearModalState={this.clearModalState}
+                        menuItem={this.state.activeMenuItem}
+                        addItemToOrder={this.addItemToOrder}
+                    />
                 </div>
-
-                <OrderItemDetailsModal
-                    modalActive={this.state.modalActive}
-                    clearModalState={this.clearModalState}
-                    menuItem={this.state.activeMenuItem}
-                />
                 
                 <OrderSummary
                     firstName={this.state.customerFirstName}
                     lastName={this.state.customerLastName}
                     phone={this.state.customerPhone}
+                    orderItems={this.state.itemsOrdered}
                 />
 
             </div>

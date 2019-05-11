@@ -1,24 +1,45 @@
 import React from 'react'
 import { Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-export default function OrderItemDetailsModal(props) {
-    console.log('OrderItemDetailsModal props: ', props)
-    return (
-        <Modal 
-            isOpen={props.modalActive ? true : false}
-            toggle={props.clearModalState}
-        >
-            <ModalHeader>{props.menuItem.name}</ModalHeader>
-            <ModalBody>
-                <p>{props.menuItem.description}</p>
-                <p>{`$${props.menuItem.cost}`}</p>
-                <label htmlFor="specialRequests">Special Requests:</label>
-                <textarea name="specialRequests" rows='3'></textarea> 
-                
-            </ModalBody>
-            <ModalFooter>
-                <button>Add to Order</button>
-            </ModalFooter>
-        </Modal>
-    )
+class OrderItemDetailsModal extends React.Component {
+    state = {
+        specialRequestInput: ''
+    }
+    handleInputChange = e => {
+        this.setState({
+            specialRequestInput: e.target.value
+        })
+    }
+    render() {
+        const menuItem = this.props.menuItem
+        return (
+            <Modal 
+                isOpen={this.props.modalActive ? true : false}
+                toggle={this.props.clearModalState}
+            >
+                <ModalHeader>{menuItem.name}</ModalHeader>
+                <ModalBody>
+                    <p>{menuItem.description}</p>
+                    <p>{`$${menuItem.cost}`}</p>
+                    <label htmlFor="specialRequests">Special Requests:</label>
+                    <textarea 
+                        name="specialRequests" 
+                        rows='3'
+                        value={this.state.specialRequestInput}
+                        onChange={this.handleInputChange}
+                    ></textarea> 
+                    
+                </ModalBody>
+                <ModalFooter>
+                    <button 
+                        onClick={() => this.props.addItemToOrder(menuItem._id, this.state.specialRequestInput)}
+                    >
+                        Add to Order
+                    </button>
+                </ModalFooter>
+            </Modal>
+        )
+    }
 }
+
+export default OrderItemDetailsModal;

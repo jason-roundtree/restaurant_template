@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { ListGroup, ListGroupItem } from 'reactstrap';
 import caretUp from '../../images/caret-up.svg'
 import caretDown from '../../images/caret-down.svg'
 
@@ -7,7 +8,6 @@ export default class OrderSummary extends Component {
         summaryOpen: false
     }
     toggleDrawer = () => {
-        // console.log('toggleOrderSummaryDrawer ')
         this.setState({
             summaryOpen: !this.state.summaryOpen
         }, () => {
@@ -18,12 +18,17 @@ export default class OrderSummary extends Component {
                 : orderSummaryParagraph.style.height = '40px'
         })
     }
+
     render() {
+        // console.log('OrderSummary props: ', this.props)
+        // console.log('OrderSummary state: ', this.state)
+        const totalCost = this.props.orderItems.reduce((total, current) => {
+            return total += current.cost
+        }, 0)
         const caretIcon = this.state.summaryOpen ? caretDown : caretUp
+
         return (
             <div id="order-summary">
-                {/* TODO: format phone number to include dashes */}
-                
                 <p onClick={this.toggleDrawer}>
                     <img 
                         src={caretIcon} 
@@ -41,6 +46,31 @@ export default class OrderSummary extends Component {
                         style={{marginLeft: '10px'}}
                     />
                 </p>
+
+                <ListGroup id="ordered-items">
+                    {this.props.orderItems.map(item => {
+                        return (
+                            <ListGroupItem 
+                                key={item.id}
+                                // class={}
+                            >
+                                <div>
+                                    <span>{item.name} - ${item.cost}</span>
+                                    <button 
+                                        type="button" 
+                                        className="close" 
+                                        aria-label="Close"
+                                    >
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                
+                            </ListGroupItem>   
+                        )
+                    })}
+                </ListGroup>
+                
+                <span>TOTAL: ${totalCost}</span>
             </div>
         )
     }
