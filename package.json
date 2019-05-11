@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
+    "bootstrap-material-design": "^4.1.1",
     "formik": "^1.5.4",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -12,7 +13,8 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",
     "reactstrap": "^8.0.0",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
