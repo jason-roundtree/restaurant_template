@@ -17,6 +17,7 @@ class Order extends React.Component {
         // customerLastName: '',
         // customerPhone: '',
         // customerInfoComplete: false,
+        orderSummaryActive: false,
         itemsOrdered: [],
         specialRequests: '',
         costPreTax: '',
@@ -61,6 +62,12 @@ class Order extends React.Component {
         })
     }
 
+    toggleSummaryModal = () => {
+        this.setState({
+            orderSummaryActive: !this.state.orderSummaryActive
+        })
+    }
+
     addItemToOrder = (id, specialRequest)=> {
         console.log('add item id/specialReq: ', id, specialRequest)
         const menuItem = this.state.allMenuItems.find(item => item._id === id)
@@ -81,7 +88,7 @@ class Order extends React.Component {
 
     removeItemFromOrder = _customId => {
         this.setState({
-            itemsOrdered: [...this.state.itemsOrdered.filter(customId => customId !== _customId)]
+            itemsOrdered: [...this.state.itemsOrdered.filter(item => _customId !== item.customOrderItemId)]
         })
     }
 
@@ -92,14 +99,12 @@ class Order extends React.Component {
             <div id="order-page">
                 <div id="order-page-main">
                     <h1>Order for Pickup</h1>
-
-                    {/* <OrderContactInfoForm 
-                        handleSubmit={this.handleContactInfoSubmit}
-                        handleInputChange={this.handleInputChange}
-                        firstName={this.state.customerFirstName}
-                        lastName={this.state.customerLastName}
-                        phone={this.state.customerPhone}
-                    />  */}
+                    {/* TODO: Change this btn to only show when item has been added? */}
+                    <button 
+                        onClick={this.toggleSummaryModal}
+                    >
+                        Order Summary & Checkout
+                    </button>
 
                     <div id="order-item-container">
                         {this.state.allMenuItems.map((item) => {
@@ -123,12 +128,17 @@ class Order extends React.Component {
                     />
                 </div>
                 
-                <OrderSummary
-                    firstName={this.state.customerFirstName}
-                    lastName={this.state.customerLastName}
-                    phone={this.state.customerPhone}
-                    orderItems={this.state.itemsOrdered}
-                />
+                {this.state.orderSummaryActive && (
+                    <OrderSummary
+                        firstName={this.state.customerFirstName}
+                        lastName={this.state.customerLastName}
+                        phone={this.state.customerPhone}
+                        orderItems={this.state.itemsOrdered}
+                        modalOpen={this.state.orderSummaryActive}
+                        toggleSummaryModal={this.toggleSummaryModal}
+                        removeItem={this.removeItemFromOrder}
+                    />
+                )}
 
             </div>
         )
