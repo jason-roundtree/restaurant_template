@@ -19,8 +19,8 @@ class Order extends React.Component {
         // customerInfoComplete: false,
         orderSummaryActive: false,
         itemsOrdered: [],
+        specialRequest: '',
 
-        specialRequests: '',
         costPreTax: '',
         tax: '',
         totalCost: ''
@@ -59,7 +59,8 @@ class Order extends React.Component {
 
     clearModalState = () => {
         this.setState({
-            modalActive: false
+            modalActive: false,
+            specialRequest: ''
         })
     }
 
@@ -69,8 +70,8 @@ class Order extends React.Component {
         })
     }
 
-    addItemToOrder = (id, specialRequest)=> {
-        console.log('add item id/specialReq: ', id, specialRequest)
+    addItemToOrder = (id)=> {
+        // console.log('add item id/specialReq: ', id, specialRequest)
         const menuItem = this.state.allMenuItems.find(item => item._id === id)
         console.log('menuItem: ', menuItem)
         const orderItem = {
@@ -79,11 +80,12 @@ class Order extends React.Component {
             customOrderItemId: uuid(),
             name: menuItem.name,
             cost: menuItem.cost,
-            specialRequest 
+            specialRequest: this.state.specialRequest 
         }
 
         this.setState({
             itemsOrdered: [...this.state.itemsOrdered, orderItem]
+            
         }, this.clearModalState())
     }
 
@@ -127,6 +129,7 @@ class Order extends React.Component {
                         clearModalState={this.clearModalState}
                         menuItem={this.state.activeMenuItem}
                         addItemToOrder={this.addItemToOrder}
+                        addSpecialRequest={this.handleInputChange}
                     />
                 </div>
                 
