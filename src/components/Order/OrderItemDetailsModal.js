@@ -25,7 +25,7 @@ class OrderItemDetailsModal extends React.Component {
                     <textarea 
                         name="specialRequests" 
                         rows='3'
-                        value={this.state.specialRequestInput}
+                        value={menuItem.specialRequestInput}
                         onChange={this.handleInputChange}
                     ></textarea> 
                     

@@ -165,23 +165,8 @@ input#newMenuInput, input#deleteMenuInput {
   width: 33%;
   margin-bottom: .7em;
 }
-/* input#deleteMenuInput {
-  border-color: rgb(255, 76, 76);
-} */
-/* .invalidInput {
-  border: 2px solid red;
-} */
-/* 
-.success-msg {
-  color: rgb(134, 134, 245);
-  font-size: .75em;
-} */
-.error-msg {
-  /* color: #f45f42; */
-  font-size: .75em;
-  padding: 7px;
-  margin: 0 10px;
-}
+
+
 
 
 

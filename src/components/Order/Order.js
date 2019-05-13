@@ -19,6 +19,7 @@ class Order extends React.Component {
         // customerInfoComplete: false,
         orderSummaryActive: false,
         itemsOrdered: [],
+
         specialRequests: '',
         costPreTax: '',
         tax: '',
@@ -64,7 +65,7 @@ class Order extends React.Component {
 
     toggleSummaryModal = () => {
         this.setState({
-            orderSummaryActive: !this.state.orderSummaryActive
+            orderSummaryActive: !this.state.orderSummaryActive,
         })
     }
 
@@ -90,6 +91,7 @@ class Order extends React.Component {
         this.setState({
             itemsOrdered: [...this.state.itemsOrdered.filter(item => _customId !== item.customOrderItemId)]
         })
+        
     }
 
     render () {
@@ -136,6 +138,8 @@ class Order extends React.Component {
                         orderItems={this.state.itemsOrdered}
                         modalOpen={this.state.orderSummaryActive}
                         toggleSummaryModal={this.toggleSummaryModal}
+                        // toggleItemDeletionAlert={this.toggleItemDeletionAlert}
+                        // showDeletionAlert={this.state.deleteBtnClicked}
                         removeItem={this.removeItemFromOrder}
                     />
                 )}

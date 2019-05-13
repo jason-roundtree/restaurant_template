@@ -55,19 +55,23 @@ table, th, td {
 div.modal-footer {
     display: block;
 }
-button#checkout-btn:disabled {
+button#checkout-btn:disabled, button.delete-item:disabled {
     cursor: not-allowed;
     background-color: white;
     color: rgb(136, 136, 136);
-    border-color: rgb(186, 184, 184);
+    /* border-color: rgb(186, 184, 184); */
+    border-color: transparent;
 }
-button#checkout-btn:disabled:hover {
+button#checkout-btn:disabled:hover, button.delete-item:disabled:hover {
     background-color: white;
+    border-color: transparent;
 }
 div.alert {
     margin-bottom: 0;
 }
-#ordered-items td input {
-    width: 50px;
+
+p.special-req-item {
+    font-size: .7em;
 }
+
 
