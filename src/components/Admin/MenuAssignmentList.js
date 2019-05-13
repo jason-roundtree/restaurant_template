@@ -27,4 +27,4 @@ const MenuAssignmentList = props => {
     )
 }
 
-export default MenuAssignmentList
+export default MenuAssignmentList;

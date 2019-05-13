@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import MenuItem from './MenuItem';
 import AddMenuItem from './AddMenuItem';
-import MenuAssignmentList from './MenuAssignmentList';
+// import MenuAssignmentList from './MenuAssignmentList';
+import EditMenuItemModal from './EditMenuItemModal';
 import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 // import './AdminDashboard.css';
 // import '../index.css';
@@ -152,6 +153,7 @@ class AdminDashboard extends React.Component {
     }
 
     toggleMenuAssignment = menuId => {
+        console.log('toggleMenuAssignment: ', menuId)
         const activeMenus = this.state.editItemActiveMenuIds
         if (activeMenus.includes(menuId)) {
             this.setState({
@@ -216,7 +218,6 @@ class AdminDashboard extends React.Component {
         console.log('saveNewMenu: ', this.checkIfMenuExists('newMenuInput'))
         if (this.state.newMenuInput === '') {
             <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>Please enter the menu name.</Alert>
-            // alert('Please enter the menu name.')
         } else if (this.checkIfMenuExists('newMenuInput') === undefined) {
             const menu = { name: this.state.newMenuInput }
 
@@ -230,7 +231,6 @@ class AdminDashboard extends React.Component {
         } 
         else if (this.checkIfMenuExists('newMenuInput')[0]) {
             <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>This menu doesn't exist. Please check your spelling.</Alert>
-            // alert('This menu already exists')
         }
     }
 
@@ -238,10 +238,8 @@ class AdminDashboard extends React.Component {
         e.preventDefault()
         if (this.state.deleteMenuInput === '') {
             <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>Please enter the name of the menu you want to delete.</Alert>
-            // alert('Please enter the name of the menu you want to delete.')
         } else if (this.checkIfMenuExists('deleteMenuInput') === undefined) {
             <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>This menu doesn't exist. Please check your spelling.</Alert>
-            // alert('This menu doesn\'t exist. Please check your spelling.')
         } else {
             const menuId = this.checkIfMenuExists('deleteMenuInput')[1]
            
@@ -391,8 +389,25 @@ class AdminDashboard extends React.Component {
                 </Button> */}
 
 
-            {/* TODO: Move modal to new component and same with modal input fields */}
-                <Modal isOpen={this.state.modalActive} toggle={this.clearModalState}>
+                <EditMenuItemModal
+                    menus={this.state.menus}
+                    menuItemBeingEdited={this.state.menuItemBeingEdited}
+                    editItemActiveMenuIds={this.state.editItemActiveMenuIds}
+                    editItemNameInput={this.state.editItemNameInput}
+                    editItemDescriptionInput={this.state.editItemDescriptionInput}
+                    editItemCostInput={this.state.editItemCostInput}
+                    modalActive={this.state.modalActive}
+                    clearModalState={this.state.clearModalState}
+                    handleInputChange={this.handleInputChange}
+                    updateMenuItemState={this.updateMenuItemState}
+                    clearModalState={this.clearModalState}
+                    toggleMenuAssignment={this.toggleMenuAssignment}
+                    deleteButtonClicked={this.state.deleteButtonClicked}
+                    runDeleteConfirmation={this.runDeleteConfirmation}
+                    deleteMenuItem={this.deleteMenuItem}
+                />
+
+                {/* <Modal isOpen={this.state.modalActive} toggle={this.clearModalState}>
                     <ModalHeader>
                         <span>Edit Menu Item:  &nbsp;</span>
                         {this.state.menuItemBeingEdited.name}
@@ -476,7 +491,7 @@ class AdminDashboard extends React.Component {
                             </button>
                         </ModalFooter>
                     }
-                </Modal>
+                </Modal> */}
 
                 <div className="card-container">
                     <MenuItem 

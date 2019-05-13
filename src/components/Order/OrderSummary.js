@@ -19,9 +19,7 @@ export default function OrderSummary(props) {
                 ?   <table id="ordered-items">
                         <tbody>
                             {props.orderItems.map(item => {
-                                console.log('ITEM X: ', item)
                                 return (
-                                    
                                     <tr key={item.id}>
                                         <td>
                                             {item.name}
