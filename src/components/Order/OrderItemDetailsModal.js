@@ -22,24 +22,14 @@ export default function OrderItemDetailsModal(props) {
             </ModalBody>
             <ModalFooter>
                 <span>Quantity:</span>
-                <button 
-                    onClick={() => props.updateOrderItemCount('increase')}
-                >
-                    &#43;
-                </button>
+                <button onClick={() => props.updateOrderItemQuantity('increase')}>&#43;</button>
 
-                {props.orderItemCount}
+                {props.orderItemQuantity}
 
-                <button 
-                    onClick={() => props.updateOrderItemCount('decrease')}
-                >
-                    &#8722;
-                </button>
+                <button onClick={() => props.updateOrderItemQuantity()}>&#8722;</button>
                 <br/>
 
-                <button 
-                    onClick={() => props.addItemToOrder(menuItem._id)}
-                >
+                <button onClick={() => props.addItemToOrder(menuItem._id)}>
                     Add to Order
                 </button>
             </ModalFooter>

@@ -20,7 +20,7 @@ class Order extends React.Component {
         orderSummaryActive: false,
         itemsOrdered: [],
         specialRequest: '',
-        orderItemCount: 1,
+        orderItemQuantity: 1,
 
         costPreTax: '',
         tax: '',
@@ -29,7 +29,6 @@ class Order extends React.Component {
     componentDidMount() {
         axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
-                console.log('res.data.menuItems: ', res.data)
                 this.setState({ allMenuItems: res.data })
             })
             .catch(err => console.log(err))
@@ -58,35 +57,26 @@ class Order extends React.Component {
         }
     }
 
-    clearModalState = () => {
-        this.setState({
-            modalActive: false,
-            specialRequest: '',
-            quantity: 1
-        })
-    }
-
     toggleSummaryModal = () => {
         this.setState({
             orderSummaryActive: !this.state.orderSummaryActive,
         })
     }
 
-    updateOrderItemCount = type => {
-        if (type === 'increase') {
+    updateOrderItemQuantity = action => {
+        if (action === 'increase') {
             this.setState({
-                orderItemCount: this.state.orderItemCount + 1
+                orderItemQuantity: this.state.orderItemQuantity + 1
             })
-        } else if (this.state.orderItemCount > 1) {
+        } else if (this.state.orderItemQuantity > 1) {
             this.setState({
-                orderItemCount: this.state.orderItemCount - 1
+                orderItemQuantity: this.state.orderItemQuantity - 1
             })
         }
         
     }
 
     addItemToOrder = id => {
-        // console.log('add item id/specialReq: ', id, specialRequest)
         const menuItem = this.state.allMenuItems.find(item => item._id === id)
         const orderItem = {
             id,
@@ -95,12 +85,11 @@ class Order extends React.Component {
             name: menuItem.name,
             cost: menuItem.cost,
             specialRequest: this.state.specialRequest,
-            quantity: this.state.orderItemCount 
+            quantity: this.state.orderItemQuantity 
         }
 
         this.setState({
             itemsOrdered: [...this.state.itemsOrdered, orderItem]
-            
         }, this.clearModalState())
     }
 
@@ -109,6 +98,14 @@ class Order extends React.Component {
             itemsOrdered: [...this.state.itemsOrdered.filter(item => _customId !== item.customOrderItemId)]
         })
         
+    }
+
+    clearModalState = () => {
+        this.setState({
+            modalActive: false,
+            specialRequest: '',
+            orderItemQuantity: 1
+        })
     }
 
     render () {
@@ -145,8 +142,8 @@ class Order extends React.Component {
                         menuItem={this.state.activeMenuItem}
                         addItemToOrder={this.addItemToOrder}
                         addSpecialRequest={this.handleInputChange}
-                        updateOrderItemCount={this.updateOrderItemCount}
-                        orderItemCount={this.state.orderItemCount}
+                        updateOrderItemQuantity={this.updateOrderItemQuantity}
+                        orderItemQuantity={this.state.orderItemQuantity}
                     />
                 </div>
                 

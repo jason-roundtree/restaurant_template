@@ -3,8 +3,9 @@ import { Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 
 export default function OrderSummary(props) {
-    const totalCost = props.orderItems.reduce((total, current) => {
-      return total += current.cost
+    // TODO: update this to factor in items with more than 1 quantity
+    const subTotalCost = props.orderItems.reduce((total, current) => {
+      return total += current.cost * current.quantity
     }, 0)
     const menuItemAdded = Boolean(props.orderItems.length)
     return (
@@ -23,6 +24,7 @@ export default function OrderSummary(props) {
                                     <tr key={item.id}>
                                         <td>
                                             {item.name}
+                                            {/* TODO: make a special request badge thingy that when hovered shows the request */}
                                             {item.specialRequest &&
                                                 <p className="special-req-item">
                                                     {item.specialRequest}
@@ -69,7 +71,7 @@ export default function OrderSummary(props) {
             }
         
             <ModalFooter>
-                <p>TOTAL: ${totalCost}</p>
+                <p>SUB-TOTAL: ${subTotalCost}</p>
                 <button 
                     disabled={!menuItemAdded}
                     id="checkout-btn"

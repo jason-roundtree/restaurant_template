@@ -14,9 +14,10 @@ const { API_BASE_URL } = require('../../config');
 // - create and re-use common components for both admin menu items and regular menu items
 // - create separate components for different elements on this page
 // - Enhance input validation, check out libraries
+// - Audit for a11y and proper doc structure
 
 // Post-MVP todos:
-// - setup sub-menu categories (e.g. Sandwiches, Pasta, Fish, etc) on front and back-end
+// - setup sub-menu categories and options (e.g. Sandwiches, Fish, Spiciness, Meat type) on front and back-end
 // - setup input for comments/additional menu item info
 // - move axios requests to their own module
 
