@@ -1,6 +1,5 @@
 import React from 'react';
 import OrderMenuItem from './OrderMenuItem';
-import OrderContactInfoForm from './OrderContactInfoForm';
 import OrderItemDetailsModal from './OrderItemDetailsModal';
 import OrderSummary from './OrderSummary';
 import uuid from 'uuid'
@@ -13,23 +12,18 @@ class Order extends React.Component {
         allMenuItems: [],
         activeMenuItem: {},
         modalActive: false,
-        // customerFirstName: '',
-        // customerLastName: '',
-        // customerPhone: '',
-        // customerInfoComplete: false,
         orderSummaryActive: false,
         itemsOrdered: [],
         specialRequest: '',
         orderItemQuantity: 1,
-
-        costPreTax: '',
-        tax: '',
-        totalCost: ''
+        checkoutInit: false,
     }
     componentDidMount() {
         axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
-                this.setState({ allMenuItems: res.data })
+                this.setState({ 
+                    allMenuItems: res.data
+                })
             })
             .catch(err => console.log(err))
     }
@@ -55,12 +49,6 @@ class Order extends React.Component {
         if (this.state.activeMenuItem !== false) {
             this.setState({ modalActive: true })
         }
-    }
-
-    toggleSummaryModal = () => {
-        this.setState({
-            orderSummaryActive: !this.state.orderSummaryActive,
-        })
     }
 
     updateOrderItemQuantity = action => {
@@ -105,6 +93,18 @@ class Order extends React.Component {
             modalActive: false,
             specialRequest: '',
             orderItemQuantity: 1
+        })
+    }
+
+    toggleCheckoutInit = () => {
+        this.setState({
+            checkoutInit: !this.state.checkoutInit
+        })
+    }
+
+    toggleSummaryModal = () => {
+        this.setState({
+            orderSummaryActive: !this.state.orderSummaryActive,
         })
     }
 
@@ -158,9 +158,12 @@ class Order extends React.Component {
                         // toggleItemDeletionAlert={this.toggleItemDeletionAlert}
                         // showDeletionAlert={this.state.deleteBtnClicked}
                         removeItem={this.removeItemFromOrder}
+                        toggleCheckout={this.toggleCheckoutInit}
+                        checkoutActive={this.state.checkoutInit}
+                        returnToOrderEdit={this.toggleSummaryModal}
                     />
                 )}
-
+                
             </div>
         )
     } 

@@ -39,7 +39,7 @@ export default class OrderContactInfoForm extends Component {
                     type="input"
                     name="customerPhone"
                     value={this.props.phone}
-                    onChange={this.props.handleInputChange}
+                   ß onChange={this.props.handleInputChange}
                     placeholder="Phone Number"
                     required
                 />

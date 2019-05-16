@@ -142,7 +142,7 @@ export default class AddMenuItem extends React.Component {
                 
                 {this.state.showInputErrorMsg ? <Alert color="danger">At the minimum, please enter an item name and assign it to a menu</Alert> : ''}
 
-                {this.state.showSuccessMsg && !this.state.componentActive ? <Alert>The menu item has successfully been added</Alert> : ''}
+                {/* {this.state.showSuccessMsg && !this.state.componentActive ? <Alert>The menu item has successfully been added</Alert> : ''} */}
                 
             </div>
         )

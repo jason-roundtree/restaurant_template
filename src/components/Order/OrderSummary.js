@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import OrderCheckout from './OrderCheckout';
 import { Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 
@@ -21,7 +23,7 @@ export default function OrderSummary(props) {
                         <tbody>
                             {props.orderItems.map(item => {
                                 return (
-                                    <tr key={item.id}>
+                                    <tr key={item.customOrderItemId}>
                                         <td>
                                             {item.name}
                                             {/* TODO: make a special request badge thingy that when hovered shows the request */}
@@ -32,7 +34,7 @@ export default function OrderSummary(props) {
                                             }
                                         </td>
                                         <td>${item.cost}</td>
-                                        <td>x {item.quantity}</td>
+                                        <td><span>x</span>{item.quantity}</td>
                                         <td>
                                             <button
                                                 className="danger-btn delete-item"
@@ -75,9 +77,17 @@ export default function OrderSummary(props) {
                 <button 
                     disabled={!menuItemAdded}
                     id="checkout-btn"
+                    onClick={props.toggleCheckout}
                 >
                     Checkout
                 </button>
+
+                {props.checkoutActive && 
+                    <OrderCheckout 
+                        returnToOrderEdit={props.returnToOrderEdit}
+                        toggleCheckout={props.toggleCheckout}
+                    /> 
+                }
             </ModalFooter>
         </Modal>
     )
