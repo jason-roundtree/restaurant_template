@@ -1,7 +1,6 @@
  import React, { Component } from 'react'
 import { Formik } from 'formik';
 
-// TODO: Change this to not be active until somebody checks out
 export default class OrderContactInfoForm extends Component {
     // state = {
     //     firstName: '',

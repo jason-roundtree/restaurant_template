@@ -21,6 +21,22 @@ export default function OrderItemDetailsModal(props) {
                 ></textarea> 
             </ModalBody>
             <ModalFooter>
+                <span>Quantity:</span>
+                <button 
+                    onClick={() => props.updateOrderItemCount('increase')}
+                >
+                    &#43;
+                </button>
+
+                {props.orderItemCount}
+
+                <button 
+                    onClick={() => props.updateOrderItemCount('decrease')}
+                >
+                    &#8722;
+                </button>
+                <br/>
+
                 <button 
                     onClick={() => props.addItemToOrder(menuItem._id)}
                 >

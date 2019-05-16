@@ -1,7 +1,7 @@
 import React from 'react'
 
 // TODO: update component name to prevent confusion with admin component?
-export default function MenuItems(props) {
+export default function OrderMenuItem(props) {
   return (
     <div 
         // className="menu-item"

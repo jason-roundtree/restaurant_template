@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MenuAssignmentList = props => {
+export default function MenuAssignmentList(props) {
     const activeMenusIds = []
     for (let menuId of props.activeMenus) {
         activeMenusIds.push(menuId)
@@ -26,5 +26,3 @@ const MenuAssignmentList = props => {
         </div> 
     )
 }
-
-export default MenuAssignmentList;

@@ -1,22 +1,18 @@
 import React from 'react';
-// import { Redirect } from 'react-router'
 import { Button, Alert } from 'reactstrap';
 import axios from 'axios';
 const { API_BASE_URL } = require('../../config');
 
 // TODO: Review and sort out unused code
 export default class AddMenuItem extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            componentActive: false,
-            showInputErrorMsg: false,
-            showSuccessMsg: false,
-            activeMenus: [],
-            nameInput: '',
-            descriptionInput: '',
-            costInput: ''
-        }
+    state = {
+        componentActive: false,
+        showInputErrorMsg: false,
+        showSuccessMsg: false,
+        activeMenus: [],
+        nameInput: '',
+        descriptionInput: '',
+        costInput: ''
     }
     toggleMenuAssignment = (e, menuId) => {
         e.preventDefault()
@@ -95,7 +91,6 @@ export default class AddMenuItem extends React.Component {
                 {this.state.componentActive 
                     ?   <label>Enter New Item Info:</label>
                     :   <button 
-                            // color="primary" 
                             onClick={this.createNewMenuItemClick}
                         >
                             Create a New Menu Item
@@ -145,10 +140,9 @@ export default class AddMenuItem extends React.Component {
                     </button>
                 </form>
                 
-                {/* TODO: remove these?? */}
-                {this.state.showInputErrorMsg ? <Alert color="danger" className='error-msg'>At the minimum, please enter an item name and assign it to a menu</Alert> : ''}
+                {this.state.showInputErrorMsg ? <Alert color="danger">At the minimum, please enter an item name and assign it to a menu</Alert> : ''}
 
-                {/* {this.state.showSuccessMsg && !this.state.componentActive ? <p className='success-msg'>The menu item has successfully been added</p> : ''} */}
+                {this.state.showSuccessMsg && !this.state.componentActive ? <Alert>The menu item has successfully been added</Alert> : ''}
                 
             </div>
         )

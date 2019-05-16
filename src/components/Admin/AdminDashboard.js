@@ -14,7 +14,6 @@ const { API_BASE_URL } = require('../../config');
 // - create and re-use common components for both admin menu items and regular menu items
 // - create separate components for different elements on this page
 // - Enhance input validation, check out libraries
-// - Change alerts to modals or something else
 
 // Post-MVP todos:
 // - setup sub-menu categories (e.g. Sandwiches, Pasta, Fish, etc) on front and back-end
@@ -153,7 +152,7 @@ class AdminDashboard extends React.Component {
     }
 
     toggleMenuAssignment = menuId => {
-        console.log('toggleMenuAssignment: ', menuId)
+        // console.log('toggleMenuAssignment: ', menuId)
         const activeMenus = this.state.editItemActiveMenuIds
         if (activeMenus.includes(menuId)) {
             this.setState({
@@ -511,4 +510,4 @@ class AdminDashboard extends React.Component {
     }
 }
 
-export default AdminDashboard
+export default AdminDashboard;

@@ -24,10 +24,13 @@ export default function OrderSummary(props) {
                                         <td>
                                             {item.name}
                                             {item.specialRequest &&
-                                                <p className="special-req-item">{item.specialRequest}</p>
+                                                <p className="special-req-item">
+                                                    {item.specialRequest}
+                                                </p>
                                             }
                                         </td>
                                         <td>${item.cost}</td>
+                                        <td>x {item.quantity}</td>
                                         <td>
                                             <button
                                                 className="danger-btn delete-item"

@@ -1,5 +1,5 @@
 import React from 'react';
-import MenuItems from './MenuItems';
+import OrderMenuItem from './OrderMenuItem';
 import OrderContactInfoForm from './OrderContactInfoForm';
 import OrderItemDetailsModal from './OrderItemDetailsModal';
 import OrderSummary from './OrderSummary';
@@ -20,6 +20,7 @@ class Order extends React.Component {
         orderSummaryActive: false,
         itemsOrdered: [],
         specialRequest: '',
+        orderItemCount: 1,
 
         costPreTax: '',
         tax: '',
@@ -60,7 +61,8 @@ class Order extends React.Component {
     clearModalState = () => {
         this.setState({
             modalActive: false,
-            specialRequest: ''
+            specialRequest: '',
+            quantity: 1
         })
     }
 
@@ -70,17 +72,30 @@ class Order extends React.Component {
         })
     }
 
-    addItemToOrder = (id)=> {
+    updateOrderItemCount = type => {
+        if (type === 'increase') {
+            this.setState({
+                orderItemCount: this.state.orderItemCount + 1
+            })
+        } else if (this.state.orderItemCount > 1) {
+            this.setState({
+                orderItemCount: this.state.orderItemCount - 1
+            })
+        }
+        
+    }
+
+    addItemToOrder = id => {
         // console.log('add item id/specialReq: ', id, specialRequest)
         const menuItem = this.state.allMenuItems.find(item => item._id === id)
-        console.log('menuItem: ', menuItem)
         const orderItem = {
             id,
             // added custom id since orders can have multiples of the same item
             customOrderItemId: uuid(),
             name: menuItem.name,
             cost: menuItem.cost,
-            specialRequest: this.state.specialRequest 
+            specialRequest: this.state.specialRequest,
+            quantity: this.state.orderItemCount 
         }
 
         this.setState({
@@ -113,7 +128,7 @@ class Order extends React.Component {
                     <div id="order-item-container">
                         {this.state.allMenuItems.map((item) => {
                             return (
-                                <MenuItems
+                                <OrderMenuItem
                                     key={item._id}
                                     id={item._id}
                                     name={item.name}
@@ -130,6 +145,8 @@ class Order extends React.Component {
                         menuItem={this.state.activeMenuItem}
                         addItemToOrder={this.addItemToOrder}
                         addSpecialRequest={this.handleInputChange}
+                        updateOrderItemCount={this.updateOrderItemCount}
+                        orderItemCount={this.state.orderItemCount}
                     />
                 </div>
                 
