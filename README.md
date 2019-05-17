@@ -18,25 +18,26 @@ I decided to develop this app as a relatively simple template that restaurants c
 - Axios
 - HTML
 - CSS
-- Bootstrap
+- Bootstrap/Reactstrap
 
 # TODOs:
-- setup backend and frontend for editing restaurant, about and contact info 
-- create and re-use common components for both admin menu item list and public menu items
-- create separate components for different elements on this page
-- group related components into dedicated folders
-- enhance and clean-up styling
-- remove bootstrap from buttons and restyle
-- Enhance input validation, check out libraries
-- Change alerts to modals or something else
 - Setup auth
-- integrate google maps into contact page
-- allow user to load logo and images (maybe move to post-MVP)
+- Setup backend and frontend to allow admin editing of restaurant, about and contact info
+- Setup backend and frontend for order submission
+- Clean up order section and add verbiage about order details
+- Setup alphabetic sorting of menu items (in a dedicated module?)
+- Allow admin to create menu item comments/options (e.g. Spiciness level, Gluten free, etc) and add options to order platform
+- Allow admin to set the tax rates
+- Enhance and clean-up styling
+- Enhance input validation, check out libraries
+- Audit for a11y
+- Integrate google maps into contact page
+- Setup some unit tests
 
 ## Post-MVP todos:
 - setup sub-menu categories (e.g. Sandwiches, Pasta, Fish, etc)
-- setup input for comments/additional menu item info (e.g. Spiciness level, Gluten free, etc)
-- setup online ordering for pickup
+- allow user to edit items added to order (instead of only being able to delete and add items)
+- allow user to load logo and images (maybe move to post-MVP)
 - add pages for online reservations and online store
 - move axios requests to their own api module
 - move backend routing to it's own module
