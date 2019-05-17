@@ -61,7 +61,6 @@ class Order extends React.Component {
                 orderItemQuantity: this.state.orderItemQuantity - 1
             })
         }
-        
     }
 
     addItemToOrder = id => {
@@ -85,7 +84,6 @@ class Order extends React.Component {
         this.setState({
             itemsOrdered: [...this.state.itemsOrdered.filter(item => _customId !== item.customOrderItemId)]
         })
-        
     }
 
     clearModalState = () => {
@@ -149,14 +147,9 @@ class Order extends React.Component {
                 
                 {this.state.orderSummaryActive && (
                     <OrderSummary
-                        firstName={this.state.customerFirstName}
-                        lastName={this.state.customerLastName}
-                        phone={this.state.customerPhone}
                         orderItems={this.state.itemsOrdered}
                         modalOpen={this.state.orderSummaryActive}
                         toggleSummaryModal={this.toggleSummaryModal}
-                        // toggleItemDeletionAlert={this.toggleItemDeletionAlert}
-                        // showDeletionAlert={this.state.deleteBtnClicked}
                         removeItem={this.removeItemFromOrder}
                         toggleCheckout={this.toggleCheckoutInit}
                         checkoutActive={this.state.checkoutInit}
