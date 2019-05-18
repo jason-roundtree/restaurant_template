@@ -7,7 +7,7 @@ const { API_BASE_URL } = require('../../config');
 
 export default class OrderSummary extends React.Component {
     state = {
-        orderItems: [],
+        // orderItems: [],
         subTotalCost: 0,
         // TODO: allow tax rate to be set from admin
         // TODO: what other taxes could apply other than sales tax?
@@ -18,7 +18,6 @@ export default class OrderSummary extends React.Component {
         lastName: '',
         phone: '',
     }
-
     componentDidMount() {
         const subTotalCost = this.props.orderItems.reduce((total, current) => {
             return total += current.cost * current.quantity
@@ -26,21 +25,27 @@ export default class OrderSummary extends React.Component {
         // TODO: use lodash to round instead??
         const taxAmount = Math.round((subTotalCost * this.state.taxPercentage) * 100) / 100
         const totalCost = subTotalCost + taxAmount
-
         this.setState({
             subTotalCost,
             taxAmount,
             totalCost
         })
     }
-
+    componentDidUpdate = prevProps => {
+        if (this.props.orderItems.length === 0 && (this.props.orderItems !== prevProps.orderItems)) {
+            this.setState({
+                subTotalCost: 0,
+                taxAmount: 0,
+                totalCost: 0,
+            })
+        }
+    }
     handleInputChange = e => {
         const { name, value } = e.target
         this.setState({
             [name]: value
         })
     }
-    
     // TODO: setup back-end and then submit
     submitOrder = e => {
         e.preventDefault()
@@ -93,7 +98,6 @@ export default class OrderSummary extends React.Component {
                                                         onClick={() => {
                                                             this.props.removeItem(item.customOrderItemId)
                                                         }}
-                                                        disabled={this.props.showDeletionAlert}
                                                     >
                                                         Remove
                                                     </button>
@@ -119,7 +123,6 @@ export default class OrderSummary extends React.Component {
                             <OrderContactInfoInputs 
                                 handleInputChange={this.handleInputChange}
                                 returnToOrderEdit={this.props.returnToOrderEdit}
-                                toggleCheckout={this.props.toggleCheckout}
                                 firstName={this.state.firstName}
                                 lastName={this.state.lastName}
                                 phone={this.state.phone}

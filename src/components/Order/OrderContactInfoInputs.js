@@ -4,10 +4,7 @@ export default function OrderContactInfoInputs(props) {
     return (
         <div>
             <button 
-                onClick={() => {
-                    props.returnToOrderEdit()
-                    props.toggleCheckout()
-                }}
+                onClick={() => props.returnToOrderEdit()}
             >Return to Menu Items</button>
             <br />
             
@@ -32,6 +29,7 @@ export default function OrderContactInfoInputs(props) {
             <br />
 
             <input 
+                // TODO: uncomment these once order posting is working
                 type="tel"
                 // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 placeholder="Phone Number:  XXX-XXX-XXXX"

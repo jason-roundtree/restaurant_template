@@ -15,8 +15,7 @@ class Order extends React.Component {
         orderSummaryActive: false,
         itemsOrdered: [],
         specialRequest: '',
-        orderItemQuantity: 1,
-        checkoutInit: false,
+        orderItemQuantity: 1
     }
     componentDidMount() {
         axios.get(`${API_BASE_URL}/menu_items`)
@@ -94,12 +93,6 @@ class Order extends React.Component {
         })
     }
 
-    toggleCheckoutInit = () => {
-        this.setState({
-            checkoutInit: !this.state.checkoutInit
-        })
-    }
-
     toggleSummaryModal = () => {
         this.setState({
             orderSummaryActive: !this.state.orderSummaryActive,
@@ -151,8 +144,6 @@ class Order extends React.Component {
                         modalOpen={this.state.orderSummaryActive}
                         toggleSummaryModal={this.toggleSummaryModal}
                         removeItem={this.removeItemFromOrder}
-                        toggleCheckout={this.toggleCheckoutInit}
-                        checkoutActive={this.state.checkoutInit}
                         returnToOrderEdit={this.toggleSummaryModal}
                     />
                 )}
