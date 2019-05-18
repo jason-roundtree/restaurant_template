@@ -12,8 +12,9 @@ export default function OrderItemDetailsModal(props) {
             <ModalBody>
                 <p>{menuItem.description}</p>
                 <p>{`$${menuItem.cost}`}</p>
-                <label htmlFor="specialRequest">Special Requests:</label>
+                {/* <label htmlFor="specialRequest">Special Requests:</label> */}
                 <textarea 
+                    placeholder="Special Requests"
                     name="specialRequest" 
                     rows='3'
                     value={menuItem.specialRequestInput}

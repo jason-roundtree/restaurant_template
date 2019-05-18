@@ -1,5 +1,5 @@
 import React from 'react';
-import OrderCheckout from './OrderCheckout';
+import OrderContactInfoInputs from './OrderContactInfoInputs';
 import { Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
@@ -7,17 +7,18 @@ const { API_BASE_URL } = require('../../config');
 
 export default class OrderSummary extends React.Component {
     state = {
-        firstName: '',
-        lastName: '',
-        phone: '',
-
+        orderItems: [],
         subTotalCost: 0,
         // TODO: allow tax rate to be set from admin
         // TODO: what other taxes could apply other than sales tax?
         taxPercentage: .065,
         taxAmount: 0,
-        totalCost: 0
+        totalCost: 0,
+        firstName: '',
+        lastName: '',
+        phone: '',
     }
+
     componentDidMount() {
         const subTotalCost = this.props.orderItems.reduce((total, current) => {
             return total += current.cost * current.quantity
@@ -41,14 +42,27 @@ export default class OrderSummary extends React.Component {
     }
     
     // TODO: setup back-end and then submit
-    submitOrder = () => {
-
+    submitOrder = e => {
+        e.preventDefault()
+        const itemsSanitized = []
+        this.props.orderItems.forEach(item => {
+            const { id: menuItemId, specialRequest, quantity } = item
+            itemsSanitized.push({ menuItemId, specialRequest, quantity })
+        })
+        // TODO: Create promise here so you can post individual items and then the whole order once those are done?
+        const postedOrderItemIds = []
+        itemsSanitized.forEach(item => {
+            axios.post(`${API_BASE_URL}/order_item`, item)
+                .then(res => {
+                    console.log('order_item res: ', res)
+                    postedOrderItemIds.push(res.data)
+                })
+                .catch(err => console.log(err))
+        })
     }
 
     render() {
         console.log('Order Summary STATE: ', this.state)
-        const menuItemAdded = Boolean(this.props.orderItems.length)
-
         return (
             <Modal 
                 id="order-summary"
@@ -99,23 +113,25 @@ export default class OrderSummary extends React.Component {
                     <p>Sub Total: ${this.state.subTotalCost}</p>
                     <p>Tax: ${this.state.taxAmount}</p>
                     <p>Grand Total: ${this.state.totalCost}</p>
-    
-                    <OrderCheckout 
-                        returnToOrderEdit={this.props.returnToOrderEdit}
-                        toggleCheckout={this.props.toggleCheckout}
-                        firstName={this.state.firstName}
-                        lastName={this.state.lastName}
-                        phone={this.state.phone}
-                    /> 
                     
-                    <button 
-                        disabled={!menuItemAdded}
-                        id="checkout-btn"
-                        // onClick={this.props.}
-                    >
-                        Submit Order
-                    </button>
-
+                    <form onSubmit={this.submitOrder}>
+                        {Boolean(this.props.orderItems.length) &&
+                            <OrderContactInfoInputs 
+                                handleInputChange={this.handleInputChange}
+                                returnToOrderEdit={this.props.returnToOrderEdit}
+                                toggleCheckout={this.props.toggleCheckout}
+                                firstName={this.state.firstName}
+                                lastName={this.state.lastName}
+                                phone={this.state.phone}
+                            /> 
+                        }
+                        <button 
+                            disabled={this.state.firstName === '' || this.state.lastName === '' || this.state.phone === ''}
+                        >
+                            Submit Order
+                        </button>
+                    </form>
+                    
                 </ModalFooter>
             </Modal>
         )

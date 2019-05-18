@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default function OrderCheckout(props) {
+export default function OrderContactInfoInputs(props) {
     return (
         <div>
             <button 
@@ -11,14 +11,14 @@ export default function OrderCheckout(props) {
             >Return to Menu Items</button>
             <br />
             
-            {/* TODO: Add validation that disables submit btn if all fields are complete */}
-            {/* TODO: Hide this section if no items have been added to order */}
+            {/* TODO: Add validation library for phone */}
             <p>Please complete contact info before finalizing order:</p>
             <input 
                 type="text"
                 placeholder="First Name"
                 name="firstName"
                 value={props.firstName}
+                onChange={props.handleInputChange}
             />
             <br />
 
@@ -27,14 +27,18 @@ export default function OrderCheckout(props) {
                 placeholder="Last Name"
                 name="lastName"
                 value={props.lastName}
+                onChange={props.handleInputChange}
             />
             <br />
 
             <input 
-                type="text"
-                placeholder="Phone Number"
+                type="tel"
+                // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                placeholder="Phone Number:  XXX-XXX-XXXX"
                 name="phone"
                 value={props.phone}
+                onChange={props.handleInputChange}
+                // required
             />
             <br />
         </div>

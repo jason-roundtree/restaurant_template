@@ -6,7 +6,6 @@ import Menu from './Menu';
 import Contact from './Contact';
 import Gallery from './Gallery';
 import Order from './Order/Order';
-import Checkout from './Order/OrderCheckout';
 import AdminDashboard from './Admin/AdminDashboard';
 // import Reservations from './Reservations';
 
@@ -18,7 +17,6 @@ const Router = () => {
             {/* <Route path="/menus" component={Menus} /> */}
             <Route path="/contact" component={Contact} />
             <Route path="/order" component={Order} />
-            <Route path="/checkout" component={Checkout} />
             <Route path="/gallery" component={Gallery} />
             <Route path="/admin" component={AdminDashboard} />
             <Route path="/menu/:id" component={Menu} />
