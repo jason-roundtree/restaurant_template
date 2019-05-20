@@ -1,6 +1,7 @@
 import React from 'react';
 import OrderContactInfoInputs from './OrderContactInfoInputs';
 import { Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+var _ = require('lodash');
 const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
 
@@ -22,8 +23,7 @@ export default class OrderSummary extends React.Component {
         const subTotalCost = this.props.orderItems.reduce((total, current) => {
             return total += current.cost * current.quantity
         }, 0)
-        // TODO: use lodash to round instead??
-        const taxAmount = Math.round((subTotalCost * this.state.taxPercentage) * 100) / 100
+        const taxAmount = _.round((subTotalCost * this.state.taxPercentage), 2)
         const totalCost = subTotalCost + taxAmount
         this.setState({
             subTotalCost,
@@ -74,7 +74,7 @@ export default class OrderSummary extends React.Component {
                 isOpen={this.props.modalOpen}
                 toggle={this.props.toggleSummaryModal}
             >
-                <ModalHeader>Order Summary</ModalHeader>
+                <ModalHeader>Order Summary &amp; Checkout</ModalHeader>
                     {this.props.orderItems.length
                         ?   <table id="ordered-items">
                                 <tbody>

@@ -9,7 +9,7 @@ import Order from './Order/Order';
 import AdminDashboard from './Admin/AdminDashboard';
 // import Reservations from './Reservations';
 
-const Router = () => {
+export default function Router() {
     return (
         <div>
             <Route exact={true} path="/" component={Home} />
@@ -23,5 +23,3 @@ const Router = () => {
         </div>
     )
 }
-
-export default Router;

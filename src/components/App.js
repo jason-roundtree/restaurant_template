@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Router from './Router';
 import NavBar from './NavBar';
 
-export const App = () => {
+export default function App() {
   return (
     <BrowserRouter>
       <div>
@@ -13,7 +13,5 @@ export const App = () => {
     </BrowserRouter>
   );
 }
-
-export default App;
 
 

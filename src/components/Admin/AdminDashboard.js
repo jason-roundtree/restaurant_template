@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import MenuItem from './MenuItem';
 import AddMenuItem from './AddMenuItem';
-// import MenuAssignmentList from './MenuAssignmentList';
 import EditMenuItemModal from './EditMenuItemModal';
-import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Alert } from 'reactstrap';
+import { Formik, Form, Field } from 'formik';
 // import './AdminDashboard.css';
 // import '../index.css';
 const axios = require('axios');
@@ -12,7 +12,6 @@ const { API_BASE_URL } = require('../../config');
 
 // TODO:
 // - create and re-use common components for both admin menu items and regular menu items
-// - create separate components for different elements on this page
 // - Enhance input validation, check out libraries
 // - Audit for a11y and proper doc structure
 
@@ -21,7 +20,7 @@ const { API_BASE_URL } = require('../../config');
 // - setup input for comments/additional menu item info
 // - move axios requests to their own module
 
-class AdminDashboard extends React.Component {
+export default class AdminDashboard extends React.Component {
     state = {
         menus: [],
         menuItems: [],
@@ -31,6 +30,10 @@ class AdminDashboard extends React.Component {
         newMenuInput: '',
         deleteMenuSectionActive: false,
         deleteMenuInput: '',
+        showAddMenuError: false,
+        addMenuErrorMsg: '',
+        showDeleteMenuError: false,
+        deleteMenuErrorMsg: '',
 
         modalActive: false,
         menuItemBeingEdited: {},
@@ -153,7 +156,6 @@ class AdminDashboard extends React.Component {
     }
 
     toggleMenuAssignment = menuId => {
-        // console.log('toggleMenuAssignment: ', menuId)
         const activeMenus = this.state.editItemActiveMenuIds
         if (activeMenus.includes(menuId)) {
             this.setState({
@@ -181,7 +183,6 @@ class AdminDashboard extends React.Component {
     deleteMenuItem = () => {
         axios.delete(`${API_BASE_URL}/menu_items/${this.state.menuItemBeingEdited.id}`)
             .then(res => {
-                console.log('Item removed Res: ', res)
                 this.clearModalState(true)
             })
             .catch(err => console.log(err))
@@ -215,37 +216,51 @@ class AdminDashboard extends React.Component {
 
     saveNewMenu = e => {
         e.preventDefault()
-        console.log('saveNewMenu: ', this.checkIfMenuExists('newMenuInput'))
         if (this.state.newMenuInput === '') {
-            <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>Please enter the menu name.</Alert>
-        } else if (this.checkIfMenuExists('newMenuInput') === undefined) {
+            this.setState({
+                showAddMenuError: true,
+                addMenuErrorMsg: 'Please enter the menu name.'
+            })
+        } 
+        else if (this.checkIfMenuExists('newMenuInput') === undefined) {
             const menu = { name: this.state.newMenuInput }
 
             axios.post(`${API_BASE_URL}/menu`, menu)
                 .then(res => {
                     this.setState({
+                        showAddMenuError: false,
                         newMenuSectionActive: false
                     }, () => window.location.reload())
                 })
                 .catch(err => console.log(err))
         } 
         else if (this.checkIfMenuExists('newMenuInput')[0]) {
-            <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>This menu doesn't exist. Please check your spelling.</Alert>
+            this.setState({
+                showAddMenuError: true,
+                addMenuErrorMsg: 'This menu already exists.'
+            })
         }
     }
 
     deleteMenu = e => {
         e.preventDefault()
         if (this.state.deleteMenuInput === '') {
-            <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>Please enter the name of the menu you want to delete.</Alert>
+            this.setState({ 
+                showDeleteMenuError: true,
+                deleteMenuErrorMsg: 'Please enter the name of the menu you want to delete.' 
+            })
         } else if (this.checkIfMenuExists('deleteMenuInput') === undefined) {
-            <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>This menu doesn't exist. Please check your spelling.</Alert>
+            this.setState({ 
+                showDeleteMenuError: true,
+                deleteMenuErrorMsg: 'This menu doesn\'t exist. Please check your spelling.' 
+            })
         } else {
             const menuId = this.checkIfMenuExists('deleteMenuInput')[1]
            
             axios.delete(`${API_BASE_URL}/menu/${menuId}`)
                 .then(res => {
                     this.setState({
+                        showDeleteMenuError: false,
                         deleteMenuSectionActive: false
                     }, () => window.location.reload())
                 })
@@ -301,7 +316,7 @@ class AdminDashboard extends React.Component {
                 </ul>
                 
                 {this.state.newMenuSectionActive 
-                    ?   <form id="add-new-menu-form">
+                    ?   <form id="add-new-menu-form" onSubmit={this.saveNewMenu}>
                             <input 
                                 type="text" 
                                 id="newMenuInput" 
@@ -310,12 +325,11 @@ class AdminDashboard extends React.Component {
                                 value={this.state.newMenuInput}
                                 // required
                             />
-                            <br />
+                            {this.state.showAddMenuError && 
+                                <Alert color="info">{this.state.addMenuErrorMsg}</Alert>
+                            }
 
-                            <button 
-                                onClick={this.saveNewMenu} 
-                                type="submit"
-                            >
+                            <button className="add-remove-menu-btn">
                                 Add Menu
                             </button>
                         </form>
@@ -330,7 +344,7 @@ class AdminDashboard extends React.Component {
                 <br />
 
                 {this.state.deleteMenuSectionActive 
-                    ?   <form id="delete-menu-form">
+                    ?   <form id="delete-menu-form" onSubmit={this.deleteMenu}>
                             <input 
                                 type="text" 
                                 id="deleteMenuInput" 
@@ -339,11 +353,11 @@ class AdminDashboard extends React.Component {
                                 value={this.state.deleteMenuInput}
                                 // required
                             />
-                            <br />
-                            <button 
-                                className="danger-btn"
-                                onClick={this.deleteMenu} 
-                            >
+                            {this.state.showDeleteMenuError && 
+                                <Alert color="info">{this.state.deleteMenuErrorMsg}</Alert>
+                            }
+
+                            <button className="danger-btn add-remove-menu-btn">
                                 Confirm Menu Deletion
                             </button>
                         </form>
@@ -510,5 +524,3 @@ class AdminDashboard extends React.Component {
         )
     }
 }
-
-export default AdminDashboard;

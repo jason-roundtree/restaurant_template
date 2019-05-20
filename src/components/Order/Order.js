@@ -2,12 +2,12 @@ import React from 'react';
 import OrderMenuItem from './OrderMenuItem';
 import OrderItemDetailsModal from './OrderItemDetailsModal';
 import OrderSummary from './OrderSummary';
-import uuid from 'uuid'
+import uuid from 'uuid';
 import './Order.css';
 const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
 
-class Order extends React.Component {
+export default class Order extends React.Component {
     state = {
         allMenuItems: [],
         activeMenuItem: {},
@@ -20,9 +20,7 @@ class Order extends React.Component {
     componentDidMount() {
         axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
-                this.setState({ 
-                    allMenuItems: res.data
-                })
+                this.setState({ allMenuItems: res.data })
             })
             .catch(err => console.log(err))
     }
@@ -30,7 +28,7 @@ class Order extends React.Component {
     handleInputChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
-
+    // TODO: is this being used
     handleContactInfoSubmit = e => {
         e.preventDefault()
         this.setState({ customerInfoComplete: true })
@@ -40,9 +38,7 @@ class Order extends React.Component {
         const { allMenuItems } = this.state
         for (let item of allMenuItems) {
             if (item._id === id) {
-                this.setState({
-                    activeMenuItem: item
-                })
+                this.setState({ activeMenuItem: item })
             }
         }
         if (this.state.activeMenuItem !== false) {
@@ -56,8 +52,8 @@ class Order extends React.Component {
                 orderItemQuantity: this.state.orderItemQuantity + 1
             })
         } else if (this.state.orderItemQuantity > 1) {
-            this.setState({
-                orderItemQuantity: this.state.orderItemQuantity - 1
+            this.setState({ 
+                orderItemQuantity: this.state.orderItemQuantity - 1 
             })
         }
     }
@@ -79,9 +75,9 @@ class Order extends React.Component {
         }, this.clearModalState())
     }
 
-    removeItemFromOrder = _customId => {
+    removeItemFromOrder = customId => {
         this.setState({
-            itemsOrdered: [...this.state.itemsOrdered.filter(item => _customId !== item.customOrderItemId)]
+            itemsOrdered: [...this.state.itemsOrdered.filter(item => customId !== item.customOrderItemId)]
         })
     }
 
@@ -94,25 +90,19 @@ class Order extends React.Component {
     }
 
     toggleSummaryModal = () => {
-        this.setState({
-            orderSummaryActive: !this.state.orderSummaryActive,
-        })
+        this.setState({ orderSummaryActive: !this.state.orderSummaryActive })
     }
 
     render () {
-        console.log('Order state: ', this.state)
+        // console.log('Order state: ', this.state)
         
         return (
             <div id="order-page">
                 <div id="order-page-main">
                     <h1>Order for Pickup</h1>
-                    {/* TODO: Change this btn to only show when item has been added? */}
-                    <button 
-                        onClick={this.toggleSummaryModal}
-                    >
-                        Order Summary & Checkout
+                    <button onClick={this.toggleSummaryModal}>
+                        Order Summary &amp; Checkout
                     </button>
-
                     <div id="order-item-container">
                         {this.state.allMenuItems.map((item) => {
                             return (
@@ -138,7 +128,7 @@ class Order extends React.Component {
                     />
                 </div>
                 
-                {this.state.orderSummaryActive && (
+                {this.state.orderSummaryActive && 
                     <OrderSummary
                         orderItems={this.state.itemsOrdered}
                         modalOpen={this.state.orderSummaryActive}
@@ -146,11 +136,10 @@ class Order extends React.Component {
                         removeItem={this.removeItemFromOrder}
                         returnToOrderEdit={this.toggleSummaryModal}
                     />
-                )}
+                }
                 
             </div>
         )
     } 
 }
 
-export default Order;

@@ -127,10 +127,6 @@ button.danger-btn:hover {
   background-color: rgb(235, 34, 34);
   border-color: rgb(235, 34, 34);
 }
-.hidden {
-  display: none;
-}
-
 input {
   height: 2.25em;
   /* TODO: set rules for lengths of each field */
@@ -162,8 +158,15 @@ input#filterInput {
   
 }
 input#newMenuInput, input#deleteMenuInput {
-  width: 33%;
-  margin-bottom: .7em;
+  width: 50%;
+  display: block;
+  margin: 1.2em auto .7em;
+}
+div.alert {
+  width: 80%;
+  margin: 0 auto;
+  padding: 4px;
+  font-size: .8em;
 }
 
 

@@ -3,7 +3,7 @@ import axios from 'axios'
 import './Menu.css'
 const { API_BASE_URL } = require('../config');
 
-class Menu extends React.Component { 
+export default class Menu extends React.Component { 
     state = {
         menuId: window.location.pathname.split('/')[2],
         menuName: '',
@@ -46,6 +46,4 @@ class Menu extends React.Component {
         )
     }
 }
-
-export default Menu;
 
