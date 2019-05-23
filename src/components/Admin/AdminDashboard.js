@@ -38,9 +38,6 @@ export default class AdminDashboard extends React.Component {
         modalActive: false,
         menuItemBeingEdited: {},
         editItemActiveMenuIds: [],
-        editItemDescriptionInput: '',
-        editItemCostInput: '',
-        editItemNameInput: '',
         deleteButtonClicked: false
     }
     componentDidMount() {
@@ -80,7 +77,18 @@ export default class AdminDashboard extends React.Component {
                 console.log(err)
             })
     }
-    
+
+    handleEditMenuItemInputChange = e => {
+        const { name, value } = e.target
+        const updatedMenuItem = Object.assign({},
+            this.state.menuItemBeingEdited,
+            { [name]: value } 
+        )
+        this.setState({
+            menuItemBeingEdited: updatedMenuItem
+        })
+    }
+
     handleInputChange = e => {
         const { id, value } = e.target
         this.setState({
@@ -88,25 +96,13 @@ export default class AdminDashboard extends React.Component {
         })
     }
 
-    // TODO: Figure out how to allow inputs to be empty if entire input text is deleted before being edited
     updateMenuItemState = () => {
-        let name = this.state.editItemNameInput 
-            ? this.state.editItemNameInput
-            : this.state.menuItemBeingEdited.name 
-        let description = this.state.editItemDescriptionInput
-            ? this.state.editItemDescriptionInput
-            : this.state.menuItemBeingEdited.description
-        let cost = this.state.editItemCostInput   
-            ? this.state.editItemCostInput 
-            : this.state.menuItemBeingEdited.cost 
-        let menus = this.state.editItemActiveMenuIds
-
-        let updatedMenuItem = Object.assign({},
+        const updatedMenuItem = Object.assign({},
             this.state.menuItemBeingEdited,
-            { name },
-            { description },
-            { cost }, 
-            { menus },
+            { name: this.state.menuItemBeingEdited.name },
+            { description: this.state.menuItemBeingEdited.description },
+            { cost: this.state.menuItemBeingEdited.cost }, 
+            { menus: this.state.editItemActiveMenuIds },
         )
         this.setState({
             menuItemBeingEdited: updatedMenuItem
@@ -412,7 +408,7 @@ export default class AdminDashboard extends React.Component {
                     editItemCostInput={this.state.editItemCostInput}
                     modalActive={this.state.modalActive}
                     clearModalState={this.state.clearModalState}
-                    handleInputChange={this.handleInputChange}
+                    handleInputChange={this.handleEditMenuItemInputChange}
                     updateMenuItemState={this.updateMenuItemState}
                     clearModalState={this.clearModalState}
                     toggleMenuAssignment={this.toggleMenuAssignment}

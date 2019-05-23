@@ -13,36 +13,27 @@ export default function EditMenuItemModal(props) {
       <ModalBody>
           <input
               id="editItemNameInput"
+              name="name"
               type="text"
-              value={
-                  props.editItemNameInput !== ''
-                      ? props.editItemNameInput
-                      : props.menuItemBeingEdited.name
-              }
+              value={props.menuItemBeingEdited.name}
               onChange={props.handleInputChange}
               className="mb-2"
           />
 
           <input 
               id="editItemDescriptionInput"
+              name="description"
               type="text"
-              value={
-                  props.editItemDescriptionInput !== ''
-                      ? props.editItemDescriptionInput
-                      : props.menuItemBeingEdited.description
-              }
+              value={props.menuItemBeingEdited.description}
               onChange={props.handleInputChange}
               className="mb-2"
           />
 
           <input 
               id="editItemCostInput"
+              name="cost"
               type="text"
-              value={
-                  props.editItemCostInput !== ''
-                      ? props.editItemCostInput
-                      : props.menuItemBeingEdited.cost
-              }
+              value={props.menuItemBeingEdited.cost}
               onChange={props.handleInputChange}
               className="mb-2"
           />
