@@ -2,8 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* font-family: 'Lato', sans-serif; */
-  font-family: 'Ubuntu Condensed', sans-serif;
+  font-family: 'Lato', sans-serif;
+  /* font-family: 'Ubuntu Condensed', sans-serif; */
   font-weight: 300;
 }
 body {
@@ -162,11 +162,13 @@ input#newMenuInput, input#deleteMenuInput {
   display: block;
   margin: 1.2em auto .7em;
 }
-div.alert {
-  width: 80%;
+.alert {
   margin: 0 auto;
   padding: 4px;
   font-size: .8em;
+}
+.admin-alert {
+  width: 60%;
 }
 
 

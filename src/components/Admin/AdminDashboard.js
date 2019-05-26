@@ -322,7 +322,7 @@ export default class AdminDashboard extends React.Component {
                                 // required
                             />
                             {this.state.showAddMenuError && 
-                                <Alert color="info">{this.state.addMenuErrorMsg}</Alert>
+                                <Alert color="info" className="admin-alert">{this.state.addMenuErrorMsg}</Alert>
                             }
 
                             <button className="add-remove-menu-btn">
@@ -350,7 +350,7 @@ export default class AdminDashboard extends React.Component {
                                 // required
                             />
                             {this.state.showDeleteMenuError && 
-                                <Alert color="info">{this.state.deleteMenuErrorMsg}</Alert>
+                                <Alert color="info" className="admin-alert">{this.state.deleteMenuErrorMsg}</Alert>
                             }
 
                             <button className="danger-btn add-remove-menu-btn">

@@ -28,9 +28,9 @@ export default class Menu extends React.Component {
                     key={item._id}
                     className="menu-item"
                 >
-                    <p>{item.name}</p>
-                    <p>{item.description}</p>
-                    <p>{item.cost ? `$${item.cost.toFixed(2)}` : ''}</p>
+                    <p className="left-content">{item.name}</p>
+                    <p className="right-content">{item.cost ? `$${item.cost.toFixed(2)}` : ''}</p>
+                    <p className="bottom-content">{item.description}</p>
                 </div>
             )
         })
