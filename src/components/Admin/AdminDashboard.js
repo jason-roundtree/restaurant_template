@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import MenuItem from './MenuItem';
+import AdminMenuItem from './AdminMenuItem';
 import AddMenuItem from './AddMenuItem';
 import EditMenuItemModal from './EditMenuItemModal';
 import { Alert } from 'reactstrap';
@@ -11,7 +11,6 @@ const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
 
 // TODO:
-// - create and re-use common components for both admin menu items and regular menu items
 // - Enhance input validation, check out libraries
 // - Audit for a11y and proper doc structure
 
@@ -368,8 +367,6 @@ export default class AdminDashboard extends React.Component {
 
                 }
                 
-                
-            {/* TODO: Move to new component */}
                 <h2 className="mt-5">Menu Items</h2>
                 <AddMenuItem
                     menus={this.state.menus}
@@ -504,7 +501,7 @@ export default class AdminDashboard extends React.Component {
                 </Modal> */}
 
                 <div className="card-container">
-                    <MenuItem 
+                    <AdminMenuItem 
                         // TODO: should I be storing filtered items in state?
                         menuItems={
                             this.state.filterInput !== ''

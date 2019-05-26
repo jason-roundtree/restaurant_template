@@ -1,12 +1,5 @@
 import React from 'react';
-import { 
-    Button, 
-    Card, 
-    CardImg, 
-    CardText, 
-    CardBody,
-    CardTitle 
-   } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
 export default function MenuItem(props) {
     const menuItems = props.menuItems.map(item => {

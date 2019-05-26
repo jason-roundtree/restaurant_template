@@ -1,5 +1,6 @@
 import React from 'react';
 import OrderMenuItem from './OrderMenuItem';
+import MenuItem from '../Menu/MenuItem';
 import OrderItemDetailsModal from './OrderItemDetailsModal';
 import OrderSummary from './OrderSummary';
 import uuid from 'uuid';
@@ -28,11 +29,11 @@ export default class Order extends React.Component {
     handleInputChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
-    // TODO: is this being used
-    handleContactInfoSubmit = e => {
-        e.preventDefault()
-        this.setState({ customerInfoComplete: true })
-    }
+ 
+    // handleContactInfoSubmit = e => {
+    //     e.preventDefault()
+    //     this.setState({ customerInfoComplete: true })
+    // }
     
     openSelectedItemModal = id => {
         const { allMenuItems } = this.state
@@ -104,8 +105,12 @@ export default class Order extends React.Component {
                         Order Summary &amp; Checkout
                     </button>
                     <div id="order-item-container">
-                        {this.state.allMenuItems.map((item) => {
+                        {this.state.allMenuItems.map(item => {
                             return (
+                                // <MenuItem 
+                                //     item={item}
+                                //     openSelectedItemModal={this.openSelectedItemModal}
+                                // />
                                 <OrderMenuItem
                                     key={item._id}
                                     id={item._id}

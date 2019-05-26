@@ -27,14 +27,17 @@ div.modal-body textarea {
 }
 #order-item-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: 50% 50%;
     grid-gap: 7px;
 }
 #order-item-container > div {
     border: 1px solid black;
 }
-
-
+@media (max-width: 500px) {
+    #order-item-container {
+        grid-template-columns: 100%;
+    }
+}
 button.close {
     margin-top: 0;
     box-shadow: none;
@@ -44,16 +47,18 @@ button.close:hover {
     background-color: transparent;
 }
 table, th, td {
+    font-size: .85em;
     border: 1px solid rgb(244, 237, 237);
     border-collapse: collapse;
     text-align: center;
-    padding: 5px 10px;
+    padding: 5px;
 }
-/* td.td-cost {
-    text-align: right;
-} */
 div.modal-footer {
     display: block;
+}
+button.delete-item {
+    /* font-size: .65em; */
+    /* padding: 0 2px; */
 }
 button:disabled, button.delete-item:disabled {
     cursor: not-allowed;
@@ -65,14 +70,14 @@ button:disabled, button.delete-item:disabled {
 button:disabled:hover, button.delete-item:disabled:hover {
     background-color: white;
     border-color: transparent;
-    /* color: rgb(136, 136, 136); */
 }
 div.alert {
-    margin-bottom: 0;
+    margin: 0;
 }
-
-p.special-req-item {
+.special-req-item {
     font-size: .7em;
+    text-decoration: underline;
+    color: blue;
 }
 
 

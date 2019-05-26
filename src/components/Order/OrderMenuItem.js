@@ -1,10 +1,8 @@
 import React from 'react'
 
-// TODO: update component name to prevent confusion with admin component?
 export default function OrderMenuItem(props) {
   return (
     <div 
-        // className="menu-item"
       onClick={() => props.openSelectedItemModal(props.id)}
     >
         <p>{props.name}</p>

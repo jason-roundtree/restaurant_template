@@ -1,6 +1,6 @@
 import React from 'react';
 import OrderContactInfoInputs from './OrderContactInfoInputs';
-import { Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Alert, Modal, ModalHeader, ModalBody, ModalFooter, Tooltip } from 'reactstrap';
 var _ = require('lodash');
 const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
@@ -8,7 +8,6 @@ const { API_BASE_URL } = require('../../config');
 
 export default class OrderSummary extends React.Component {
     state = {
-        // orderItems: [],
         subTotalCost: 0,
         // TODO: allow tax rate to be set from admin
         // TODO: what other taxes could apply other than sales tax?
@@ -18,6 +17,9 @@ export default class OrderSummary extends React.Component {
         firstName: '',
         lastName: '',
         phone: '',
+        // TODO: implement
+        activeItemTooltip: '',
+        tooltipOpen: false
     }
     componentDidMount() {
         const subTotalCost = this.props.orderItems.reduce((total, current) => {
@@ -46,7 +48,7 @@ export default class OrderSummary extends React.Component {
             [name]: value
         })
     }
-    // TODO: setup back-end and then submit
+
     submitOrder = e => {
         e.preventDefault()
         const itemsSanitized = []
@@ -59,11 +61,17 @@ export default class OrderSummary extends React.Component {
         itemsSanitized.forEach(item => {
             axios.post(`${API_BASE_URL}/order_item`, item)
                 .then(res => {
-                    console.log('order_item res: ', res)
+                    // console.log('order_item res: ', res)
                     postedOrderItemIds.push(res.data)
                 })
                 .catch(err => console.log(err))
         })
+    }
+
+    toggleTooltip = () => {
+        this.setState({
+            tooltipOpen: !this.state.tooltipOpen
+        });
     }
 
     render() {
@@ -83,11 +91,24 @@ export default class OrderSummary extends React.Component {
                                             <tr key={item.customOrderItemId}>
                                                 <td>
                                                     {item.name}
-                                                    {/* TODO: make a special request badge thingy that when hovered shows the request?? */}
                                                     {item.specialRequest &&
-                                                        <p className="special-req-item">
-                                                            {item.specialRequest}
-                                                        </p>
+                                                        <div>
+                                                            <span 
+                                                                className="special-req-item"
+                                                                href="#" 
+                                                                id={`specialReqTooltip${item.customOrderItemId}`}
+                                                            >
+                                                                Special Request
+                                                            </span>
+                                                            <Tooltip 
+                                                                placement="top" 
+                                                                toggle={this.toggleTooltip}
+                                                                isOpen={this.state.tooltipOpen}
+                                                                target={`specialReqTooltip${item.customOrderItemId}`}
+                                                            >
+                                                                {item.specialRequest}
+                                                            </Tooltip>
+                                                        </div>
                                                     }
                                                 </td>
                                                 <td>${item.cost}</td>

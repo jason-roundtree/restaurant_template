@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios'
+import MenuItem from './MenuItem'
 import './Menu.css'
-const { API_BASE_URL } = require('../config');
+const { API_BASE_URL } = require('../../config');
 
 export default class Menu extends React.Component { 
     state = {
@@ -20,19 +21,8 @@ export default class Menu extends React.Component {
             .catch(err => console.log(err))
     }
     render() {
-        console.log('Menu state: ', this.state)
-        console.log('menu params id', this.props.match.params.id)
         const menuItems = this.state.menuItems.map(item => {
-            return (
-                <div 
-                    key={item._id}
-                    className="menu-item"
-                >
-                    <p className="left-content">{item.name}</p>
-                    <p className="right-content">{item.cost ? `$${item.cost.toFixed(2)}` : ''}</p>
-                    <p className="bottom-content">{item.description}</p>
-                </div>
-            )
+            return <MenuItem item={item} />
         })
 
         return ( 

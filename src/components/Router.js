@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from './Home';
 import About from './About';
-import Menu from './Menu';
+import Menu from './Menu/Menu';
 import Contact from './Contact';
 import Gallery from './Gallery';
 import Order from './Order/Order';
