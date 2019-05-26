@@ -86,71 +86,70 @@ export default class AddMenuItem extends React.Component {
                 </button>
             )
         })
+
         return (
-            <div>
-                {this.state.componentActive 
-                    ?   <div>
-                            <label>Enter New Item Info:</label>
-                            <form 
-                                id="add-menu-item-form" 
-                                className={!this.state.componentActive ? 'hidden' : ''}
+            this.state.componentActive 
+                ?   <div>
+                        <label htmlFor="add-menu-item-form">Enter New Item Info:</label>
+                        <form id="add-menu-item-form">
+                            <input 
+                                type="text" 
+                                placeholder="Name"
+                                id="nameInput"
+                                value={this.state.nameInput}
+                                onChange={this.handleInputChange}
+                                // required
+                            />
+                            <br />
+
+                            <input 
+                                type="text" 
+                                placeholder="Description"
+                                id="descriptionInput"
+                                value={this.state.descriptionInput}
+                                onChange={this.handleInputChange}
+                            />
+                            <br />
+
+                            <input 
+                                type="number" 
+                                placeholder="Cost"
+                                id="costInput"
+                                value={this.state.costInput}
+                                onChange={this.handleInputChange}
+                            />
+                            <br />
+
+                            <label 
+                                className="mt-2 mb-0" 
+                                htmlFor="menuSelection"
                             >
-                                {/* TODO: Create editMenuInput component for these?? */}
-                                <input 
-                                    type="text" 
-                                    placeholder="Name"
-                                    id="nameInput"
-                                    value={this.state.nameInput}
-                                    onChange={this.handleInputChange}
-                                    // required
-                                />
-                                <br />
+                                Select Menus
+                            </label>
+                            <div 
+                                className="menu-selection" 
+                                id="menuSelection"
+                            >
+                                {menuList}
+                            </div>
 
-                                <input 
-                                    type="text" 
-                                    placeholder="Description"
-                                    id="descriptionInput"
-                                    value={this.state.descriptionInput}
-                                    onChange={this.handleInputChange}
-                                />
-                                <br />
+                            <button onClick={this.saveMenuItem}>
+                                Add Item
+                            </button>
 
-                                <input 
-                                    type="number" 
-                                    placeholder="Cost"
-                                    id="costInput"
-                                    value={this.state.costInput}
-                                    onChange={this.handleInputChange}
-                                />
-                                <br />
-
-                                <label className="mt-2 mb-0" htmlFor="menuSelection">Select Menus</label>
-                                <div className="menu-selection" id="menuSelection">
-                                    {menuList}
-                                </div>
-
-                                <button onClick={this.saveMenuItem}>
-                                    Add Item
-                                </button>
-                            </form>
-                        </div>
-                        
-                            
-                        
-                    :   <button 
-                            onClick={this.createNewMenuItemClick}
-                        >
-                            Create a New Menu Item
-                        </button>
-                }
-
-                
-                
-                {this.state.showInputErrorMsg ? <Alert color="info" className="admin-alert">At the minimum, please enter an item name and assign it to a menu</Alert> : ''}
-
-                {/* {this.state.showSuccessMsg && !this.state.componentActive ? <Alert>The menu item has successfully been added</Alert> : ''} */}
-                
-            </div>
+                            {this.state.showInputErrorMsg && 
+                                <Alert 
+                                    color="info" 
+                                    className="admin-alert"
+                                >
+                                    At the minimum, please enter an item name and assign it to a menu
+                                </Alert>
+                            }
+                        </form>
+                    </div>
+                :   <button onClick={this.createNewMenuItemClick}>
+                        Create a New Menu Item
+                    </button>
         )
     }
 }
