@@ -1,25 +1,21 @@
 import React from 'react';
 import OrderContactInfoInputs from './OrderContactInfoInputs';
-import { Alert, Modal, ModalHeader, ModalBody, ModalFooter, Tooltip } from 'reactstrap';
+import OrderSummaryTableRow from './OrderSummaryTableRow';
+import { Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 var _ = require('lodash');
 const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
 
-
 export default class OrderSummary extends React.Component {
     state = {
-        subTotalCost: 0,
-        // TODO: allow tax rate to be set from admin
-        // TODO: what other taxes could apply other than sales tax?
+        // TODO: allow tax rate to be set from admin?? What other taxes could apply other than sales tax?
         taxPercentage: .065,
         taxAmount: 0,
+        subTotalCost: 0,
         totalCost: 0,
         firstName: '',
         lastName: '',
         phone: '',
-        // TODO: implement
-        activeItemTooltip: '',
-        tooltipOpen: false
     }
     componentDidMount() {
         const subTotalCost = this.props.orderItems.reduce((total, current) => {
@@ -48,7 +44,6 @@ export default class OrderSummary extends React.Component {
             [name]: value
         })
     }
-
     submitOrder = e => {
         e.preventDefault()
         const itemsSanitized = []
@@ -68,14 +63,15 @@ export default class OrderSummary extends React.Component {
         })
     }
 
-    toggleTooltip = () => {
-        this.setState({
-            tooltipOpen: !this.state.tooltipOpen
-        });
-    }
-
     render() {
         console.log('Order Summary STATE: ', this.state)
+        const orderItems = this.props.orderItems.map(item => (
+            <OrderSummaryTableRow
+                item={item}
+                key={item.customOrderItemId}
+                removeItem={this.props.removeItem}
+            />
+        ))
         return (
             <Modal 
                 id="order-summary"
@@ -86,46 +82,7 @@ export default class OrderSummary extends React.Component {
                     {this.props.orderItems.length
                         ?   <table id="ordered-items">
                                 <tbody>
-                                    {this.props.orderItems.map(item => {
-                                        return (
-                                            <tr key={item.customOrderItemId}>
-                                                <td>
-                                                    {item.name}
-                                                    {item.specialRequest &&
-                                                        <div>
-                                                            <span 
-                                                                className="special-req-item"
-                                                                href="#" 
-                                                                id={`specialReqTooltip${item.customOrderItemId}`}
-                                                            >
-                                                                Special Request
-                                                            </span>
-                                                            <Tooltip 
-                                                                placement="top" 
-                                                                toggle={this.toggleTooltip}
-                                                                isOpen={this.state.tooltipOpen}
-                                                                target={`specialReqTooltip${item.customOrderItemId}`}
-                                                            >
-                                                                {item.specialRequest}
-                                                            </Tooltip>
-                                                        </div>
-                                                    }
-                                                </td>
-                                                <td>${item.cost}</td>
-                                                <td><span>x</span>{item.quantity}</td>
-                                                <td>
-                                                    <button
-                                                        className="danger-btn delete-item"
-                                                        onClick={() => {
-                                                            this.props.removeItem(item.customOrderItemId)
-                                                        }}
-                                                    >
-                                                        Remove
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
+                                    {orderItems}
                                 </tbody>
                             </table>
         

@@ -25,16 +25,13 @@ export default class Order extends React.Component {
             })
             .catch(err => console.log(err))
     }
-
     handleInputChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
- 
     // handleContactInfoSubmit = e => {
     //     e.preventDefault()
     //     this.setState({ customerInfoComplete: true })
     // }
-    
     openSelectedItemModal = id => {
         const { allMenuItems } = this.state
         for (let item of allMenuItems) {
@@ -46,7 +43,6 @@ export default class Order extends React.Component {
             this.setState({ modalActive: true })
         }
     }
-
     updateOrderItemQuantity = action => {
         if (action === 'increase') {
             this.setState({
@@ -58,30 +54,26 @@ export default class Order extends React.Component {
             })
         }
     }
-
     addItemToOrder = id => {
         const menuItem = this.state.allMenuItems.find(item => item._id === id)
         const orderItem = {
             id,
-            // added custom id since orders can have multiples of the same item
+            // custom id needed since orders can have multiples of the same item
             customOrderItemId: uuid(),
             name: menuItem.name,
             cost: menuItem.cost,
             specialRequest: this.state.specialRequest,
             quantity: this.state.orderItemQuantity 
         }
-
         this.setState({
             itemsOrdered: [...this.state.itemsOrdered, orderItem]
         }, this.clearModalState())
     }
-
     removeItemFromOrder = customId => {
         this.setState({
             itemsOrdered: [...this.state.itemsOrdered.filter(item => customId !== item.customOrderItemId)]
         })
     }
-
     clearModalState = () => {
         this.setState({
             modalActive: false,
@@ -89,35 +81,36 @@ export default class Order extends React.Component {
             orderItemQuantity: 1
         })
     }
-
     toggleSummaryModal = () => {
         this.setState({ orderSummaryActive: !this.state.orderSummaryActive })
     }
-
     render () {
         // console.log('Order state: ', this.state)
-        
         return (
             <div id="order-page">
                 <div id="order-page-main">
                     <h1>Order for Pickup</h1>
-                    <button onClick={this.toggleSummaryModal}>
+                    <button 
+                        onClick={this.toggleSummaryModal}
+                        disabled={!Boolean(this.state.itemsOrdered.length)}
+                    >
                         Order Summary &amp; Checkout
                     </button>
                     <div id="order-item-container">
                         {this.state.allMenuItems.map(item => {
                             return (
-                                // <MenuItem 
-                                //     item={item}
-                                //     openSelectedItemModal={this.openSelectedItemModal}
-                                // />
-                                <OrderMenuItem
+                                <MenuItem 
+                                    item={item}
                                     key={item._id}
-                                    id={item._id}
-                                    name={item.name}
-                                    cost={item.cost}
                                     openSelectedItemModal={this.openSelectedItemModal}
                                 />
+                                // <OrderMenuItem
+                                //     key={item._id}
+                                //     id={item._id}
+                                //     name={item.name}
+                                //     cost={item.cost}
+                                //     openSelectedItemModal={this.openSelectedItemModal}
+                                // />
                             )
                         })}
                     </div>

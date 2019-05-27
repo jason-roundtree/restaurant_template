@@ -30,10 +30,10 @@ div.modal-body textarea {
     grid-template-columns: 50% 50%;
     grid-gap: 7px;
 }
-#order-item-container > div {
+/* #order-item-container > div {
     border: 1px solid black;
-}
-@media (max-width: 500px) {
+} */
+@media (max-width: 550px) {
     #order-item-container {
         grid-template-columns: 100%;
     }
@@ -47,7 +47,7 @@ button.close:hover {
     background-color: transparent;
 }
 table, th, td {
-    font-size: .85em;
+    font-size: .9em;
     border: 1px solid rgb(244, 237, 237);
     border-collapse: collapse;
     text-align: center;
@@ -64,19 +64,21 @@ button:disabled, button.delete-item:disabled {
     cursor: not-allowed;
     background-color: white;
     color: rgb(136, 136, 136);
-    /* border-color: rgb(186, 184, 184); */
     border-color: transparent;
 }
 button:disabled:hover, button.delete-item:disabled:hover {
     background-color: white;
     border-color: transparent;
 }
+div.menu-item:hover {
+    cursor: pointer;
+    background-color: rgb(255, 243, 243);
+}
 div.alert {
     margin: 0;
 }
 .special-req-item {
     font-size: .7em;
-    text-decoration: underline;
     color: blue;
 }
 

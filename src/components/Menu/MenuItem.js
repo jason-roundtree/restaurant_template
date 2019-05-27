@@ -1,4 +1,5 @@
 import React from 'react'
+import '../Order/Order.css'
 
 export default function MenuItem(props) {
     return (

@@ -37,6 +37,9 @@ export default function OrderItemDetailsModal(props) {
                 <button onClick={() => props.addItemToOrder(menuItem._id)}>
                     Add to Order
                 </button>
+                <button onClick={() => props.clearModalState()}>
+                    Return to Menu
+                </button>
             </ModalFooter>
         </Modal>
     )
