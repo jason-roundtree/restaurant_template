@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export default function OrderContactInfoInputs(props) {
     return (
@@ -9,7 +9,7 @@ export default function OrderContactInfoInputs(props) {
             <br />
             
             {/* TODO: Add validation library for phone */}
-            <p>Please complete contact info to finalize order:</p>
+            <p style={{fontSize: '.8em'}}>Please complete contact info to finalize order. Pay once you pickup your order.</p>
             <input 
                 type="text"
                 placeholder="First Name"

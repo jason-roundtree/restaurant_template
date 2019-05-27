@@ -6,12 +6,10 @@ export default class OrderSummaryTableRow extends React.Component {
         tooltipOpen: false,
     }
     toggle = () => {
-        this.setState({
-            tooltipOpen: !this.state.tooltipOpen
-        })
+        this.setState({ tooltipOpen: !this.state.tooltipOpen })
     }
     render() {
-        console.log('table row: ', this.state)
+        // console.log('table row: ', this.state)
         return (
             <tr>
                 <td>

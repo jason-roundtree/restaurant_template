@@ -1,11 +1,11 @@
 import React from 'react'
-import '../Order/Order.css'
 
 export default function MenuItem(props) {
+    console.log('xcxcx', props)
     return (
         <div 
             key={props.item._id}
-            className="menu-item"
+            className={`menu-item ${props.hoverClass}`}
             onClick={props.openSelectedItemModal 
                 ? () => props.openSelectedItemModal(props.item._id)
                 : null

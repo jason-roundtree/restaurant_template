@@ -71,7 +71,11 @@ export default class Order extends React.Component {
     }
     removeItemFromOrder = customId => {
         this.setState({
-            itemsOrdered: [...this.state.itemsOrdered.filter(item => customId !== item.customOrderItemId)]
+            itemsOrdered: [...this.state.itemsOrdered.filter(item => {
+                customId !== item.customOrderItemId
+            })]
+        }, () => {
+            this.state.itemsOrdered.length === 0 && this.toggleSummaryModal()
         })
     }
     clearModalState = () => {
@@ -82,14 +86,17 @@ export default class Order extends React.Component {
         })
     }
     toggleSummaryModal = () => {
-        this.setState({ orderSummaryActive: !this.state.orderSummaryActive })
+        this.setState({ 
+            orderSummaryActive: !this.state.orderSummaryActive 
+        })
     }
     render () {
-        // console.log('Order state: ', this.state)
+        console.log('Order state: ', this.state)
         return (
             <div id="order-page">
                 <div id="order-page-main">
                     <h1>Order for Pickup</h1>
+                    <p>Select items to add to order</p>
                     <button 
                         onClick={this.toggleSummaryModal}
                         disabled={!Boolean(this.state.itemsOrdered.length)}
@@ -102,6 +109,7 @@ export default class Order extends React.Component {
                                 <MenuItem 
                                     item={item}
                                     key={item._id}
+                                    hoverClass={"hoverClass"}
                                     openSelectedItemModal={this.openSelectedItemModal}
                                 />
                                 // <OrderMenuItem

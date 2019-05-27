@@ -5,14 +5,14 @@
     padding: 15px;
 }
 input {
-    width: 300px;
+    width: 95%;
 }
-input[name="customerLastName"] {
+/* input[name="customerLastName"] {
     width: 350px;
 }
 input[name="customerPhoneNumber"] {
     width: 250px;
-}
+} */
 /* Bootstrap class start with '.modal' */
 div.modal-body {
     color: black;
@@ -56,10 +56,10 @@ table, th, td {
 div.modal-footer {
     display: block;
 }
-button.delete-item {
-    /* font-size: .65em; */
-    /* padding: 0 2px; */
-}
+/* button.delete-item {
+    font-size: .65em;
+    padding: 0 2px;
+} */
 button:disabled, button.delete-item:disabled {
     cursor: not-allowed;
     background-color: white;
@@ -70,7 +70,7 @@ button:disabled:hover, button.delete-item:disabled:hover {
     background-color: white;
     border-color: transparent;
 }
-div.menu-item:hover {
+div.hoverClass:hover {
     cursor: pointer;
     background-color: rgb(255, 243, 243);
 }
