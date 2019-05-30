@@ -1,11 +1,11 @@
 import React from 'react'
 
 export default function MenuItem(props) {
-    console.log('xcxcx', props)
     return (
         <div 
             key={props.item._id}
             className={`menu-item ${props.hoverClass}`}
+            // openSelectedItemModal prop only gets passed from Order component
             onClick={props.openSelectedItemModal 
                 ? () => props.openSelectedItemModal(props.item._id)
                 : null

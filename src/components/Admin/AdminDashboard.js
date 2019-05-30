@@ -1,12 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import AdminMenuItem from './AdminMenuItem';
-import AddMenuItem from './AddMenuItem';
-import EditMenuItemModal from './EditMenuItemModal';
-import { Alert } from 'reactstrap';
-// import { Formik, Form, Field } from 'formik';
-// import './AdminDashboard.css';
-// import '../index.css';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import AdminMenuItem from './AdminMenuItem'
+import AddMenuItem from './AddMenuItem'
+import EditMenuItemModal from './EditMenuItemModal'
+import { Alert } from 'reactstrap'
+import { sort_AtoZ, sort_ZtoA } from '../../utils/sorting'
 const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
 
@@ -41,21 +39,22 @@ export default class AdminDashboard extends React.Component {
     }
     componentDidMount() {
         axios.get(`${API_BASE_URL}/menus`)
-          .then(res => {
-            console.log('/menus data ', res.data)
-            const menus = res.data.map(menu => {
-                return {
-                    name: menu.name, 
-                    id: menu._id
-                }
-            })
-            this.setState({
-              menus
-            })
-          })
-          .catch(err => {
+            .then(res => {
+                console.log('/menus data ', res.data)
+                const menus = res.data.map(menu => {
+                    return {
+                        name: menu.name, 
+                        id: menu._id
+                    }
+                })
+                
+                this.setState({
+                    menus: sort_AtoZ(menus)
+                })
+        })
+        .catch(err => {
             console.log(err)
-          })
+        })
 
         axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
@@ -69,7 +68,7 @@ export default class AdminDashboard extends React.Component {
                     }
                 })
                 this.setState({
-                    menuItems
+                    menuItems: sort_AtoZ(menuItems)
                 })
             })
             .catch(err => {
@@ -262,25 +261,6 @@ export default class AdminDashboard extends React.Component {
                 .catch(err => console.log(err))
         }
     }
-
-    // TODO: sort menu items 
-    // sort_MenuItemName_AZ = () => {
-    //     const menuItems = this.state.menuItems
-    //     // for (let i = 0; i < menuItems.length; i++) {
-
-    //     // }
-    //     const sortedItems = menuItems.sort((a, b) => {
-    //         const itemNameA = a.name.toLowerCase()
-    //         const itemNameB = b.name.toLowerCase()
-    //         if (itemNameA < itemNameB) return -1
-    //         if (itemNameA > itemNameB) return 1
-    //         return 0;
-    //     })
-    //     this.setState({
-    //         menuItems: sortedItems
-    //     })
-
-    // }
 
     render() {
         console.log('Admin State: ', this.state)

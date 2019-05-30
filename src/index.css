@@ -101,19 +101,26 @@ button.menu-assignment-button {
   background-color: white;
   color: rgb(136, 136, 136);
   border-color: rgb(186, 184, 184);
-  /* -webkit-transition: background-color 2s;
-  transition: background-color 2s; */
+  
+  /* -webkit-transition: background-color .5s; */
+  transition: background-color .25s; 
 }
 button.menu-assignment-button:hover {
   background-color: rgb(13, 208, 172);
   border-color: rgb(13, 208, 172);
   color: black;
+  
 }
 /* TODO: make btn background-color transition from green to no color */
 button.menu-assignment-button:active {
+  background-color:  rgb(141, 233, 216);
+  /* border-color: rgb(141, 233, 216); */
+
+}
+/* button.menu-assignment-button {
   background-color:  rgb(245, 238, 159);
   
-}
+} */
 button.selected-menu {
   background-color: rgb(39, 235, 199);
   border-color: rgb(39, 235, 199);
@@ -155,19 +162,18 @@ input#editItemCostInput {
 input#filterInput {
   width: 45%;
   margin: 0 0 .6em .6em;
-  
 }
 input#newMenuInput, input#deleteMenuInput {
   width: 50%;
   display: block;
   margin: 1.2em auto .7em;
 }
-.alert {
+div.alert {
   margin: 0 auto;
   padding: 4px;
   font-size: .8em;
 }
-.admin-alert {
+div.admin-alert {
   width: 60%;
 }
 

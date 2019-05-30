@@ -68,7 +68,7 @@ export default function EditMenuItemModal(props) {
       
       {props.deleteButtonClicked &&
           <ModalFooter style={{display: "block"}}>
-              <Alert color="info" style={{marginRight: "0", fontSize: ".85em"}}>Are you sure?</Alert>
+              <Alert color="info" style={{fontSize: ".85em"}}>Are you sure?</Alert>
               
               <button 
                   className="danger-btn"
