@@ -8,10 +8,14 @@ export default function OrderItemDetailsModal(props) {
             isOpen={props.modalActive ? true : false}
             toggle={props.clearModalState}
         >
-            <ModalHeader>{menuItem.name}</ModalHeader>
+            <ModalHeader>
+                <p>{menuItem.name}</p>
+                <p>{`$${menuItem.cost}`|| ''}</p>
+                <p className="item-description">{menuItem.description}</p>
+            </ModalHeader>
             <ModalBody>
-                <p>{menuItem.description}</p>
-                <p>{`$${menuItem.cost}`}</p>
+                
+                
                 {/* <label htmlFor="specialRequest">Special Requests:</label> */}
                 <textarea 
                     placeholder="Special Requests"

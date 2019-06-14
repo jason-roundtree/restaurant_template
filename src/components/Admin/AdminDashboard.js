@@ -16,6 +16,7 @@ const { API_BASE_URL } = require('../../config');
 // - setup sub-menu categories and options (e.g. Sandwiches, Fish, Spiciness, Meat type) on front and back-end
 // - setup input for comments/additional menu item info
 // - move axios requests to their own module
+// - allow admin user to set order of menu items and sections (instead of just alphabetically-based)
 
 export default class AdminDashboard extends React.Component {
     state = {
@@ -138,11 +139,13 @@ export default class AdminDashboard extends React.Component {
         const itemBeingEditedMenus = this.state.menuItemBeingEdited.menus
         const activeMenuIds = []
         for (let i = 0; i < itemBeingEditedMenus.length; i++) {
-            if (typeof itemBeingEditedMenus[i] === 'object') {
-                activeMenuIds.push(itemBeingEditedMenus[i].id)
-            } else {
-                activeMenuIds.push(itemBeingEditedMenus[i])
-            }
+            // TODO: is this check for obj necessary?
+            // if (typeof itemBeingEditedMenus[i] === 'object') {
+            //     activeMenuIds.push(itemBeingEditedMenus[i].id)
+            // } else {
+            //     activeMenuIds.push(itemBeingEditedMenus[i])
+            // }
+            activeMenuIds.push(itemBeingEditedMenus[i].id)
         }
         this.setState({
             editItemActiveMenuIds: activeMenuIds

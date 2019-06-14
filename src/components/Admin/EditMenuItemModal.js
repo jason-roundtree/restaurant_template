@@ -24,7 +24,7 @@ export default function EditMenuItemModal(props) {
               id="editItemDescriptionInput"
               name="description"
               type="text"
-              value={props.menuItemBeingEdited.description}
+              value={props.menuItemBeingEdited.description || ''}
               onChange={props.handleInputChange}
               className="mb-2"
           />
@@ -33,7 +33,7 @@ export default function EditMenuItemModal(props) {
               id="editItemCostInput"
               name="cost"
               type="text"
-              value={props.menuItemBeingEdited.cost}
+              value={props.menuItemBeingEdited.cost || ''}
               onChange={props.handleInputChange}
               className="mb-2"
           />

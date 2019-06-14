@@ -5,6 +5,7 @@ import OrderItemDetailsModal from './OrderItemDetailsModal';
 import OrderSummary from './OrderSummary';
 import uuid from 'uuid';
 import './Order.css';
+import { sort_AtoZ, sort_ZtoA } from '../../utils/sorting'
 const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
 
@@ -21,7 +22,7 @@ export default class Order extends React.Component {
     componentDidMount() {
         axios.get(`${API_BASE_URL}/menu_items`)
             .then(res => {
-                this.setState({ allMenuItems: res.data })
+                this.setState({ allMenuItems: sort_AtoZ(res.data) })
             })
             .catch(err => console.log(err))
     }

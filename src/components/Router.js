@@ -12,7 +12,7 @@ import AdminDashboard from './Admin/AdminDashboard';
 export default function Router() {
     return (
         <div>
-            <Route exact={true} path="/" component={Home} />
+            <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
             {/* <Route path="/menus" component={Menus} /> */}
             <Route path="/contact" component={Contact} />

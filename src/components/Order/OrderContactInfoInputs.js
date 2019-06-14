@@ -9,7 +9,7 @@ export default function OrderContactInfoInputs(props) {
             <br />
             
             {/* TODO: Add validation library for phone */}
-            <p style={{fontSize: '.8em'}}>Please complete contact info to finalize order. Pay once you pickup your order.</p>
+            <p style={{fontSize: '.8em'}}>Please complete contact info to finalize order.<br />Pay when you pickup your order.</p>
             <input 
                 type="text"
                 placeholder="First Name"

@@ -10,7 +10,6 @@ export default {
         return {
             getAll: () => axios.get(`${url}/menus`),
             postMenu: () => axios.post(`${url}/menu`),
-            // TODO: no end point yet
             deleteMenu: (id) => axios.delete`${url}/menu/${id}`
         }
     },

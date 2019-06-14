@@ -52,7 +52,7 @@ export default class OrderSummary extends React.Component {
             itemsSanitized.push({ menuItemId, specialRequest, quantity })
         })
         // TODO: Create promise here so you can post individual items and then the whole order once those are done?
-        const postedOrderItemIds = []
+        let postedOrderItemIds = []
         itemsSanitized.forEach(item => {
             axios.post(`${API_BASE_URL}/order_item`, item)
                 .then(res => {
@@ -97,7 +97,7 @@ export default class OrderSummary extends React.Component {
                     <p>Grand Total: ${this.state.totalCost}</p>
                     
                     <form onSubmit={this.submitOrder}>
-                        {Boolean(this.props.orderItems.length) &&
+                        {Boolean(this.props.orderItems.length) && (
                             <OrderContactInfoInputs 
                                 handleInputChange={this.handleInputChange}
                                 returnToOrderEdit={this.props.returnToOrderEdit}
@@ -105,7 +105,7 @@ export default class OrderSummary extends React.Component {
                                 lastName={this.state.lastName}
                                 phone={this.state.phone}
                             /> 
-                        }
+                        )}
                         <button 
                             disabled={this.state.firstName === '' || this.state.lastName === '' || this.state.phone === ''}
                         >

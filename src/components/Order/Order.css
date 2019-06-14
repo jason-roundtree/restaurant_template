@@ -7,6 +7,9 @@
 input {
     width: 95%;
 }
+textarea {
+    border: none;
+}
 /* input[name="customerLastName"] {
     width: 350px;
 }
@@ -24,6 +27,10 @@ div.modal-body textarea {
     width: 90%;
     padding: 7px;
     border-radius: 5px;
+}
+div.modal-header {
+    /* text-align: center; */
+    display: block;
 }
 #order-item-container {
     display: grid;
@@ -81,5 +88,7 @@ div.alert {
     font-size: .7em;
     color: blue;
 }
-
+.item-description {
+    font-size: .85em;
+}
 
