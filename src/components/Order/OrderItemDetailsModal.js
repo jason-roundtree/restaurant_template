@@ -14,8 +14,6 @@ export default function OrderItemDetailsModal(props) {
                 <p className="item-description">{menuItem.description}</p>
             </ModalHeader>
             <ModalBody>
-                
-                
                 {/* <label htmlFor="specialRequest">Special Requests:</label> */}
                 <textarea 
                     placeholder="Special Requests"

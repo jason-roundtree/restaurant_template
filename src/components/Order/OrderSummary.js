@@ -47,20 +47,28 @@ export default class OrderSummary extends React.Component {
     submitOrder = e => {
         e.preventDefault()
         const itemsSanitized = []
-        this.props.orderItems.forEach(item => {
-            const { id: menuItemId, specialRequest, quantity } = item
-            itemsSanitized.push({ menuItemId, specialRequest, quantity })
-        })
-        // TODO: Create promise here so you can post individual items and then the whole order once those are done?
-        let postedOrderItemIds = []
-        itemsSanitized.forEach(item => {
-            axios.post(`${API_BASE_URL}/order_item`, item)
-                .then(res => {
-                    // console.log('order_item res: ', res)
-                    postedOrderItemIds.push(res.data)
-                })
-                .catch(err => console.log(err))
-        })
+        const customer = {
+            phone: this.state.phone,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName
+        }
+        axios.post(`${API_BASE_URL}/customer`, customer)
+            .then(res => console.log('res: ', res))
+            .catch(err => console.log('errrr: ', err))
+        // this.props.orderItems.forEach(item => {
+        //     const { id: menuItemId, specialRequest, quantity } = item
+        //     itemsSanitized.push({ menuItemId, specialRequest, quantity })
+        // })
+        // // TODO: Create promise here so you can post individual items and then the whole order once those are done?
+        // let postedOrderItemIds = []
+        // itemsSanitized.forEach(item => {
+        //     axios.post(`${API_BASE_URL}/order_item`, item)
+        //         .then(res => {
+        //             // console.log('order_item res: ', res)
+        //             postedOrderItemIds.push(res.data)
+        //         })
+        //         .catch(err => console.log(err))
+        // })
     }
 
     render() {
