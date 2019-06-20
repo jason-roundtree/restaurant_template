@@ -11,20 +11,21 @@ export default class OrderSummary extends React.Component {
         // TODO: allow tax rate to be set from admin?? What other taxes could apply other than sales tax?
         taxPercentage: .065,
         taxAmount: 0,
-        subTotalCost: 0,
+        preTaxCost: 0,
         totalCost: 0,
         firstName: '',
         lastName: '',
         phone: '',
+        customerId: ''
     }
     componentDidMount() {
-        const subTotalCost = this.props.orderItems.reduce((total, current) => {
+        const preTaxCost = this.props.orderItems.reduce((total, current) => {
             return total += current.cost * current.quantity
         }, 0)
-        const taxAmount = _.round((subTotalCost * this.state.taxPercentage), 2)
-        const totalCost = subTotalCost + taxAmount
+        const taxAmount = _.round((preTaxCost * this.state.taxPercentage), 2)
+        const totalCost = preTaxCost + taxAmount
         this.setState({
-            subTotalCost,
+            preTaxCost,
             taxAmount,
             totalCost
         })
@@ -32,7 +33,7 @@ export default class OrderSummary extends React.Component {
     componentDidUpdate = prevProps => {
         if (this.props.orderItems.length === 0 && (this.props.orderItems !== prevProps.orderItems)) {
             this.setState({
-                subTotalCost: 0,
+                preTaxCost: 0,
                 taxAmount: 0,
                 totalCost: 0,
             })
@@ -46,29 +47,38 @@ export default class OrderSummary extends React.Component {
     }
     submitOrder = e => {
         e.preventDefault()
-        const itemsSanitized = []
         const customer = {
-            phone: this.state.phone,
             firstName: this.state.firstName,
-            lastName: this.state.lastName
+            lastName: this.state.lastName,
+            phone: this.state.phone,
         }
         axios.post(`${API_BASE_URL}/customer`, customer)
-            .then(res => console.log('res: ', res))
-            .catch(err => console.log('errrr: ', err))
-        // this.props.orderItems.forEach(item => {
-        //     const { id: menuItemId, specialRequest, quantity } = item
-        //     itemsSanitized.push({ menuItemId, specialRequest, quantity })
-        // })
-        // // TODO: Create promise here so you can post individual items and then the whole order once those are done?
-        // let postedOrderItemIds = []
-        // itemsSanitized.forEach(item => {
-        //     axios.post(`${API_BASE_URL}/order_item`, item)
-        //         .then(res => {
-        //             // console.log('order_item res: ', res)
-        //             postedOrderItemIds.push(res.data)
-        //         })
-        //         .catch(err => console.log(err))
-        // })
+            .then(customer => {
+                this.setState({ customerId: customer.data._id })
+                const itemsSanitized = []
+                this.props.orderItems.forEach(item => {
+                    const { id: menuItem, specialRequest, quantity } = item
+                    itemsSanitized.push({ menuItem, specialRequest, quantity })
+                })
+                return axios.post(`${API_BASE_URL}/order_item`, itemsSanitized)
+            })
+            .then(postedItems => {
+                const orderItemIds = []
+                // TODO: is there a way to extract the IDs by destructuring? Why is mongo returning full documents instead of just _ids like the docs say?
+                for (let item of postedItems.data) {
+                    orderItemIds.push(item._id)
+                }
+                const orderSummary = {
+                    customer: this.state.customerId,
+                    itemsOrdered: [...orderItemIds],
+                    preTaxCost: this.state.preTaxCost,
+                    taxAmount: this.state.taxAmount,
+                    totalCost: this.state.totalCost
+                }
+                return axios.post(`${API_BASE_URL}/order`, orderSummary)
+            })
+            .then(res => console.log('Order Posted!!!'))
+            .catch(err => console.log('Submit order error: ', err))
     }
 
     render() {
@@ -100,7 +110,7 @@ export default class OrderSummary extends React.Component {
                     }
             
                 <ModalFooter>
-                    <p>Sub Total: ${this.state.subTotalCost}</p>
+                    <p>Sub Total: ${this.state.preTaxCost}</p>
                     <p>Tax: ${this.state.taxAmount}</p>
                     <p>Grand Total: ${this.state.totalCost}</p>
                     
