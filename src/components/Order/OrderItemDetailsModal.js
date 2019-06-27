@@ -10,8 +10,14 @@ export default function OrderItemDetailsModal(props) {
         >
             <ModalHeader>
                 <p>{menuItem.name}</p>
-                <p>{`$${menuItem.cost}`|| ''}</p>
                 <p className="item-description">{menuItem.description}</p>
+                <p>
+                {/* {`$${menuItem.cost}`|| ''} */}
+                {menuItem.cost === null 
+                    ? ''
+                    : `$${menuItem.cost}`
+                }
+                </p>
             </ModalHeader>
             <ModalBody>
                 {/* <label htmlFor="specialRequest">Special Requests:</label> */}

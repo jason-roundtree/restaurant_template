@@ -6,6 +6,7 @@ import OrderSummary from './OrderSummary';
 import uuid from 'uuid';
 import './Order.css';
 import { sort_AtoZ, sort_ZtoA } from '../../utils/sorting'
+import { Alert } from 'reactstrap';
 const axios = require('axios');
 const { API_BASE_URL } = require('../../config');
 
@@ -14,10 +15,11 @@ export default class Order extends React.Component {
         allMenuItems: [],
         activeMenuItem: {},
         modalActive: false,
-        orderSummaryActive: false,
+        orderSummaryModalActive: false,
         itemsOrdered: [],
         specialRequest: '',
-        orderItemQuantity: 1
+        orderItemQuantity: 1,
+        orderCompleted: false
     }
     componentDidMount() {
         axios.get(`${API_BASE_URL}/menu_items`)
@@ -26,13 +28,11 @@ export default class Order extends React.Component {
             })
             .catch(err => console.log(err))
     }
+
     handleInputChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
-    // handleContactInfoSubmit = e => {
-    //     e.preventDefault()
-    //     this.setState({ customerInfoComplete: true })
-    // }
+
     openSelectedItemModal = id => {
         const { allMenuItems } = this.state
         for (let item of allMenuItems) {
@@ -44,6 +44,7 @@ export default class Order extends React.Component {
             this.setState({ modalActive: true })
         }
     }
+
     updateOrderItemQuantity = action => {
         if (action === 'increase') {
             this.setState({
@@ -55,6 +56,7 @@ export default class Order extends React.Component {
             })
         }
     }
+
     addItemToOrder = id => {
         const menuItem = this.state.allMenuItems.find(item => item._id === id)
         const orderItem = {
@@ -70,6 +72,7 @@ export default class Order extends React.Component {
             itemsOrdered: [...this.state.itemsOrdered, orderItem]
         }, this.clearModalState())
     }
+
     removeItemFromOrder = customId => {
         this.setState({
             itemsOrdered: [...this.state.itemsOrdered.filter(item => {
@@ -79,6 +82,7 @@ export default class Order extends React.Component {
             this.state.itemsOrdered.length === 0 && this.toggleSummaryModal()
         })
     }
+
     clearModalState = () => {
         this.setState({
             modalActive: false,
@@ -86,9 +90,19 @@ export default class Order extends React.Component {
             orderItemQuantity: 1
         })
     }
+
     toggleSummaryModal = () => {
         this.setState({ 
-            orderSummaryActive: !this.state.orderSummaryActive 
+            orderSummaryModalActive: !this.state.orderSummaryModalActive 
+        })
+    }
+    clearOrderInfo = () => {
+        console.log('clearOrderInfo: ', this.clearOrderInfo)
+        this.setState({
+            activeMenuItem: {},
+            orderSummaryModalActive: false,
+            itemsOrdered: [],
+            orderCompleted: true
         })
     }
     render () {
@@ -104,6 +118,10 @@ export default class Order extends React.Component {
                     >
                         Order Summary &amp; Checkout
                     </button>
+                    {this.state.orderCompleted === true && 
+                        <Alert>Your order has been received!</Alert>
+                    }
+
                     <div id="order-item-container">
                         {this.state.allMenuItems.map(item => {
                             return (
@@ -135,13 +153,14 @@ export default class Order extends React.Component {
                     />
                 </div>
                 
-                {this.state.orderSummaryActive && 
+                {this.state.orderSummaryModalActive && 
                     <OrderSummary
                         orderItems={this.state.itemsOrdered}
-                        modalOpen={this.state.orderSummaryActive}
+                        modalOpen={this.state.orderSummaryModalActive}
                         toggleSummaryModal={this.toggleSummaryModal}
                         removeItem={this.removeItemFromOrder}
                         returnToOrderEdit={this.toggleSummaryModal}
+                        clearOrderInfo={this.clearOrderInfo}
                     />
                 }
                 

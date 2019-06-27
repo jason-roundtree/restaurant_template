@@ -16,7 +16,7 @@ export default class OrderSummary extends React.Component {
         firstName: '',
         lastName: '',
         phone: '',
-        customerId: ''
+        customerId: '',
     }
     componentDidMount() {
         const preTaxCost = this.props.orderItems.reduce((total, current) => {
@@ -77,10 +77,16 @@ export default class OrderSummary extends React.Component {
                 }
                 return axios.post(`${API_BASE_URL}/order`, orderSummary)
             })
-            .then(res => console.log('Order Posted!!!'))
+            .then(() => {
+                this.props.clearOrderInfo()
+            })
             .catch(err => console.log('Submit order error: ', err))
     }
-
+    // componentDidUpdate = (prevProps, prevState) => {
+    //     if (prevState.orderComplete !== this.state.orderComplete) {
+            
+    //     }
+    // }
     render() {
         console.log('Order Summary STATE: ', this.state)
         const orderItems = this.props.orderItems.map(item => (
@@ -96,7 +102,9 @@ export default class OrderSummary extends React.Component {
                 isOpen={this.props.modalOpen}
                 toggle={this.props.toggleSummaryModal}
             >
-                <ModalHeader>Order Summary &amp; Checkout</ModalHeader>
+                <ModalHeader>
+                    Order Summary &amp; Checkout
+                </ModalHeader>
                     {this.props.orderItems.length
                         ?   <table id="ordered-items">
                                 <tbody>
@@ -130,6 +138,7 @@ export default class OrderSummary extends React.Component {
                             Submit Order
                         </button>
                     </form>
+                    
                     
                 </ModalFooter>
             </Modal>
